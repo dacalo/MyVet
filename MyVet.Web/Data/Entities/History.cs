@@ -2,7 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    public class History : IEntity
+    public class History
     {
         public int Id { get; set; }
 
