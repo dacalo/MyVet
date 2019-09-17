@@ -19,13 +19,22 @@ namespace MyVet.Web.Controllers
     {
         private readonly DataContext _dataContext;
         private readonly IUserHelper _userHelper;
+        private readonly ICombosHelper _combosHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public OwnersController(
             DataContext dataContext,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            ICombosHelper combosHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _dataContext = dataContext;
             _userHelper = userHelper;
+            _combosHelper = combosHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Owners
@@ -114,7 +123,6 @@ namespace MyVet.Web.Controllers
         }
 
 
-        // GET: Owners/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -122,50 +130,50 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var owner = await _dataContext.Owners.FindAsync(id);
+            var owner = await _dataContext.Owners
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (owner == null)
             {
                 return NotFound();
             }
-            return View(owner);
+
+            var view = new EditUserViewModel
+            {
+                Address = owner.User.Address,
+                Document = owner.User.Document,
+                FirstName = owner.User.FirstName,
+                Id = owner.Id,
+                LastName = owner.User.LastName,
+                PhoneNumber = owner.User.PhoneNumber
+            };
+
+            return View(view);
         }
 
-        // POST: Owners/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Owner owner)
+        public async Task<IActionResult> Edit(EditUserViewModel view)
         {
-            if (id != owner.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _dataContext.Update(owner);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var owner = await _dataContext.Owners
+                    .Include(o => o.User)
+                    .FirstOrDefaultAsync(o => o.Id == view.Id);
+
+                owner.User.Document = view.Document;
+                owner.User.FirstName = view.FirstName;
+                owner.User.LastName = view.LastName;
+                owner.User.Address = view.Address;
+                owner.User.PhoneNumber = view.PhoneNumber;
+
+                await _userHelper.UpdateUserAsync(owner.User);
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+
+            return View(view);
         }
 
-        // GET: Owners/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,29 +182,257 @@ namespace MyVet.Web.Controllers
             }
 
             var owner = await _dataContext.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(o => o.Pets)
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (owner == null)
             {
                 return NotFound();
             }
 
-            return View(owner);
-        }
+            if(owner.Pets.Count != 0)
+            {
+                //TODO: Message
+                return RedirectToAction("Index");
+            }
 
-        // POST: Owners/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var owner = await _dataContext.Owners.FindAsync(id);
+            await _userHelper.DeleteUserAsync(owner.User.Email);
+
             _dataContext.Owners.Remove(owner);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        
         private bool OwnerExists(int id)
         {
             return _dataContext.Owners.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> AddPet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var owner = await _dataContext.Owners.FindAsync(id.Value);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PetViewModel
+            {
+                Born = DateTime.Today,
+                OwnerId = owner.Id,
+                PetTypes = _combosHelper.GetComboPetTypes()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPet(PetViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile);
+                }
+
+                var pet = await _converterHelper.ToPetAsync(model, path, true);
+                _dataContext.Pets.Add(pet);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = model.OwnerId });
+            }
+
+            model.PetTypes = _combosHelper.GetComboPetTypes();
+            return View(model);
+        }
+
+        public async Task<IActionResult> EditPet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _dataContext.Pets
+                .Include(p => p.Owner)
+                .Include(p => p.PetType)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(_converterHelper.ToPetViewModel(pet));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPet(PetViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = model.ImageUrl;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile);
+                }
+
+                var pet = await _converterHelper.ToPetAsync(model, path, false);
+                _dataContext.Pets.Update(pet);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("Details", new { id = model.OwnerId});
+            }
+
+            model.PetTypes = _combosHelper.GetComboPetTypes();
+            return View(model);
+        }
+
+        public async Task<IActionResult> DetailsPet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _dataContext.Pets
+                .Include(p => p.Owner)
+                .ThenInclude(o => o.User)
+                .Include(p => p.Histories)
+                .ThenInclude(h => h.ServiceType)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(pet);
+        }
+
+        public async Task<IActionResult> AddHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _dataContext.Pets.FindAsync(id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var model = new HistoryViewModel
+            {
+                Date = DateTime.Now,
+                PetId = pet.Id,
+                ServiceTypes = _combosHelper.GetComboServiceTypes(),
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddHistory(HistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var history = await _converterHelper.ToHistoryAsync(model, true);
+                _dataContext.Histories.Add(history);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("DetailsPet", new {id = model.PetId});
+            }
+
+            model.ServiceTypes = _combosHelper.GetComboServiceTypes();
+            return View(model);
+        }
+
+        public async Task<IActionResult> EditHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var history = await _dataContext.Histories
+                .Include(h => h.Pet)
+                .Include(h => h.ServiceType)
+                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            return View(_converterHelper.ToHistoryViewModel(history));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditHistory(HistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var history = await _converterHelper.ToHistoryAsync(model, false);
+                _dataContext.Histories.Update(history);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction("DetailsPet", new {id = model.PetId});
+            }
+            model.ServiceTypes = _combosHelper.GetComboServiceTypes();
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var history = await _dataContext.Histories
+                .Include(h => h.Pet)
+                .FirstOrDefaultAsync(h => h.Id == id.Value);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Histories.Remove(history);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction("DetailsPet", new { id = history.Pet.Id });
+        }
+
+        public async Task<IActionResult> DeletePet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _dataContext.Pets
+                .Include(p => p.Owner)
+                .Include(p => p.Histories)
+                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            if(pet.Histories.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "The Pet can't be deleted it has related records.");
+                return RedirectToAction("DetailsPet", new { id = pet.Owner.Id });
+            }
+
+            _dataContext.Pets.Remove(pet);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction("DetailsPet", new { id = pet.Owner.Id });
+        }
+
     }
 }

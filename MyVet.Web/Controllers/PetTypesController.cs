@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
     public class PetTypesController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
 
-        public PetTypesController(DataContext context)
+        public PetTypesController(DataContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
         // GET: PetTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PetTypes.ToListAsync());
+            return View(await _dataContext.PetTypes.ToListAsync());
         }
 
         // GET: PetTypes/Details/5
@@ -33,7 +30,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes
+            var petType = await _dataContext.PetTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (petType == null)
             {
@@ -58,8 +55,8 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(petType);
-                await _context.SaveChangesAsync();
+                _dataContext.Add(petType);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(petType);
@@ -73,7 +70,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes.FindAsync(id);
+            var petType = await _dataContext.PetTypes.FindAsync(id);
             if (petType == null)
             {
                 return NotFound();
@@ -97,8 +94,8 @@ namespace MyVet.Web.Controllers
             {
                 try
                 {
-                    _context.Update(petType);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(petType);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -116,7 +113,6 @@ namespace MyVet.Web.Controllers
             return View(petType);
         }
 
-        // GET: PetTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +120,29 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var petType = await _dataContext.PetTypes
+                .Include(pt => pt.Pets)
+                .FirstOrDefaultAsync(pt => pt.Id == id.Value);
+
             if (petType == null)
             {
                 return NotFound();
             }
 
-            return View(petType);
-        }
+            if(petType.Pets.Count != 0)
+            {
+                ModelState.AddModelError(string.Empty, "The Pet Type can't be removed.");
+                return RedirectToAction("Index");
+            }
 
-        // POST: PetTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var petType = await _context.PetTypes.FindAsync(id);
-            _context.PetTypes.Remove(petType);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            _dataContext.PetTypes.Remove(petType);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         private bool PetTypeExists(int id)
         {
-            return _context.PetTypes.Any(e => e.Id == id);
+            return _dataContext.PetTypes.Any(e => e.Id == id);
         }
     }
 }

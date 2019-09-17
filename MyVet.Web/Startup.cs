@@ -53,7 +53,6 @@ namespace MyVet.Web
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IImageHelper, ImageHelper>();
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
