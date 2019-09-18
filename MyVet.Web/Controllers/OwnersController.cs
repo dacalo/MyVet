@@ -138,7 +138,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new EditUserViewModel
+            var model = new EditUserViewModel
             {
                 Address = owner.User.Address,
                 Document = owner.User.Document,
@@ -148,30 +148,30 @@ namespace MyVet.Web.Controllers
                 PhoneNumber = owner.User.PhoneNumber
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditUserViewModel view)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var owner = await _dataContext.Owners
                     .Include(o => o.User)
-                    .FirstOrDefaultAsync(o => o.Id == view.Id);
+                    .FirstOrDefaultAsync(o => o.Id == model.Id);
 
-                owner.User.Document = view.Document;
-                owner.User.FirstName = view.FirstName;
-                owner.User.LastName = view.LastName;
-                owner.User.Address = view.Address;
-                owner.User.PhoneNumber = view.PhoneNumber;
+                owner.User.Document = model.Document;
+                owner.User.FirstName = model.FirstName;
+                owner.User.LastName = model.LastName;
+                owner.User.Address = model.Address;
+                owner.User.PhoneNumber = model.PhoneNumber;
 
                 await _userHelper.UpdateUserAsync(owner.User);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(view);
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -192,7 +192,7 @@ namespace MyVet.Web.Controllers
 
             if(owner.Pets.Count != 0)
             {
-                //TODO: Message
+                ModelState.AddModelError(string.Empty, "The Owner can't be removed.");
                 return RedirectToAction("Index");
             }
 
