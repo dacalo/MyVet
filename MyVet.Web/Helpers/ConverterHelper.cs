@@ -83,5 +83,6 @@ namespace MyVet.Web.Helpers
                 ServiceTypes = _combosHelper.GetComboServiceTypes()
             };
         }
+
     }
 }

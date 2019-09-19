@@ -45,8 +45,8 @@
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            return user;
+            return await _userManager.FindByEmailAsync(email);
+            //return user;
         }
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
