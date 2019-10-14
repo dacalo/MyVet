@@ -1,25 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MyVet.Prism.Views.PetPage"
+             x:Class="MyVet.Prism.Views.HistoryPage"
              Title="{Binding Title}">
+
     <ScrollView>
         <StackLayout
             Padding="10">
-            <ffimageloading:CachedImage
-                Aspect="AspectFit"
-                CacheDuration= "50"
-                DownsampleToViewSize = "true"
-                ErrorPlaceholder= "ErrorImage"
-                LoadingPlaceholder= "LoaderImage"
-                HeightRequest="250"
-                RetryCount= "3"
-                RetryDelay= "600"
-                Source="{Binding Pet.ImageUrl}"
-                WidthRequest="250"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -31,43 +20,45 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+
                 <Label
                     FontAttributes="Bold"
                     Grid.Column="0"
                     Grid.Row="0"
-                    Text="Name"/>
+                    Text="Date"/>
                 <Label
                     Grid.Column="1"
                     Grid.Row="0"
-                    Text="{Binding Pet.Name}"/>
+                    Text="{Binding History.DateLocal, StringFormat='{0:yyyy/MM/dd HH:mm}'}"/>
+
                 <Label
                     FontAttributes="Bold"
                     Grid.Column="0"
                     Grid.Row="1"
-                    Text="Race"/>
+                    Text="Service Type"/>
                 <Label
                     Grid.Column="1"
                     Grid.Row="1"
-                    Text="{Binding Pet.Race}"/>
+                    Text="{Binding History.ServiceType}"/>
+
                 <Label
                     FontAttributes="Bold"
                     Grid.Column="0"
                     Grid.Row="2"
-                    Text="Born"/>
+                    Text="Description"/>
                 <Label
                     Grid.Column="1"
                     Grid.Row="2"
-                    Text="{Binding Pet.Born, StringFormat='{0:yyyy/MM/dd}'}"/>
-                <Label
-                    FontAttributes="Bold"
-                    Grid.Column="0"
-                    Grid.Row="3"
-                    Text="Pet Type"/>
-                <Label
-                    Grid.Column="1"
-                    Grid.Row="3"
-                    Text="{Binding Pet.PetType}"/>
+                    Text="{Binding History.Description}"/>
+
                 <Label
                     FontAttributes="Bold"
                     Grid.Column="0"
@@ -76,7 +67,7 @@
                 <Label
                     Grid.Column="1"
                     Grid.Row="4"
-                    Text="{Binding Pet.Remarks}"/>
+                    Text="{Binding History.Remarks}"/>
             </Grid>
         </StackLayout>
     </ScrollView>
