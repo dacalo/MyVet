@@ -4,11 +4,9 @@
              xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
              x:Class="MyVet.Prism.App">
 	<Application.Resources>
-
         <ResourceDictionary>
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">https://myvet.azurewebsites.net</x:String>
+            <x:String x:Key="UrlAPI">https://myveterinary.azurewebsites.net/</x:String>
         </ResourceDictionary>
-
     </Application.Resources>
 </prism:PrismApplication>

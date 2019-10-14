@@ -1,9 +1,10 @@
-﻿using Prism;
-using Prism.Ioc;
+﻿using MyVet.Common.Services;
 using MyVet.Prism.ViewModels;
+using MyVet.Prism.Views;
+using Prism;
+using Prism.Ioc;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using MyVet.Prism.Views;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MyVet.Prism
@@ -29,9 +30,10 @@ namespace MyVet.Prism
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IApiService, ApiService>();
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
+            containerRegistry.RegisterForNavigation<PetsPage, PetsPageViewModel>();
+            containerRegistry.RegisterForNavigation<PetPage, PetPageViewModel>();
         }
     }
 }

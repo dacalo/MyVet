@@ -1,24 +1,35 @@
-﻿using Prism.Commands;
+﻿using MyVet.Common.Models;
+using MyVet.Common.Services;
+using Prism.Commands;
+using Prism.Mvvm;
 using Prism.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyVet.Prism.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IApiService _apiService;
         private string _password;
         private bool _isRunning;
         private bool _isEnabled;
         private DelegateCommand _loginCommand;
 
-        public LoginPageViewModel(INavigationService navigationService) : base(navigationService)
+        public LoginPageViewModel(
+            INavigationService navigationService,
+            IApiService apiService) : base (navigationService)
         {
             _navigationService = navigationService;
-            Title = "My Vet - Login";
+            _apiService = apiService;
+            Title = "Login";
             IsEnabled = true;
+            //TODO: Delete this lines
+            Email = "jzuluaga55@hotmail.com";
+            Password = "123456";
         }
-
-        public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
 
         public string Email { get; set; }
 
@@ -40,30 +51,40 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
+
         private async void Login()
         {
             if (string.IsNullOrEmpty(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter an email.", "Accept");
+                await App.Current.MainPage.DisplayAlert("Error", "Your must enter an email", "Accept");
                 return;
             }
 
-            if (string.IsNullOrEmpty(Password))
-            {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a password.", "Accept");
+            if(string.IsNullOrEmpty(Password)){
+                await App.Current.MainPage.DisplayAlert("Error", "Your must enter a password", "Accept");
                 return;
             }
 
             IsRunning = true;
             IsEnabled = false;
 
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var connection = await _apiService.CheckConnection(url);
+            if (!connection)
+            {
+                IsEnabled = true;
+                IsRunning = false;
+                await App.Current.MainPage.DisplayAlert("Error", "Check the internet connection.", "Accept");
+                return;
+            }
+
             var request = new TokenRequest
             {
-                Password = Password,
-                Username = Email
+                Username = Email,
+                Password = Password
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
 
             if (!response.IsSuccess)
@@ -75,9 +96,9 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            var token = (TokenResponse)response.Result;
+            var token = response.Result;
 
-            var response2 = await _apiService.GetOwnerByEmail(
+            var response2 = await _apiService.GetOwnerByEmailAsync(
                 url,
                 "/api",
                 "/Owners/GetOwnerByEmail",
@@ -85,12 +106,27 @@ namespace MyVet.Prism.ViewModels
                 token.Token,
                 Email);
 
-            var owner = (OwnerResponse)response2.Result;
+            if (!response2.IsSuccess)
+            {
+                IsEnabled = true;
+                IsRunning = false;
+                await App.Current.MainPage.DisplayAlert("Error", "This user have a big problem, call support", "Accept");
+                return;
+            }
+
+            var owner = response2.Result;
+
+            var parameters = new NavigationParameters
+            {
+                {"owner", owner}
+            };
+
 
             IsEnabled = true;
             IsRunning = false;
 
-            await App.Current.MainPage.DisplayAlert("Ok", "We are making progress!", "Accept");
+            Password = string.Empty;
+            await _navigationService.NavigateAsync("PetsPage", parameters);
 
         }
     }
