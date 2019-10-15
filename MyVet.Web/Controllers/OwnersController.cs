@@ -22,19 +22,22 @@ namespace MyVet.Web.Controllers
         private readonly ICombosHelper _combosHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IMailHelper _mailHelper;
 
         public OwnersController(
             DataContext dataContext,
             IUserHelper userHelper,
             ICombosHelper combosHelper,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            IMailHelper mailHelper)
         {
             _dataContext = dataContext;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+            _mailHelper = mailHelper;
         }
 
         // GET: Owners
@@ -92,6 +95,18 @@ namespace MyVet.Web.Controllers
 
                 _dataContext.Owners.Add(owner);
                 await _dataContext.SaveChangesAsync();
+
+                var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme);
+
+                _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                    $"To allow the user, " +
+                    $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -121,7 +136,6 @@ namespace MyVet.Web.Controllers
             await _userHelper.AddUserToRoleAsync(newUser, "Customer");
             return newUser;
         }
-
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -202,7 +216,6 @@ namespace MyVet.Web.Controllers
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         
         private bool OwnerExists(int id)
         {

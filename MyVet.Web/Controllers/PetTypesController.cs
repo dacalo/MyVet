@@ -1,28 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PetTypesController : Controller
     {
-        private readonly DataContext _dataContext;
+        private readonly DataContext _context;
 
-        public PetTypesController(DataContext dataContext)
+        public PetTypesController(DataContext context)
         {
-            _dataContext = dataContext;
+            _context = context;
         }
 
-        // GET: PetTypes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _dataContext.PetTypes.ToListAsync());
+            return View(_context.PetTypes);
         }
 
-        // GET: PetTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -30,8 +30,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _dataContext.PetTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var petType = await _context.PetTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (petType == null)
             {
                 return NotFound();
@@ -40,29 +39,24 @@ namespace MyVet.Web.Controllers
             return View(petType);
         }
 
-        // GET: PetTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: PetTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] PetType petType)
+        public async Task<IActionResult> Create(PetType petType)
         {
             if (ModelState.IsValid)
             {
-                _dataContext.Add(petType);
-                await _dataContext.SaveChangesAsync();
+                _context.Add(petType);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(petType);
         }
 
-        // GET: PetTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,7 +64,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _dataContext.PetTypes.FindAsync(id);
+            var petType = await _context.PetTypes.FindAsync(id);
             if (petType == null)
             {
                 return NotFound();
@@ -78,24 +72,16 @@ namespace MyVet.Web.Controllers
             return View(petType);
         }
 
-        // POST: PetTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] PetType petType)
+        public async Task<IActionResult> Edit(PetType petType)
         {
-            if (id != petType.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _dataContext.Update(petType);
-                    await _dataContext.SaveChangesAsync();
+                    _context.Update(petType);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,29 +106,31 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _dataContext.PetTypes
-                .Include(pt => pt.Pets)
-                .FirstOrDefaultAsync(pt => pt.Id == id.Value);
-
+            var petType = await _context.PetTypes
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (petType == null)
             {
                 return NotFound();
             }
 
-            if(petType.Pets.Count != 0)
-            {
-                ModelState.AddModelError(string.Empty, "The Pet Type can't be removed.");
-                return RedirectToAction("Index");
-            }
+            _context.PetTypes.Remove(petType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-            _dataContext.PetTypes.Remove(petType);
-            await _dataContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var petType = await _context.PetTypes.FindAsync(id);
+            _context.PetTypes.Remove(petType);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool PetTypeExists(int id)
         {
-            return _dataContext.PetTypes.Any(e => e.Id == id);
+            return _context.PetTypes.Any(e => e.Id == id);
         }
     }
 }

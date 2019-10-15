@@ -1,6 +1,7 @@
 ﻿using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -59,6 +60,9 @@ namespace MyVet.Web.Data
                 await _userHelper.AddUserToRoleAsync(user, role);
             }
 
+            var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            await _userHelper.ConfirmEmailAsync(user, token);
+
             return user;
         }
 
@@ -115,13 +119,41 @@ namespace MyVet.Web.Data
 
         private void AddPet(string name, Owner owner, PetType petType, string race)
         {
+            var histories = new List<History>
+            {
+                new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Fusce gravida convallis tortor, non lobortis massa. Duis hendrerit mauris et lectus dapibus finibus. Etiam dictum molestie tortor et tincidunt. Nam viverra nunc vitae leo porta, et dapibus dui ultrices.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                },
+                new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Maecenas quis molestie sem, at convallis magna. Vestibulum euismod augue eu erat fringilla tempus. Phasellus vel ante interdum, bibendum tortor quis, sodales ex.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                },
+                new History
+                {
+                    Date = DateTime.Now,
+                    Description = "Consulta",
+                    Remarks = "Quisque dapibus semper diam, vitae bibendum ex volutpat et. Proin eu posuere augue. Nulla at nisi purus. Proin a scelerisque orci. Ut sapien erat, tempor ac ligula sit amet, lobortis laoreet arcu.",
+                    ServiceType = _dataContext.ServiceTypes.FirstOrDefault()
+                }
+            };
+
             _dataContext.Pets.Add(new Pet
             {
                 Born = DateTime.Now.AddYears(-2),
                 Name = name,
                 Owner = owner,
                 PetType = petType,
-                Race = race
+                Race = race,
+                ImageUrl = $"~/images/Pets/{name}.png",
+                Remarks = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas non tempus velit. Vestibulum nec vehicula urna, quis tincidunt diam. In vitae ultricies ipsum.",
+                Histories = histories
             });
         }
 
