@@ -32,7 +32,7 @@
             : $"https://myveterinary.azurewebsites.net{ImageUrl.Substring(1)}";
 
         [Display(Name = "Born")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime BornLocal => Born.ToLocalTime();
 
         public Owner Owner { get; set; }

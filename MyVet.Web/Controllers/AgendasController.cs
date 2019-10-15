@@ -1,152 +1,155 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
-using MyVet.Web.Data.Entities;
-using System.Linq;
-using System.Threading.Tasks;
+using MyVet.Web.Helpers;
+using MyVet.Web.Models;
 
 namespace MyVet.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AgendasController : Controller
+    public class AgendaController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
+        private readonly IAgendaHelper _agendaHelper;
+        private readonly ICombosHelper _combosHelper;
 
-        public AgendasController(DataContext context)
+        public AgendaController(
+            DataContext dataContext,
+            IAgendaHelper agendaHelper,
+            ICombosHelper combosHelper)
         {
-            _context = context;
+            _dataContext = dataContext;
+            _agendaHelper = agendaHelper;
+            _combosHelper = combosHelper;
         }
 
-        // GET: Agendas
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Agendas.ToListAsync());
+            return View(_dataContext.Agendas
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()));
         }
 
-        // GET: Agendas/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> AddDays()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            return View(agenda);
-        }
-
-        // GET: Agendas/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Agendas/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Remarks,IsAvailable")] Agenda agenda)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(agenda);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(agenda);
-        }
-
-        // GET: Agendas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas.FindAsync(id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-            return View(agenda);
-        }
-
-        // POST: Agendas/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Remarks,IsAvailable")] Agenda agenda)
-        {
-            if (id != agenda.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(agenda);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AgendaExists(agenda.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(agenda);
-        }
-
-        // GET: Agendas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var agenda = await _context.Agendas
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            return View(agenda);
-        }
-
-        // POST: Agendas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var agenda = await _context.Agendas.FindAsync(id);
-            _context.Agendas.Remove(agenda);
-            await _context.SaveChangesAsync();
+            await _agendaHelper.AddDays(30);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AgendaExists(int id)
+        public async Task<IActionResult> Assing(int? id)
         {
-            return _context.Agendas.Any(e => e.Id == id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var agenda = await _dataContext.Agendas
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (agenda == null)
+            {
+                return NotFound();
+            }
+
+            var view = new AgendaViewModel
+            {
+                Id = agenda.Id,
+                Owners = _combosHelper.GetComboOwners(),
+                Pets = _combosHelper.GetComboPets(0)
+            };
+
+            return View(view);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Assing(AgendaViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var agenda = await _dataContext.Agendas.FindAsync(view.Id);
+                if (agenda != null)
+                {
+                    agenda.IsAvailable = false;
+                    agenda.Owner = await _dataContext.Owners.FindAsync(view.OwnerId);
+                    agenda.Pet = await _dataContext.Pets.FindAsync(view.PetId);
+                    agenda.Remarks = view.Remarks;
+                    _dataContext.Agendas.Update(agenda);
+                    await _dataContext.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
+            return View(view);
+        }
+
+
+        public async Task<JsonResult> GetPetsAsync(int ownerId)
+        {
+            var pets = await _dataContext.Pets
+                .Where(p => p.Owner.Id == ownerId)
+                .OrderBy(p => p.Name)
+                .ToListAsync();
+            return Json(pets);
+        }
+
+        public async Task<IActionResult> Unassign(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var agenda = await _dataContext.Agendas
+                .Include(a => a.Owner)
+                .Include(a => a.Pet)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (agenda == null)
+            {
+                return NotFound();
+            }
+
+            agenda.IsAvailable = true;
+            agenda.Pet = null;
+            agenda.Owner = null;
+            agenda.Remarks = null;
+
+            _dataContext.Agendas.Update(agenda);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> MyAgenda()
+        {
+            var agendas = await _dataContext.Agendas
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()).ToListAsync();
+
+            var list = new List<AgendaViewModel>(agendas.Select(a => new AgendaViewModel
+            {
+                Date = a.Date,
+                Id = a.Id,
+                IsAvailable = a.IsAvailable,
+                Owner = a.Owner,
+                Pet = a.Pet,
+                Remarks = a.Remarks
+            }).ToList());
+
+            list.Where(a => a.Owner != null && a.Owner.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
+                .All(a => { a.IsMine = true; return true; });
+
+            return View(list);
+        }
+
+
     }
 }

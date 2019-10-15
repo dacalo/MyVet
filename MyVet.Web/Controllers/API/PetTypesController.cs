@@ -1,18 +1,17 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers.API
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class PetTypesController : ControllerBase
+    public class PetTypesController : Controller
     {
         private readonly DataContext _dataContext;
 
@@ -21,12 +20,10 @@ namespace MyVet.Web.Controllers.API
             _dataContext = dataContext;
         }
 
-        // GET: api/PetTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PetType>>> GetPetTypes()
+        public IEnumerable<PetType> GetPetTypes()
         {
-            return await _dataContext.PetTypes.ToListAsync();
+            return _dataContext.PetTypes.OrderBy(pt => pt.Name);
         }
-
     }
 }
