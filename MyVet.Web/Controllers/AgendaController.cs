@@ -39,7 +39,7 @@ namespace MyVet.Web.Controllers
 
         public async Task<IActionResult> AddDays()
         {
-            await _agendaHelper.AddDays(30);
+            await _agendaHelper.AddDaysAsync(7);
             return RedirectToAction(nameof(Index));
         }
 
@@ -57,36 +57,39 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new AgendaViewModel
+            var model = new AgendaViewModel
             {
                 Id = agenda.Id,
                 Owners = _combosHelper.GetComboOwners(),
                 Pets = _combosHelper.GetComboPets(0)
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Assing(AgendaViewModel view)
+        public async Task<IActionResult> Assing(AgendaViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var agenda = await _dataContext.Agendas.FindAsync(view.Id);
+                var agenda = await _dataContext.Agendas.FindAsync(model.Id);
                 if (agenda != null)
                 {
                     agenda.IsAvailable = false;
-                    agenda.Owner = await _dataContext.Owners.FindAsync(view.OwnerId);
-                    agenda.Pet = await _dataContext.Pets.FindAsync(view.PetId);
-                    agenda.Remarks = view.Remarks;
+                    agenda.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
+                    agenda.Pet = await _dataContext.Pets.FindAsync(model.PetId);
+                    agenda.Remarks = model.Remarks;
                     _dataContext.Agendas.Update(agenda);
                     await _dataContext.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
             }
 
-            return View(view);
+            model.Owners = _combosHelper.GetComboOwners();
+            model.Pets = _combosHelper.GetComboPets(model.Owner.Id);
+
+            return View(model);
         }
 
 
@@ -124,32 +127,6 @@ namespace MyVet.Web.Controllers
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-        [Authorize(Roles = "Customer")]
-        public async Task<IActionResult> MyAgenda()
-        {
-            var agendas = await _dataContext.Agendas
-                .Include(a => a.Owner)
-                .ThenInclude(o => o.User)
-                .Include(a => a.Pet)
-                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()).ToListAsync();
-
-            var list = new List<AgendaViewModel>(agendas.Select(a => new AgendaViewModel
-            {
-                Date = a.Date,
-                Id = a.Id,
-                IsAvailable = a.IsAvailable,
-                Owner = a.Owner,
-                Pet = a.Pet,
-                Remarks = a.Remarks
-            }).ToList());
-
-            list.Where(a => a.Owner != null && a.Owner.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
-                .All(a => { a.IsMine = true; return true; });
-
-            return View(list);
-        }
-
 
     }
 }

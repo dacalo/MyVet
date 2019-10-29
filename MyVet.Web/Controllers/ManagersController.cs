@@ -58,15 +58,15 @@ namespace MyVet.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AddUserViewModel view)
+        public async Task<IActionResult> Create(AddUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUser(view);
+                var user = await AddUser(model);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "This email is already used.");
-                    return View(view);
+                    return View(model);
                 }
 
                 var manager = new Manager { User = user };
@@ -81,36 +81,36 @@ namespace MyVet.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(view.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
                     $"To allow the user, " +
                     $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(view);
+            return View(model);
         }
 
-        private async Task<User> AddUser(AddUserViewModel view)
+        private async Task<User> AddUser(AddUserViewModel model)
         {
             var user = new User
             {
-                Address = view.Address,
-                Document = view.Document,
-                Email = view.Username,
-                FirstName = view.FirstName,
-                LastName = view.LastName,
-                PhoneNumber = view.PhoneNumber,
-                UserName = view.Username
+                Address = model.Address,
+                Document = model.Document,
+                Email = model.Username,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.Username
             };
 
-            var result = await _userHelper.AddUserAsync(user, view.Password);
+            var result = await _userHelper.AddUserAsync(user, model.Password);
             if (result != IdentityResult.Success)
             {
                 return null;
             }
 
-            var newUser = await _userHelper.GetUserByEmailAsync(view.Username);
+            var newUser = await _userHelper.GetUserByEmailAsync(model.Username);
             await _userHelper.AddUserToRoleAsync(newUser, "Admin");
             return newUser;
         }
@@ -130,7 +130,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new EditUserViewModel
+            var model = new EditUserViewModel
             {
                 Address = manager.User.Address,
                 Document = manager.User.Document,
@@ -140,30 +140,30 @@ namespace MyVet.Web.Controllers
                 PhoneNumber = manager.User.PhoneNumber
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditUserViewModel view)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var owner = await _dataContext.Owners
                     .Include(o => o.User)
-                    .FirstOrDefaultAsync(o => o.Id == view.Id);
+                    .FirstOrDefaultAsync(o => o.Id == model.Id);
 
-                owner.User.Document = view.Document;
-                owner.User.FirstName = view.FirstName;
-                owner.User.LastName = view.LastName;
-                owner.User.Address = view.Address;
-                owner.User.PhoneNumber = view.PhoneNumber;
+                owner.User.Document = model.Document;
+                owner.User.FirstName = model.FirstName;
+                owner.User.LastName = model.LastName;
+                owner.User.Address = model.Address;
+                owner.User.PhoneNumber = model.PhoneNumber;
 
                 await _userHelper.UpdateUserAsync(owner.User);
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(view);
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -185,10 +185,6 @@ namespace MyVet.Web.Controllers
             await _userHelper.DeleteUserAsync(manager.User.Email);
             return RedirectToAction(nameof(Index));
         }
-
-        private bool ManagerExists(int id)
-        {
-            return _dataContext.Managers.Any(e => e.Id == id);
-        }
+               
     }
 }

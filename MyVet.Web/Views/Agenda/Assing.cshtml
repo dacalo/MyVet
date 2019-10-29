@@ -46,8 +46,6 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#OwnerId").change(function () {
-                debugger;
-                var x = $("#OwnerId").val();
                 $("#PetId").empty();
                 $.ajax({
                     type: 'POST',

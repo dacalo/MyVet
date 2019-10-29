@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label asp-for="Born" class="control-label"></label>
-                <input asp-for="Born" class="form-control" />
+                <input asp-for="Born" type="datetime" asp-format="{0:yyyy/MM/dd}" class="form-control" />
                 <span asp-validation-for="Born" class="text-danger"></span>
             </div>
 

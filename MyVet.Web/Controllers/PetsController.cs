@@ -47,6 +47,7 @@ namespace MyVet.Web.Controllers
                 .Include(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
+            
             if (pet == null)
             {
                 return NotFound();
@@ -71,7 +72,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new PetViewModel
+            var model = new PetViewModel
             {
                 Born = pet.Born,
                 Id = pet.Id,
@@ -84,18 +85,18 @@ namespace MyVet.Web.Controllers
                 Remarks = pet.Remarks
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PetViewModel view)
+        public async Task<IActionResult> Edit(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var path = view.ImageUrl;
+                var path = model.ImageUrl;
 
-                if (view.ImageFile != null && view.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     var guid = Guid.NewGuid().ToString();
                     var file = $"{guid}.jpg";
@@ -107,7 +108,7 @@ namespace MyVet.Web.Controllers
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        await view.ImageFile.CopyToAsync(stream);
+                        await model.ImageFile.CopyToAsync(stream);
                     }
 
                     path = $"~/images/Pets/{file}";
@@ -115,14 +116,14 @@ namespace MyVet.Web.Controllers
 
                 var pet = new Pet
                 {
-                    Born = view.Born,
-                    Id = view.Id,
+                    Born = model.Born,
+                    Id = model.Id,
                     ImageUrl = path,
-                    Name = view.Name,
-                    Owner = await _dataContext.Owners.FindAsync(view.OwnerId),
-                    PetType = await _dataContext.PetTypes.FindAsync(view.PetTypeId),
-                    Race = view.Race,
-                    Remarks = view.Remarks
+                    Name = model.Name,
+                    Owner = await _dataContext.Owners.FindAsync(model.OwnerId),
+                    PetType = await _dataContext.PetTypes.FindAsync(model.PetTypeId),
+                    Race = model.Race,
+                    Remarks = model.Remarks
                 };
 
                 _dataContext.Pets.Update(pet);
@@ -130,7 +131,7 @@ namespace MyVet.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(view);
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -188,7 +189,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new HistoryViewModel
+            var model = new HistoryViewModel
             {
                 Date = history.Date,
                 Description = history.Description,
@@ -199,30 +200,30 @@ namespace MyVet.Web.Controllers
                 ServiceTypes = _combosHelper.GetComboServiceTypes()
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditHistory(HistoryViewModel view)
+        public async Task<IActionResult> EditHistory(HistoryViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var history = new History
                 {
-                    Date = view.Date,
-                    Description = view.Description,
-                    Id = view.Id,
-                    Pet = await _dataContext.Pets.FindAsync(view.PetId),
-                    Remarks = view.Remarks,
-                    ServiceType = await _dataContext.ServiceTypes.FindAsync(view.ServiceTypeId)
+                    Date = model.Date,
+                    Description = model.Description,
+                    Id = model.Id,
+                    Pet = await _dataContext.Pets.FindAsync(model.PetId),
+                    Remarks = model.Remarks,
+                    ServiceType = await _dataContext.ServiceTypes.FindAsync(model.ServiceTypeId)
                 };
 
                 _dataContext.Histories.Update(history);
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+                return RedirectToAction($"{nameof(Details)}/{model.PetId}");
             }
 
-            return View(view);
+            return View(model);
         }
 
         public async Task<IActionResult> AddHistory(int? id)
@@ -238,36 +239,36 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new HistoryViewModel
+            var model = new HistoryViewModel
             {
                 Date = DateTime.Now,
                 PetId = pet.Id,
                 ServiceTypes = _combosHelper.GetComboServiceTypes(),
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddHistory(HistoryViewModel view)
+        public async Task<IActionResult> AddHistory(HistoryViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var history = new History
                 {
-                    Date = view.Date,
-                    Description = view.Description,
-                    Pet = await _dataContext.Pets.FindAsync(view.PetId),
-                    Remarks = view.Remarks,
-                    ServiceType = await _dataContext.ServiceTypes.FindAsync(view.ServiceTypeId)
+                    Date = model.Date,
+                    Description = model.Description,
+                    Pet = await _dataContext.Pets.FindAsync(model.PetId),
+                    Remarks = model.Remarks,
+                    ServiceType = await _dataContext.ServiceTypes.FindAsync(model.ServiceTypeId)
                 };
 
                 _dataContext.Histories.Add(history);
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+                return RedirectToAction($"{nameof(Details)}/{model.PetId}");
             }
 
-            return View(view);
+            return View(model);
         }
     }
 }

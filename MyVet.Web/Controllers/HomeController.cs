@@ -74,7 +74,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new PetViewModel
+            var model = new PetViewModel
             {
                 Born = pet.Born,
                 Id = pet.Id,
@@ -87,18 +87,18 @@ namespace MyVet.Web.Controllers
                 Remarks = pet.Remarks
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(PetViewModel view)
+        public async Task<IActionResult> Edit(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var path = view.ImageUrl;
+                var path = model.ImageUrl;
 
-                if (view.ImageFile != null && view.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     var guid = Guid.NewGuid().ToString();
                     var file = $"{guid}.jpg";
@@ -110,7 +110,7 @@ namespace MyVet.Web.Controllers
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        await view.ImageFile.CopyToAsync(stream);
+                        await model.ImageFile.CopyToAsync(stream);
                     }
 
                     path = $"~/images/Pets/{file}";
@@ -118,14 +118,14 @@ namespace MyVet.Web.Controllers
 
                 var pet = new Pet
                 {
-                    Born = view.Born,
-                    Id = view.Id,
+                    Born = model.Born,
+                    Id = model.Id,
                     ImageUrl = path,
-                    Name = view.Name,
-                    Owner = await _dataContext.Owners.FindAsync(view.OwnerId),
-                    PetType = await _dataContext.PetTypes.FindAsync(view.PetTypeId),
-                    Race = view.Race,
-                    Remarks = view.Remarks
+                    Name = model.Name,
+                    Owner = await _dataContext.Owners.FindAsync(model.OwnerId),
+                    PetType = await _dataContext.PetTypes.FindAsync(model.PetTypeId),
+                    Race = model.Race,
+                    Remarks = model.Remarks
                 };
 
                 _dataContext.Pets.Update(pet);
@@ -133,7 +133,8 @@ namespace MyVet.Web.Controllers
                 return RedirectToAction(nameof(MyPets));
             }
 
-            return View(view);
+            model.PetTypes = _combosHelper.GetComboPetTypes();
+            return View(model);
         }
 
         [Authorize(Roles = "Customer")]
@@ -194,24 +195,24 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new PetViewModel
+            var model = new PetViewModel
             {
                 Born = DateTime.Now,
                 PetTypes = _combosHelper.GetComboPetTypes(),
                 OwnerId = owner.Id
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PetViewModel view)
+        public async Task<IActionResult> Create(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var path = string.Empty;
 
-                if (view.ImageFile != null && view.ImageFile.Length > 0)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     var guid = Guid.NewGuid().ToString();
                     var file = $"{guid}.jpg";
@@ -223,7 +224,7 @@ namespace MyVet.Web.Controllers
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        await view.ImageFile.CopyToAsync(stream);
+                        await model.ImageFile.CopyToAsync(stream);
                     }
 
                     path = $"~/images/Pets/{file}";
@@ -231,21 +232,21 @@ namespace MyVet.Web.Controllers
 
                 var pet = new Pet
                 {
-                    Born = view.Born,
+                    Born = model.Born,
                     ImageUrl = path,
-                    Name = view.Name,
-                    Owner = await _dataContext.Owners.FindAsync(view.OwnerId),
-                    PetType = await _dataContext.PetTypes.FindAsync(view.PetTypeId),
-                    Race = view.Race,
-                    Remarks = view.Remarks
+                    Name = model.Name,
+                    Owner = await _dataContext.Owners.FindAsync(model.OwnerId),
+                    PetType = await _dataContext.PetTypes.FindAsync(model.PetTypeId),
+                    Race = model.Race,
+                    Remarks = model.Remarks
                 };
 
                 _dataContext.Pets.Add(pet);
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction($"{nameof(MyPets)}");
             }
-
-            return View(view);
+            model.PetTypes = _combosHelper.GetComboPetTypes();
+            return View(model);
         }
 
         [Authorize(Roles = "Customer")]
@@ -294,36 +295,37 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var view = new AgendaViewModel
+            var model = new AgendaViewModel
             {
                 Id = agenda.Id,
                 OwnerId = owner.Id,
                 Pets = _combosHelper.GetComboPets(owner.Id)
             };
 
-            return View(view);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Assing(AgendaViewModel view)
+        public async Task<IActionResult> Assing(AgendaViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var agenda = await _dataContext.Agendas.FindAsync(view.Id);
+                var agenda = await _dataContext.Agendas.FindAsync(model.Id);
                 if (agenda != null)
                 {
                     agenda.IsAvailable = false;
-                    agenda.Owner = await _dataContext.Owners.FindAsync(view.OwnerId);
-                    agenda.Pet = await _dataContext.Pets.FindAsync(view.PetId);
-                    agenda.Remarks = view.Remarks;
+                    agenda.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
+                    agenda.Pet = await _dataContext.Pets.FindAsync(model.PetId);
+                    agenda.Remarks = model.Remarks;
                     _dataContext.Agendas.Update(agenda);
                     await _dataContext.SaveChangesAsync();
                     return RedirectToAction(nameof(MyAgenda));
                 }
             }
 
-            return View(view);
+            model.Pets = _combosHelper.GetComboPets(model.Id);
+            return View(model);
         }
 
         [Authorize(Roles = "Customer")]
