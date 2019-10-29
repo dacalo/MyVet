@@ -129,6 +129,7 @@ namespace MyVet.Web.Controllers.API
         }
 
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> PutUser([FromBody] UserRequest request)
         {
             if (!ModelState.IsValid)
