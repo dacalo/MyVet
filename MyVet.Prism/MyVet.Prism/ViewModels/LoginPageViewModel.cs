@@ -1,5 +1,8 @@
-﻿using MyVet.Common.Models;
+﻿using MyVet.Common.Helpers;
+using MyVet.Common.Models;
 using MyVet.Common.Services;
+using MyVet.Prism.Helpers;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -16,6 +19,7 @@ namespace MyVet.Prism.ViewModels
         private string _password;
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRemember;
         private DelegateCommand _loginCommand;
 
         public LoginPageViewModel(
@@ -24,8 +28,9 @@ namespace MyVet.Prism.ViewModels
         {
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Login";
+            Title = Languages.Login;
             IsEnabled = true;
+            IsRemember = true;
             //TODO: Delete this lines
             Email = "jzuluaga55@hotmail.com";
             Password = "123456";
@@ -51,18 +56,24 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public bool IsRemember
+        {
+            get => _isRemember;
+            set => SetProperty(ref _isRemember, value);
+        }
+
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
 
         private async void Login()
         {
             if (string.IsNullOrEmpty(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Your must enter an email", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.EmailError, Languages.Accept);
                 return;
             }
 
             if(string.IsNullOrEmpty(Password)){
-                await App.Current.MainPage.DisplayAlert("Error", "Your must enter a password", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.PasswordError, Languages.Accept);
                 return;
             }
 
@@ -75,7 +86,7 @@ namespace MyVet.Prism.ViewModels
             {
                 IsEnabled = true;
                 IsRunning = false;
-                await App.Current.MainPage.DisplayAlert("Error", "Check the internet connection.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.Connection, Languages.Accept);
                 return;
             }
 
@@ -91,7 +102,7 @@ namespace MyVet.Prism.ViewModels
             {
                 IsEnabled = true;
                 IsRunning = false;
-                await App.Current.MainPage.DisplayAlert("Error", "User or password incorrect.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.LoginError, Languages.Accept);
                 Password = string.Empty;
                 return;
             }
@@ -110,24 +121,19 @@ namespace MyVet.Prism.ViewModels
             {
                 IsEnabled = true;
                 IsRunning = false;
-                await App.Current.MainPage.DisplayAlert("Error", "This user have a big problem, call support", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, "This user have a big problem, call support", Languages.Accept);
                 return;
             }
 
             var owner = response2.Result;
-
-            var parameters = new NavigationParameters
-            {
-                {"owner", owner}
-            };
-
+            Settings.Owner = JsonConvert.SerializeObject(owner);
+            Settings.Token = JsonConvert.SerializeObject(token);
 
             IsEnabled = true;
             IsRunning = false;
 
             Password = string.Empty;
-            await _navigationService.NavigateAsync("PetsPage", parameters);
-
+            await _navigationService.NavigateAsync("/VeterinaryMasterDetailPage/NavigationPage/PetsPage");
         }
     }
 }

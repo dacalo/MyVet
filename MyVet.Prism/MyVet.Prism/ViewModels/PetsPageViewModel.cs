@@ -1,6 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using MyVet.Common.Helpers;
 using MyVet.Common.Models;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Navigation;
 
 namespace MyVet.Prism.ViewModels
@@ -9,15 +13,17 @@ namespace MyVet.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private OwnerResponse _owner;
-        private TokenResponse _token;
         private ObservableCollection<PetItemViewModel> _pets;
-        private bool _isRefreshing;
+        private DelegateCommand _addPetCommand;
 
         public PetsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             _navigationService = navigationService;
             Title = "Pets";
+            LoadOwner();
         }
+
+        public DelegateCommand AddPetCommand => _addPetCommand ?? (_addPetCommand = new DelegateCommand(AddPet));
 
         public ObservableCollection<PetItemViewModel> Pets
         {
@@ -25,39 +31,27 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _pets, value);
         }
 
-        public bool IsRefreshing
+        private void LoadOwner()
         {
-            get => _isRefreshing;
-            set => SetProperty(ref _isRefreshing, value);
+            _owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            Title = $"Pets of : {_owner.FullName}";
+            Pets = new ObservableCollection<PetItemViewModel>(_owner.Pets.Select(p => new PetItemViewModel(_navigationService)
+            {
+                Born = p.Born,
+                Histories = p.Histories,
+                Id = p.Id,
+                ImageUrl = p.ImageUrl,
+                Name = p.Name,
+                PetType = p.PetType,
+                Race = p.Race,
+                Remarks = p.Remarks
+            }).ToList());
+
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        private async void AddPet()
         {
-            IsRefreshing = true;
-            base.OnNavigatedTo(parameters);
-
-            if (parameters.ContainsKey("token"))
-            {
-                _token = parameters.GetValue<TokenResponse>("token");
-            }
-
-            if (parameters.ContainsKey("owner"))
-            {
-                _owner = parameters.GetValue<OwnerResponse>("owner");
-                Pets = new ObservableCollection<PetItemViewModel>(_owner.Pets.Select(p => new PetItemViewModel(_navigationService)
-                {
-                    Born = p.Born,
-                    Histories = p.Histories,
-                    Id = p.Id,
-                    ImageUrl = p.ImageUrl,
-                    Name = p.Name,
-                    PetType = p.PetType,
-                    Race = p.Race,
-                    Remarks = p.Remarks
-                }).ToList());
-            }
-
-            IsRefreshing = false;
+            await _navigationService.NavigateAsync("EditPet");
         }
     }
 }

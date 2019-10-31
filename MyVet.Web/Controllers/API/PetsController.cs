@@ -8,6 +8,7 @@ using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
+using MyVet.Web.Helpers;
 
 namespace MyVet.Web.Controllers.API
 {
@@ -17,10 +18,14 @@ namespace MyVet.Web.Controllers.API
     public class PetsController : ControllerBase
     {
         private readonly DataContext _dataContext;
+        private readonly IConverterHelper _converterHelper;
 
-        public PetsController(DataContext dataContext)
+        public PetsController(
+            DataContext dataContext,
+            IConverterHelper converterHelper)
         {
             _dataContext = dataContext;
+            _converterHelper = converterHelper;
         }
 
         [HttpPost]
@@ -61,7 +66,7 @@ namespace MyVet.Web.Controllers.API
 
             var pet = new Pet
             {
-                Born = request.Born,
+                Born = request.Born.ToUniversalTime(),
                 ImageUrl = imageUrl,
                 Name = request.Name,
                 Owner = owner,
@@ -72,7 +77,7 @@ namespace MyVet.Web.Controllers.API
 
             _dataContext.Pets.Add(pet);
             await _dataContext.SaveChangesAsync();
-            return Ok(pet);
+            return Ok(_converterHelper.ToPetResponse(pet));
         }
 
         [HttpPut("{id}")]
@@ -116,7 +121,7 @@ namespace MyVet.Web.Controllers.API
                 }
             }
 
-            oldPet.Born = request.Born;
+            oldPet.Born = request.Born.ToUniversalTime();
             oldPet.ImageUrl = imageUrl;
             oldPet.Name = request.Name;
             oldPet.PetType = petType;
