@@ -4,11 +4,7 @@ using MyVet.Common.Services;
 using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -21,6 +17,8 @@ namespace MyVet.Prism.ViewModels
         private bool _isEnabled;
         private bool _isRemember;
         private DelegateCommand _loginCommand;
+        private DelegateCommand _registerCommand;
+        private DelegateCommand _forgotPasswordCommand;
 
         public LoginPageViewModel(
             INavigationService navigationService,
@@ -63,6 +61,10 @@ namespace MyVet.Prism.ViewModels
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
+
+        public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(Register));
+
+        public DelegateCommand ForgotPasswordCommand => _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPassword));
 
         private async void Login()
         {
@@ -128,6 +130,7 @@ namespace MyVet.Prism.ViewModels
             var owner = response2.Result;
             Settings.Owner = JsonConvert.SerializeObject(owner);
             Settings.Token = JsonConvert.SerializeObject(token);
+            Settings.IsRemembered = IsRemember;
 
             IsEnabled = true;
             IsRunning = false;
@@ -135,5 +138,16 @@ namespace MyVet.Prism.ViewModels
             Password = string.Empty;
             await _navigationService.NavigateAsync("/VeterinaryMasterDetailPage/NavigationPage/PetsPage");
         }
+
+        private async void Register()
+        {
+            await _navigationService.NavigateAsync("RegisterPage");
+        }
+
+        private async void ForgotPassword()
+        {
+            await _navigationService.NavigateAsync("RememberPasswordPage");
+        }
+
     }
 }

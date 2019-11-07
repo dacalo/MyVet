@@ -70,11 +70,128 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Address.
+        /// </summary>
+        public static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the address..
+        /// </summary>
+        public static string AddressError {
+            get {
+                return ResourceManager.GetString("AddressError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your address....
+        /// </summary>
+        public static string AddressPlaceHolder {
+            get {
+                return ResourceManager.GetString("AddressPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Change password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirm the new password.
+        /// </summary>
+        public static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirm the new password error.
+        /// </summary>
+        public static string ConfirmNewPasswordError {
+            get {
+                return ResourceManager.GetString("ConfirmNewPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Confirm the new password PlaceHolder.
+        /// </summary>
+        public static string ConfirmNewPasswordPlaceHolder {
+            get {
+                return ResourceManager.GetString("ConfirmNewPasswordPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Check the internet connection..
         /// </summary>
         public static string Connection {
             get {
                 return ResourceManager.GetString("Connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Current password.
+        /// </summary>
+        public static string CurrentPassword {
+            get {
+                return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Current password error.
+        /// </summary>
+        public static string CurrentPasswordError {
+            get {
+                return ResourceManager.GetString("CurrentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Current password place holder.
+        /// </summary>
+        public static string CurrentPasswordPlaceHolder {
+            get {
+                return ResourceManager.GetString("CurrentPasswordPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Document.
+        /// </summary>
+        public static string Document {
+            get {
+                return ResourceManager.GetString("Document", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter a document..
+        /// </summary>
+        public static string DocumentError {
+            get {
+                return ResourceManager.GetString("DocumentError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your document..
+        /// </summary>
+        public static string DocumentPlaceHolder {
+            get {
+                return ResourceManager.GetString("DocumentPlaceHolder", resourceCulture);
             }
         }
         
@@ -115,11 +232,74 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a First Name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the first name..
+        /// </summary>
+        public static string FirstNameError {
+            get {
+                return ResourceManager.GetString("FirstNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your first name....
+        /// </summary>
+        public static string FirstNamePlaceHolder {
+            get {
+                return ResourceManager.GetString("FirstNamePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Forgot your password?.
         /// </summary>
         public static string Forgot {
             get {
                 return ResourceManager.GetString("Forgot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Last Name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the last name..
+        /// </summary>
+        public static string LastNameError {
+            get {
+                return ResourceManager.GetString("LastNameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your last name....
+        /// </summary>
+        public static string LastNamePlaceHolder {
+            get {
+                return ResourceManager.GetString("LastNamePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Cargando....
+        /// </summary>
+        public static string Loading {
+            get {
+                return ResourceManager.GetString("Loading", resourceCulture);
             }
         }
         
@@ -142,11 +322,119 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Logout.
+        /// </summary>
+        public static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Map.
+        /// </summary>
+        public static string Map {
+            get {
+                return ResourceManager.GetString("Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a My agenda .
+        /// </summary>
+        public static string MyAgenda {
+            get {
+                return ResourceManager.GetString("MyAgenda", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a My pets.
+        /// </summary>
+        public static string MyPets {
+            get {
+                return ResourceManager.GetString("MyPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a My perfil.
+        /// </summary>
+        public static string MyProfile {
+            get {
+                return ResourceManager.GetString("MyProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New password.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New password error .
+        /// </summary>
+        public static string NewPasswordError {
+            get {
+                return ResourceManager.GetString("NewPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New password PlaceHolder.
+        /// </summary>
+        public static string NewPasswordPlaceHolder {
+            get {
+                return ResourceManager.GetString("NewPasswordPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Ok.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Password.
         /// </summary>
         public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Password Confirm.
+        /// </summary>
+        public static string PasswordConfirm {
+            get {
+                return ResourceManager.GetString("PasswordConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter a confirm..
+        /// </summary>
+        public static string PasswordConfirmError {
+            get {
+                return ResourceManager.GetString("PasswordConfirmError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your password confirm....
+        /// </summary>
+        public static string PasswordConfirmPlaceHolder {
+            get {
+                return ResourceManager.GetString("PasswordConfirmPlaceHolder", resourceCulture);
             }
         }
         
@@ -160,11 +448,65 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a The password must be a least 6 characters length..
+        /// </summary>
+        public static string PasswordError2 {
+            get {
+                return ResourceManager.GetString("PasswordError2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a The password and confirm does not match..
+        /// </summary>
+        public static string PasswordError3 {
+            get {
+                return ResourceManager.GetString("PasswordError3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Enter your password....
         /// </summary>
         public static string PasswordPlaceHolder {
             get {
                 return ResourceManager.GetString("PasswordPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a  Password recovery.
+        /// </summary>
+        public static string PasswordRecover {
+            get {
+                return ResourceManager.GetString("PasswordRecover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Phone.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter a phone number..
+        /// </summary>
+        public static string PhoneError {
+            get {
+                return ResourceManager.GetString("PhoneError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter your phone number....
+        /// </summary>
+        public static string PhonePlaceHolder {
+            get {
+                return ResourceManager.GetString("PhonePlaceHolder", resourceCulture);
             }
         }
         
@@ -178,11 +520,38 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Register new user.
+        /// </summary>
+        public static string RegisterNewUser {
+            get {
+                return ResourceManager.GetString("RegisterNewUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Rememberme in this device.
         /// </summary>
         public static string Rememberme {
             get {
                 return ResourceManager.GetString("Rememberme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a User updated.
+        /// </summary>
+        public static string UserUpdated {
+            get {
+                return ResourceManager.GetString("UserUpdated", resourceCulture);
             }
         }
     }

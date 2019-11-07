@@ -159,4 +159,127 @@
   <data name="Connection" xml:space="preserve">
     <value>Verifique a ligação com a Internet.</value>
   </data>
+  <data name="Document" xml:space="preserve">
+  <value>Documento</value>
+</data>
+  <data name="FirstName" xml:space="preserve">
+  <value>Nome</value>
+</data>
+  <data name="LastName" xml:space="preserve">
+  <value>Sobrenome</value>
+</data>
+  <data name="Address" xml:space="preserve">
+  <value>Endereço:</value>
+</data>
+  <data name="Phone" xml:space="preserve">
+  <value>Telefone</value>
+</data>
+  <data name="PasswordConfirm" xml:space="preserve">
+  <value>Confirme a senha</value>
+</data>
+  <data name="DocumentPlaceHolder" xml:space="preserve">
+  <value>Digite seu documento.</value>
+</data>
+  <data name="FirstNamePlaceHolder" xml:space="preserve">
+  <value>Insira seu nome</value>
+</data>
+  <data name="LastNamePlaceHolder" xml:space="preserve">
+  <value>Insira seu sobrenome</value>
+</data>
+  <data name="AddressPlaceHolder" xml:space="preserve">
+  <value>Insira o seu endereço...</value>
+</data>
+  <data name="PhonePlaceHolder" xml:space="preserve">
+  <value>Insira o seu número de telefone</value>
+</data>
+  <data name="PasswordConfirmPlaceHolder" xml:space="preserve">
+  <value>Digite sua senha para confirmar</value>
+</data>
+  <data name="DocumentError" xml:space="preserve">
+  <value>Você deve inserir um documento.</value>
+</data>
+  <data name="FirstNameError" xml:space="preserve">
+  <value>Você deve digitar o nome</value>
+</data>
+  <data name="LastNameError" xml:space="preserve">
+  <value>Você deve inserir o sobrenome</value>
+</data>
+  <data name="PasswordConfirmError" xml:space="preserve">
+  <value>Você deve inserir uma confirmação.</value>
+</data>
+  <data name="PhoneError" xml:space="preserve">
+  <value>Você deve digitar um número de telefone.</value>
+</data>
+  <data name="AddressError" xml:space="preserve">
+  <value>Você deve digitar um endereço</value>
+</data>
+  <data name="PasswordError2" xml:space="preserve">
+  <value>A senha deve ter no mínimo 6 caracteres.</value>
+</data>
+  <data name="PasswordError3" xml:space="preserve">
+  <value>A nova senha e senha de confirmação não coincidem.</value>
+</data>
+  <data name="Loading" xml:space="preserve">
+    <value>A carregar...</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RegisterNewUser" xml:space="preserve">
+    <value>Registrar novo usuário</value>
+  </data>
+  <data name="PasswordRecover" xml:space="preserve">
+    <value>Recuperação da Senha</value>
+  </data>
+  <data name="MyProfile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="MyPets" xml:space="preserve">
+    <value>Meus animais de estimação</value>
+  </data>
+  <data name="MyAgenda" xml:space="preserve">
+    <value>Minha Agenda</value>
+  </data>
+  <data name="Map" xml:space="preserve">
+    <value>Mapa</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Fazer logoff</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Alterar Senha</value>
+  </data>
+  <data name="UserUpdated" xml:space="preserve">
+    <value>Usuário atualizado</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirmar a nova senha</value>
+  </data>
+  <data name="ConfirmNewPasswordError" xml:space="preserve">
+    <value>Confirme Nova Senha</value>
+  </data>
+  <data name="ConfirmNewPasswordPlaceHolder" xml:space="preserve">
+    <value>Confirme Nova Senha</value>
+  </data>
+  <data name="CurrentPassword" xml:space="preserve">
+    <value>Senha atual</value>
+  </data>
+  <data name="CurrentPasswordError" xml:space="preserve">
+    <value>Erro de senha atual!</value>
+  </data>
+  <data name="CurrentPasswordPlaceHolder" xml:space="preserve">
+    <value>Proprietário do local da senha atual!</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Nova senha:</value>
+  </data>
+  <data name="NewPasswordError" xml:space="preserve">
+    <value>Erro de senha</value>
+  </data>
+  <data name="NewPasswordPlaceHolder" xml:space="preserve">
+    <value>substituto da palavra-passe</value>
+  </data>
 </root>

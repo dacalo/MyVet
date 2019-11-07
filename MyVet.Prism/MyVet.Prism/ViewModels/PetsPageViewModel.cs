@@ -46,7 +46,6 @@ namespace MyVet.Prism.ViewModels
                 Race = p.Race,
                 Remarks = p.Remarks
             }).ToList());
-
         }
 
         private async void AddPet()

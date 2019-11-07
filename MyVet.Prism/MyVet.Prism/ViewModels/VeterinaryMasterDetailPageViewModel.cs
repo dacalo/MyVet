@@ -1,4 +1,5 @@
 ﻿using MyVet.Common.Models;
+using MyVet.Prism.Helpers;
 using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,35 +27,35 @@ namespace MyVet.Prism.ViewModels
                 {
                     Icon = "ic_pets_menu",
                     PageName = "PetsPage",
-                    Title = "My Pets"
+                    Title = Languages.MyPets
                 },
 
                 new Menu
                 {
-                    Icon = "ic_list_alt",
+                    Icon = "ic_calendar_today",
                     PageName = "AgendaPage",
-                    Title = "My Agenda"
+                    Title = Languages.MyAgenda
                 },
 
                 new Menu
                 {
                     Icon = "ic_map",
                     PageName = "MapPage",
-                    Title = "Map"
+                    Title = Languages.Map
                 },
 
                 new Menu
                 {
                     Icon = "ic_person",
                     PageName = "ProfilePage",
-                    Title = "Modify Profile"
+                    Title = Languages.MyProfile
                 },
 
                 new Menu
                 {
                     Icon = "ic_exit_to_app",
                     PageName = "LoginPage",
-                    Title = "Logout"
+                    Title = Languages.Logout
                 }
             };
 
@@ -66,5 +67,6 @@ namespace MyVet.Prism.ViewModels
                     Title = m.Title
                 }).ToList());
         }
+
     }
 }

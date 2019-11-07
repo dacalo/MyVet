@@ -8,29 +8,34 @@
             <!-- Parameters -->
             <x:String x:Key="UrlAPI">https://myveterinary.azurewebsites.net/</x:String>
             <!-- Colors -->
-            <!--<Color x:Key="colorBackgroud">#F2F2F2</Color>
+            <Color x:Key="colorBackgroud">#F2F2F2</Color>
             <Color x:Key="colorPrimary">#0468BF</Color>
             <Color x:Key="colorSecondary">#067302</Color>
             <Color x:Key="colorDanger">#F2055C</Color>
             <Color x:Key="colorAccent">#BF4904</Color>
-            <Color x:Key="colorFont">#000000</Color>-->
+            <Color x:Key="colorFont">#0468BF</Color>
+            <Color x:Key="colorFontInverse">#F2F2F2</Color>
 
-            <Color x:Key="ColorPrimary">#2196F3</Color>
-            <Color x:Key="ColorPrimaryDark">#1976D2</Color>
-            <Color x:Key="ColorSecondary">#8D07F6</Color>
-            <Color x:Key="ColorFontInverse">#FFFFFF</Color>
-            <Color x:Key="ColorFont">#000000</Color>
             <!-- Styles -->
             <Style TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource colorPrimaryDark}" />
-                <Setter Property="BorderRadius" Value="23" />
+                <Setter Property="BackgroundColor" Value="{StaticResource colorPrimary}" />
+                <Setter Property="CornerRadius" Value="23" />
                 <Setter Property="HeightRequest" Value="46" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="TextColor" Value="{StaticResource colorFontInverse}" />
             </Style>
-            <Style x:Key="SecondaryButton" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource ColorSecondary}"/>
-                <Setter Property="TextColor" Value="{StaticResource ColorFontInverse}"/>
+
+            <Style x:Key="secondaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource colorSecondary}" />
+            </Style>
+
+            <Style x:Key="dangerButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource colorDanger}" />
+                <Setter Property="TextColor" Value="{StaticResource colorFontInverse}" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource colorFont}" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

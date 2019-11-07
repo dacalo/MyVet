@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using MyVet.Prism.Helpers;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System;
@@ -11,7 +12,7 @@ namespace MyVet.Prism.ViewModels
     {
         public AgendaPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "";
+            Title = "Agenda";
         }
     }
 }

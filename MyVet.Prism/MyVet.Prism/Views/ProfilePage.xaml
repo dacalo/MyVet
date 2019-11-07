@@ -1,9 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.ProfilePage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
-  
+    <ScrollView>
+        <StackLayout
+            Padding="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{i18n:Translate Document}"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Placeholder="{i18n:Translate DocumentPlaceHolder}"
+                    Text="{Binding Owner.Document}"/>
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="{i18n:Translate FirstName}"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Placeholder="{i18n:Translate FirstNamePlaceHolder}"
+                    Text="{Binding Owner.FirstName}"/>
+
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{i18n:Translate LastName}"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Placeholder="{i18n:Translate LastNamePlaceHolder}"
+                    Text="{Binding Owner.LastName}"/>
+
+                <Label
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="{i18n:Translate Address}"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Placeholder="{i18n:Translate AddressPlaceHolder}"
+                    Text="{Binding Owner.Address}"/>
+
+                <Label
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Text="{i18n:Translate Phone}"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Placeholder="{i18n:Translate PhonePlaceHolder}"
+                    Text="{Binding Owner.PhoneNumber}"/>
+
+            </Grid>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning}"
+                VerticalOptions="CenterAndExpand"/>
+
+            <StackLayout
+                Orientation="Horizontal">
+                <Button
+                    Command="{Binding SaveCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    IsEnabled="{Binding IsEnabled}"
+                    Text="{i18n:Translate Save}"/>
+
+                <Button
+                    Command="{Binding ChangePasswordCommand}"
+                    HorizontalOptions="FillAndExpand"
+                    IsEnabled="{Binding IsEnabled}"
+                    Style="{StaticResource secondaryButton}"
+                    Text="{i18n:Translate ChangePassword}"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
