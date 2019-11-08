@@ -125,5 +125,34 @@ namespace MyVet.Prism.Helpers
         
         public static string NewPet => Resource.NewPet;
 
+        public static string Delete => Resource.Delete;
+
+        public static string EditPet => Resource.EditPet;
+
+        public static string ChangeImage => Resource.ChangeImage;
+
+        public static string Name => Resource.Name;
+
+        public static string NameError => Resource.NameError;
+
+        public static string NamePlaceHolder => Resource.NamePlaceHolder;
+
+        public static string Race => Resource.Race;
+
+        public static string RaceError => Resource.RaceError;
+
+        public static string RacePlaceHolder => Resource.RacePlaceHolder;
+
+        public static string PetType => Resource.PetType;
+
+        public static string PetTypeError => Resource.PetTypeError;
+
+        public static string PetTypePlaceHolder => Resource.PetTypePlaceHolder;
+
+        public static string Born => Resource.Born;
+
+        public static string Remarks => Resource.Remarks;
+
+
     }
 }

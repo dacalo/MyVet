@@ -12,10 +12,14 @@ namespace MyVet.Prism.ViewModels
 {
     public class PetPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private PetResponse _pet;
+        private DelegateCommand _editPetCommand;
+
         public PetPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Details";
+            _navigationService = navigationService;
         }
 
         public PetResponse Pet
@@ -24,11 +28,24 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _pet, value);
         }
 
+        public DelegateCommand EditPetCommand => _editPetCommand ?? (_editPetCommand = new DelegateCommand(EditPet));
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
                         
             Pet = JsonConvert.DeserializeObject<PetResponse>(Settings.Pet);
         }
+
+        private async void EditPet()
+        {
+            var parameters = new NavigationParameters
+            {
+                { "pet", _pet }
+            };
+
+            await _navigationService.NavigateAsync("EditPet", parameters);
+        }
+
     }
 }

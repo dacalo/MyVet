@@ -97,6 +97,24 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Born.
+        /// </summary>
+        public static string Born {
+            get {
+                return ResourceManager.GetString("Born", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Tap on image to change it..
+        /// </summary>
+        public static string ChangeImage {
+            get {
+                return ResourceManager.GetString("ChangeImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Change password.
         /// </summary>
         public static string ChangePassword {
@@ -178,6 +196,15 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Document.
         /// </summary>
         public static string Document {
@@ -201,6 +228,15 @@ namespace MyVet.Prism.Resources {
         public static string DocumentPlaceHolder {
             get {
                 return ResourceManager.GetString("DocumentPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Edit Pet.
+        /// </summary>
+        public static string EditPet {
+            get {
+                return ResourceManager.GetString("EditPet", resourceCulture);
             }
         }
         
@@ -376,6 +412,33 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the pet&apos;s name..
+        /// </summary>
+        public static string NameError {
+            get {
+                return ResourceManager.GetString("NameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter the pet&apos;s name....
+        /// </summary>
+        public static string NamePlaceHolder {
+            get {
+                return ResourceManager.GetString("NamePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a New password.
         /// </summary>
         public static string NewPassword {
@@ -502,6 +565,33 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Pet Type.
+        /// </summary>
+        public static string PetType {
+            get {
+                return ResourceManager.GetString("PetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must select a pet type..
+        /// </summary>
+        public static string PetTypeError {
+            get {
+                return ResourceManager.GetString("PetTypeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select a pet type....
+        /// </summary>
+        public static string PetTypePlaceHolder {
+            get {
+                return ResourceManager.GetString("PetTypePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Phone.
         /// </summary>
         public static string Phone {
@@ -529,6 +619,33 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Breed.
+        /// </summary>
+        public static string Race {
+            get {
+                return ResourceManager.GetString("Race", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a You must enter the pet&apos;s breed..
+        /// </summary>
+        public static string RaceError {
+            get {
+                return ResourceManager.GetString("RaceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Enter the pet&apos;s breed....
+        /// </summary>
+        public static string RacePlaceHolder {
+            get {
+                return ResourceManager.GetString("RacePlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Register.
         /// </summary>
         public static string Register {
@@ -543,6 +660,15 @@ namespace MyVet.Prism.Resources {
         public static string RegisterNewUser {
             get {
                 return ResourceManager.GetString("RegisterNewUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Remarks.
+        /// </summary>
+        public static string Remarks {
+            get {
+                return ResourceManager.GetString("Remarks", resourceCulture);
             }
         }
         

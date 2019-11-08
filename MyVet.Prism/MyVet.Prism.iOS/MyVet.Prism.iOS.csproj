@@ -239,5 +239,8 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_add_circle.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\noimage.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

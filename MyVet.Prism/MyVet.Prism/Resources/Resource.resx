@@ -288,4 +288,46 @@
   <data name="NewPet" xml:space="preserve">
     <value>New pet</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="EditPet" xml:space="preserve">
+    <value>Edit Pet</value>
+  </data>
+  <data name="ChangeImage" xml:space="preserve">
+    <value>Tap on image to change it.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameError" xml:space="preserve">
+    <value>You must enter the pet's name.</value>
+  </data>
+  <data name="NamePlaceHolder" xml:space="preserve">
+    <value>Enter the pet's name...</value>
+  </data>
+  <data name="Race" xml:space="preserve">
+    <value>Breed</value>
+  </data>
+  <data name="RaceError" xml:space="preserve">
+    <value>You must enter the pet's breed.</value>
+  </data>
+  <data name="RacePlaceHolder" xml:space="preserve">
+    <value>Enter the pet's breed...</value>
+  </data>
+  <data name="PetType" xml:space="preserve">
+    <value>Pet Type</value>
+  </data>
+  <data name="PetTypeError" xml:space="preserve">
+    <value>You must select a pet type.</value>
+  </data>
+  <data name="PetTypePlaceHolder" xml:space="preserve">
+    <value>Select a pet type...</value>
+  </data>
+  <data name="Born" xml:space="preserve">
+    <value>Born</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Remarks</value>
+  </data>
 </root>
