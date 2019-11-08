@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using MyVet.Common.Helpers;
+﻿using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
 using MyVet.Prism.Helpers;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Threading.Tasks;
 
 namespace MyVet.Prism.ViewModels
 {

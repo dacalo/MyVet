@@ -50,7 +50,7 @@ namespace MyVet.Prism.ViewModels
 
         private async void AddPet()
         {
-            await _navigationService.NavigateAsync("EditPet");
+            await _navigationService.NavigateAsync("EditPetPage");
         }
     }
 }

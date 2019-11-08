@@ -106,6 +106,15 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Changing....
+        /// </summary>
+        public static string Changing {
+            get {
+                return ResourceManager.GetString("Changing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Confirm the new password.
         /// </summary>
         public static string ConfirmNewPassword {
@@ -115,7 +124,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Confirm the new password error.
+        ///   Busca una cadena traducida similar a You must enter a password confirm..
         /// </summary>
         public static string ConfirmNewPasswordError {
             get {
@@ -124,7 +133,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Confirm the new password PlaceHolder.
+        ///   Busca una cadena traducida similar a Enter the password confirm....
         /// </summary>
         public static string ConfirmNewPasswordPlaceHolder {
             get {
@@ -151,7 +160,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Current password error.
+        ///   Busca una cadena traducida similar a You must enter your current password..
         /// </summary>
         public static string CurrentPasswordError {
             get {
@@ -160,7 +169,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Current password place holder.
+        ///   Busca una cadena traducida similar a Enter your current password....
         /// </summary>
         public static string CurrentPasswordPlaceHolder {
             get {
@@ -376,7 +385,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a New password error .
+        ///   Busca una cadena traducida similar a Enter a valid password.
         /// </summary>
         public static string NewPasswordError {
             get {
@@ -385,11 +394,20 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a New password PlaceHolder.
+        ///   Busca una cadena traducida similar a You must enter a new password at least 6 characters length..
         /// </summary>
         public static string NewPasswordPlaceHolder {
             get {
                 return ResourceManager.GetString("NewPasswordPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New pet.
+        /// </summary>
+        public static string NewPet {
+            get {
+                return ResourceManager.GetString("NewPet", resourceCulture);
             }
         }
         
@@ -547,7 +565,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a User updated.
+        ///   Busca una cadena traducida similar a User updated succesfully..
         /// </summary>
         public static string UserUpdated {
             get {

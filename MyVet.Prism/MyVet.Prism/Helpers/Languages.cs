@@ -122,6 +122,8 @@ namespace MyVet.Prism.Helpers
         public static string NewPasswordError => Resource.NewPasswordError;
 
         public static string NewPasswordPlaceHolder => Resource.NewPasswordPlaceHolder;
+        
+        public static string NewPet => Resource.NewPet;
 
     }
 }
