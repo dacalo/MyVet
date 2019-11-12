@@ -378,4 +378,13 @@
   <data name="Saving" xml:space="preserve">
     <value>Saving</value>
   </data>
+  <data name="NotAddressFound" xml:space="preserve">
+    <value>Not Address Found </value>
+  </data>
+  <data name="NotLocationAvailable" xml:space="preserve">
+    <value>Not Location Available</value>
+  </data>
+  <data name="SelectAnAdrress" xml:space="preserve">
+    <value>Select An Adrress </value>
+  </data>
 </root>

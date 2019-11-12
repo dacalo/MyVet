@@ -184,5 +184,12 @@ namespace MyVet.Prism.Helpers
         public static string PetError => Resource.PetError;
 
         public static string Saving => Resource.Saving;
+
+        public static string NotAddressFound => Resource.NotAddressFound;
+
+        public static string NotLocationAvailable => Resource.NotLocationAvailable;
+
+        public static string SelectAnAdrress => Resource.SelectAnAdrress;
+
     }
 }

@@ -25,5 +25,11 @@ namespace MyVet.Common.Models
         [Required]
         [StringLength(20, MinimumLength = 6)]
         public string Password { get; set; }
+
+        [Required]
+        public double Latitude { get; set; }
+
+        [Required]
+        public double Longitude { get; set; }
     }
 }

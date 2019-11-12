@@ -574,6 +574,24 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Not Address Found .
+        /// </summary>
+        public static string NotAddressFound {
+            get {
+                return ResourceManager.GetString("NotAddressFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Not Location Available.
+        /// </summary>
+        public static string NotLocationAvailable {
+            get {
+                return ResourceManager.GetString("NotLocationAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Ok.
         /// </summary>
         public static string Ok {
@@ -822,6 +840,15 @@ namespace MyVet.Prism.Resources {
         public static string Saving {
             get {
                 return ResourceManager.GetString("Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select An Adrress .
+        /// </summary>
+        public static string SelectAnAdrress {
+            get {
+                return ResourceManager.GetString("SelectAnAdrress", resourceCulture);
             }
         }
         
