@@ -83,7 +83,7 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _petType, value);
         }
 
-        public DelegateCommand ChangeImageCommand => _changeImageCommand ?? (_changeImageCommand = new DelegateCommand(ChangeImage));
+        public DelegateCommand ChangeImageCommand => _changeImageCommand ?? (_changeImageCommand = new DelegateCommand(ChangeImageAsync));
 
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
 
@@ -147,7 +147,7 @@ namespace MyVet.Prism.ViewModels
             }
         }
 
-        private async void ChangeImage()
+        private async void ChangeImageAsync()
         {
             await CrossMedia.Current.Initialize();
 
@@ -182,7 +182,7 @@ namespace MyVet.Prism.ViewModels
 
             if (_file != null)
             {
-                this.ImageSource = ImageSource.FromStream(() =>
+                ImageSource = ImageSource.FromStream(() =>
                 {
                     var stream = _file.GetStream();
                     return stream;
