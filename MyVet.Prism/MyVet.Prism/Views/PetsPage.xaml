@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.PetsPage"
@@ -17,6 +18,8 @@
             BackgroundColor="Transparent"
             SeparatorVisibility="None"
             HasUnevenRows="True"
+            IsPullToRefreshEnabled="True"
+            RefreshCommand="{Binding RefreshPetsCommand}"
             ItemsSource="{Binding Pets}">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -56,7 +59,7 @@
                                     <Label
                                         Grid.Column="0"
                                         Grid.Row="0"
-                                        Text="Name"/>
+                                        Text="{i18n:Translate Name}"/>
                                     <Label
                                         Grid.Column="1"
                                         Grid.Row="0"
@@ -65,7 +68,7 @@
                                     <Label
                                         Grid.Column="0"
                                         Grid.Row="1"
-                                        Text="Race"/>
+                                        Text="{i18n:Translate Race}"/>
                                     <Label
                                         Grid.Column="1"
                                         Grid.Row="1"
@@ -74,7 +77,7 @@
                                     <Label
                                         Grid.Column="0"
                                         Grid.Row="2"
-                                        Text="Born"/>
+                                        Text="{i18n:Translate Born}"/>
                                     <Label
                                         Grid.Column="1"
                                         Grid.Row="2"

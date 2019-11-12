@@ -80,13 +80,13 @@ namespace MyVet.Prism.Helpers
         public static string Rememberme => Resource.Rememberme;
 
         public static string Connection => Resource.Connection;
-        
+
         public static string Loading => Resource.Loading;
-        
+
         public static string Ok => Resource.Ok;
-        
+
         public static string RegisterNewUser => Resource.RegisterNewUser;
-        
+
         public static string PasswordRecover => Resource.PasswordRecover;
 
         public static string Logout => Resource.Logout;
@@ -122,7 +122,7 @@ namespace MyVet.Prism.Helpers
         public static string NewPasswordError => Resource.NewPasswordError;
 
         public static string NewPasswordPlaceHolder => Resource.NewPasswordPlaceHolder;
-        
+
         public static string NewPet => Resource.NewPet;
 
         public static string Delete => Resource.Delete;
@@ -153,6 +153,36 @@ namespace MyVet.Prism.Helpers
 
         public static string Remarks => Resource.Remarks;
 
+        public static string PictureSource => Resource.PictureSource;
 
+        public static string Cancel => Resource.Cancel;
+
+        public static string FromCamera => Resource.FromCamera;
+
+        public static string FromGallery => Resource.FromGallery;
+
+        public static string CreateEditPetConfirm => Resource.CreateEditPetConfirm;
+
+        public static string Created => Resource.Created;
+
+        public static string Edited => Resource.Edited;
+
+        public static string Confirm => Resource.Confirm;
+
+        public static string QuestionToDeletePet => Resource.QuestionToDeletePet;
+
+        public static string Yes => Resource.Yes;
+
+        public static string No => Resource.No;
+
+        public static string AssignModifyAgenda => Resource.AssignModifyAgenda;
+
+        public static string Assign => Resource.Assign;
+
+        public static string CancelAgendaMessage => Resource.CancelAgendaMessage;
+        
+        public static string PetError => Resource.PetError;
+
+        public static string Saving => Resource.Saving;
     }
 }

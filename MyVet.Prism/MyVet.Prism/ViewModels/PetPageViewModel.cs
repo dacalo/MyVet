@@ -28,7 +28,7 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _pet, value);
         }
 
-        public DelegateCommand EditPetCommand => _editPetCommand ?? (_editPetCommand = new DelegateCommand(EditPet));
+        public DelegateCommand EditPetCommand => _editPetCommand ?? (_editPetCommand = new DelegateCommand(EditPetAsync));
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -37,14 +37,14 @@ namespace MyVet.Prism.ViewModels
             Pet = JsonConvert.DeserializeObject<PetResponse>(Settings.Pet);
         }
 
-        private async void EditPet()
+        private async void EditPetAsync()
         {
             var parameters = new NavigationParameters
             {
-                { "pet", _pet }
+                { "pet", Pet }
             };
 
-            await _navigationService.NavigateAsync("EditPet", parameters);
+            await _navigationService.NavigateAsync("EditPetPage", parameters);
         }
 
     }

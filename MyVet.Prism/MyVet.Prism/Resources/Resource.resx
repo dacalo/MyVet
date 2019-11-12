@@ -330,4 +330,52 @@
   <data name="Remarks" xml:space="preserve">
     <value>Remarks</value>
   </data>
+  <data name="PictureSource" xml:space="preserve">
+    <value>Picture source</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="FromCamera" xml:space="preserve">
+    <value>From camera </value>
+  </data>
+  <data name="FromGallery" xml:space="preserve">
+    <value>From gallery</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created </value>
+  </data>
+  <data name="Edited" xml:space="preserve">
+    <value>Edited</value>
+  </data>
+  <data name="CreateEditPetConfirm" xml:space="preserve">
+    <value>The pet was {0} succesfully.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="QuestionToDeletePet" xml:space="preserve">
+    <value>Are you sure to delete this pet?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="AssignModifyAgenda" xml:space="preserve">
+    <value>Assign Modify Agenda</value>
+  </data>
+  <data name="Assign" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="CancelAgendaMessage" xml:space="preserve">
+    <value>Cancel Agenda Message</value>
+  </data>
+  <data name="PetError" xml:space="preserve">
+    <value>Pet Error</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Saving</value>
+  </data>
 </root>

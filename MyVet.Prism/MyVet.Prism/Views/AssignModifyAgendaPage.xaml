@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="MyVet.Prism.Views.AssignModifyAgendaPage"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+
+        <Label
+            Text="{i18n:Translate AgendaFor}"/>
+        <Label
+            FontAttributes="Bold"
+            FontSize="Medium"
+            Text="{Binding Agenda.Date, StringFormat='{0:yyyy/MM/dd HH:mm}'}"/>
+
+        <Label
+            Text="{i18n:Translate Pet}"/>
+        <Picker
+            ItemDisplayBinding="{Binding Name}"
+            ItemsSource="{Binding Pets}"
+            SelectedItem="{Binding Pet}"
+            Title="{i18n:Translate PetPlaceHolder}"/>
+
+        <Label
+            Text="{i18n:Translate Remarks}"/>
+        <Editor
+            HeightRequest="70"
+            Text="{Binding Agenda.Remarks}"/>
+
+        <ActivityIndicator
+            IsRunning="{Binding IsRunning}"
+            VerticalOptions="CenterAndExpand"/>
+
+        <StackLayout
+            Orientation="Horizontal">
+
+            <Button
+                Command="{Binding AssignCommand}"
+                HorizontalOptions="FillAndExpand"
+                IsEnabled="{Binding IsEnabled}"
+                Text="{i18n:Translate Assign}"/>
+
+            <Button
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="FillAndExpand"
+                IsEnabled="{Binding IsEnabled}"
+                Style="{StaticResource SecondaryButton}"
+                Text="{i18n:Translate Cancel}"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
