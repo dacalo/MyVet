@@ -139,7 +139,7 @@ namespace MyVet.Web.Controllers.API
         {
             if (!ModelState.IsValid)
             {
-                return this.BadRequest(ModelState);
+                return BadRequest(ModelState);
             }
 
             var pet = await _dataContext.Pets
@@ -147,12 +147,12 @@ namespace MyVet.Web.Controllers.API
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (pet == null)
             {
-                return this.NotFound();
+                return NotFound();
             }
 
             if (pet.Histories.Count > 0)
             {
-                BadRequest("The pet can't be deleted because it has history.");
+                return BadRequest("The pet can't be deleted because it has history.");
             }
 
             _dataContext.Pets.Remove(pet);

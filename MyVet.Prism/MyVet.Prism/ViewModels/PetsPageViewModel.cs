@@ -45,13 +45,13 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
+        public DelegateCommand AddPetCommand => _addPetCommand ?? (_addPetCommand = new DelegateCommand(AddPetAsync));
+        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(RefreshPetsAsync));
+
         public static PetsPageViewModel GetInstance()
         {
             return _instance;
         }
-        public DelegateCommand AddPetCommand => _addPetCommand ?? (_addPetCommand = new DelegateCommand(AddPet));
-        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(RefreshPets));
-
 
         private void LoadOwner()
         {
@@ -70,12 +70,12 @@ namespace MyVet.Prism.ViewModels
             }).ToList());
         }
 
-        private async void AddPet()
+        private async void AddPetAsync()
         {
             await _navigationService.NavigateAsync("EditPetPage");
         }
 
-        public async Task UpdateOwner()
+        public async Task UpdateOwnerAsync()
         {
             var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
@@ -97,10 +97,10 @@ namespace MyVet.Prism.ViewModels
             }
         }
 
-        private async void RefreshPets()
+        private async void RefreshPetsAsync()
         {
             IsRefreshing = true;
-            await UpdateOwner();
+            await UpdateOwnerAsync();
             IsRefreshing = false;
         }
 

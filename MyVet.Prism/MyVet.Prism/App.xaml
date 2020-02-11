@@ -6,7 +6,8 @@
 	<Application.Resources>
         <ResourceDictionary>
             <!-- Parameters -->
-            <x:String x:Key="UrlAPI">https://myveterinary.azurewebsites.net/</x:String>
+            <!--<x:String x:Key="UrlAPI">https://myveterinary.azurewebsites.net/</x:String>-->
+            <x:String x:Key="UrlAPI">http://dacalo-001-site5.atempurl.com/</x:String>
             <!-- Colors -->
             <Color x:Key="colorBackgroud">#F2F2F2</Color>
             <Color x:Key="colorPrimary">#0468BF</Color>

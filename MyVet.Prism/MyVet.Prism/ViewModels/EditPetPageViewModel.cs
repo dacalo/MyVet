@@ -85,9 +85,9 @@ namespace MyVet.Prism.ViewModels
 
         public DelegateCommand ChangeImageCommand => _changeImageCommand ?? (_changeImageCommand = new DelegateCommand(ChangeImageAsync));
 
-        public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
+        public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(SaveAsync));
 
-        public DelegateCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new DelegateCommand(Delete));
+        public DelegateCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new DelegateCommand(DeleteAsync));
         
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -190,7 +190,7 @@ namespace MyVet.Prism.ViewModels
             }
         }
 
-        private async void Save()
+        private async void SaveAsync()
         {
             var isValid = await ValidateData();
             if (!isValid)
@@ -245,7 +245,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            await PetsPageViewModel.GetInstance().UpdateOwner();
+            await PetsPageViewModel.GetInstance().UpdateOwnerAsync();
 
             IsRunning = false;
             IsEnabled = true;
@@ -259,7 +259,7 @@ namespace MyVet.Prism.ViewModels
 
         }
 
-        private async void Delete()
+        private async void DeleteAsync()
         {
             var answer = await App.Current.MainPage.DisplayAlert(
                 Languages.Confirm,
@@ -287,7 +287,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            await PetsPageViewModel.GetInstance().UpdateOwner();
+            await PetsPageViewModel.GetInstance().UpdateOwnerAsync();
 
             IsRunning = false;
             IsEnabled = true;
@@ -316,7 +316,6 @@ namespace MyVet.Prism.ViewModels
 
             return true;
         }
-
 
     }
 }

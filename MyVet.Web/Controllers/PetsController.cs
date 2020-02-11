@@ -8,6 +8,7 @@ using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using MyVet.Web.Models;
+using Rotativa.AspNetCore;
 
 namespace MyVet.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace MyVet.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(_dataContext.Pets
+            return new ViewAsPdf(_dataContext.Pets
                 .Include(p => p.Owner)
                 .ThenInclude(o => o.User)
                 .Include(p => p.PetType)
@@ -270,5 +271,16 @@ namespace MyVet.Web.Controllers
 
             return View(model);
         }
+
+        public IActionResult Print()
+        {
+            return new ViewAsPdf(_dataContext.Pets
+                .Include(p => p.Owner)
+                .ThenInclude(o => o.User)
+                .Include(p => p.PetType)
+                .Include(p => p.Histories))
+            { FileName = "Pets.pdf" };
+        }
+
     }
 }

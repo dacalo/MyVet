@@ -83,7 +83,8 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = false;
 
             var url = App.Current.Resources["UrlAPI"].ToString();
-            var connection = await _apiService.CheckConnection(url);
+            var connection = await _apiService.CheckConnection("https://www.google.com");
+            //var connection = await _apiService.CheckConnection(url);
             if (!connection)
             {
                 IsEnabled = true;

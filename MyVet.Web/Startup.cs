@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
+using Rotativa.AspNetCore;
 using System.Text;
 
 namespace MyVet.Web
@@ -108,6 +109,8 @@ namespace MyVet.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            RotativaConfiguration.Setup(env);
+
         }
     }
 }
