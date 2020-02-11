@@ -4,22 +4,22 @@ namespace MyVet.Web.Models
 {
     public class AddUserViewModel : EditUserViewModel
     {
-        [Display(Name = "Email")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [Display(Name = "Correo electrónico")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [MaxLength(100, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
         [EmailAddress]
         public string Username { get; set; }       
 
-        [Display(Name = "Password")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Contraseña")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [DataType(DataType.Password)]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe contener entre {2} y {1} caracteres.")]
         public string Password { get; set; }
 
-        [Display(Name = "Password Confirm")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Confirmar contraseña")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [DataType(DataType.Password)]
-        [StringLength(20, MinimumLength = 6, ErrorMessage = "The {0} field must contain between {2} and {1} characters.")]
+        [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe contener entre {2} y {1} caracteres.")]
         [Compare("Password")]
         public string PasswordConfirm { get; set; }
     }

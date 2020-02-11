@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MyVet.Web</title>
+    <title>@ViewData["Title"] - Mi Veterinaria.Web</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,29 +26,29 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">My Veterinary</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Mi Veterinaria</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li><a asp-area="" asp-controller="Owners" asp-action="Index">Owners</a></li>
-                        <li><a asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                        <li><a asp-area="" asp-controller="Owners" asp-action="Index">Propietarios</a></li>
+                        <li><a asp-area="" asp-controller="Managers" asp-action="Index">Administradores</a></li>
                         <li><a asp-area="" asp-controller="Agenda" asp-action="Index">Agenda</a></li>
-                        <li><a asp-area="" asp-controller="Pets" asp-action="Index">Pets</a></li>
-                        <li><a asp-area="" asp-controller="PetTypes" asp-action="Index">Pet Types</a></li>
-                        <li><a asp-area="" asp-controller="ServiceTypes" asp-action="Index">Service Types</a></li>
+                        <li><a asp-area="" asp-controller="Pets" asp-action="Index">Mascotas</a></li>
+                        <li><a asp-area="" asp-controller="PetTypes" asp-action="Index">Tipo de Mascotas</a></li>
+                        <li><a asp-area="" asp-controller="ServiceTypes" asp-action="Index">Tipos de Servicios</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser">@User.Identity.Name</a></li>
-                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Cerrar sesión</a></li>
                     }
                     else
                     {
-                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Login</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Iniciar sesión</a></li>
                     }
                 </ul>
             </div>

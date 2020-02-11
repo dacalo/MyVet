@@ -1,21 +1,21 @@
 ﻿@model MyVet.Web.Data.Entities.Pet
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<h2>Pet</h2>
+<h2>Mascota</h2>
 
 <div>
-    <h4>Details</h4>
+    <h2>ViewData["Title"]</h2>
     <hr />
     <div class="row">
         <div class="col-md-4">
             <dl class="dl-horizontal">
                 <dt>
-                    Owner
+                    Propietario
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Owner.User.FullName)
@@ -55,9 +55,9 @@
     </div>
 </div>
 <div>
-    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary">Add History</a>
-    <a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-success">Back to List</a>
+    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary">Agregar historial clínico</a>
+    <a asp-action="Index" asp-route-id="@Model.Id" class="btn btn-success">Regresar a la lista</a>
 </div>
 <hr />
 @if (Model.Histories.Count == 0)
@@ -70,7 +70,7 @@ else
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">History</h3>
+                    <h3 class="panel-title">Historial Clínico</h3>
                 </div>
                 <div class="panel-body">
                     <table class="table table-hover table-responsive table-striped" id="MyTable">

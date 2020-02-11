@@ -1,11 +1,11 @@
 ﻿@model MyVet.Web.Models.EditUserViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h2>Edit</h2>
+<h2>ViewData["Title"]</h2>
 
-<h4>Owner</h4>
+<h4>Propietario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -16,8 +16,8 @@
             <partial name="_User"/>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a asp-action="ChangePassword" class="btn btn-warning">Change Password</a>
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="ChangePassword" class="btn btn-warning">Cambiar contraseña</a>
             </div>
         </form>
     </div>

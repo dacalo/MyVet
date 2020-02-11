@@ -1,21 +1,21 @@
 ﻿@model MyVet.Web.Data.Entities.Manager
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar";
 }
 
-<h1>Delete</h1>
+    <h1>ViewData["Title"]</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Está seguro de eliminar al administrador?</h3>
 <div>
-    <h4>Manager</h4>
+    <h4>Administrador</h4>
     <hr />
     <dl class="row">
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        <a asp-action="Index">Regrsar a la lista</a>
     </form>
 </div>

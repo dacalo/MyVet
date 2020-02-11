@@ -7,24 +7,24 @@ namespace MyVet.Web.Models
 {
     public class AgendaViewModel : Agenda
     {
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
-        [Display(Name = "Owner")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select an owner.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        [Display(Name = "Propietario")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un propietario.")]
         public int OwnerId { get; set; }
 
 
         public IEnumerable<SelectListItem> Owners { get; set; }
 
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Display(Name = "Pet")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a pet.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una mascota.")]
         public int PetId { get; set; }
 
         public IEnumerable<SelectListItem> Pets { get; set; }
 
         public bool IsMine { get; set; }
 
-        public string Reserved => "Reserved";
+        public string Reserved => "Reservada";
 
     }
 }

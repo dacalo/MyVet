@@ -6,19 +6,19 @@
     {
         public int Id { get; set; }
 
-        [Display(Name = "Description*")]
-        [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Descripción*")]
+        [MaxLength(100, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
-        [Display(Name = "Date*")]
-        [Required(ErrorMessage = "The field {0} is mandatory.")]
+        [Display(Name = "Fecha*")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         public string Remarks { get; set; }
 
-        [Display(Name = "Date*")]
+        [Display(Name = "Fecha*")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime DateLocal => Date.ToLocalTime();
 

@@ -1,13 +1,13 @@
 ﻿@model MyVet.Web.Data.Entities.Owner
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h2>Owner</h2>
+<h2>Propietario</h2>
 
 <div>
-    <h4>Details</h4>
+    <h2>ViewData["Title"]</h2>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -49,9 +49,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
     <a asp-action="AddPet" asp-route-id="@Model.Id" class="btn btn-primary">Add Pet</a>
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="Index" class="btn btn-success">Regresar a la lista</a>
 </div>
 <h4>Pets</h4>
 @if (Model.Pets.Count == 0)
@@ -104,9 +104,9 @@ else
                         @Html.DisplayFor(modelItem => item.Remarks)
                     </td>
                     <td>
-                        <a asp-action="EditPet" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                        <a asp-action="DetailsPet" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Delete</button>
+                        <a asp-action="EditPet" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                        <a asp-action="DetailsPet" asp-route-id="@item.Id" class="btn btn-info">Detalles</a>
+                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
                     </td>
                 </tr>
             }
