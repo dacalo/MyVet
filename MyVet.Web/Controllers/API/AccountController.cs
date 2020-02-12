@@ -54,7 +54,7 @@ namespace MyVet.Web.Controllers.API
             user = new User
             {
                 Address = request.Address,
-                Document = request.Document,
+                RFC = request.Document,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -147,7 +147,7 @@ namespace MyVet.Web.Controllers.API
             userEntity.LastName = request.LastName;
             userEntity.Address = request.Address;
             userEntity.PhoneNumber = request.Phone;
-            userEntity.Document = request.Phone;
+            userEntity.RFC = request.Phone;
 
             var respose = await _userHelper.UpdateUserAsync(userEntity);
             if (!respose.Succeeded)

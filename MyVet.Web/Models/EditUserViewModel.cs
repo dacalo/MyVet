@@ -10,7 +10,7 @@ namespace MyVet.Web.Models
         [StringLength(13, MinimumLength = 12, ErrorMessage = "El campo {0} debe contener entre {2} y {1} caracteres.")]
         [MaxLength(20, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Document { get; set; }
+        public string RFC { get; set; }
 
         [Display(Name = "Nombre")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]

@@ -96,7 +96,7 @@ namespace MyVet.Web.Controllers
             var user = new User
             {
                 Address = model.Address,
-                Document = model.Document,
+                RFC = model.RFC,
                 Email = model.Username,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -133,7 +133,7 @@ namespace MyVet.Web.Controllers
             var model = new EditUserViewModel
             {
                 Address = manager.User.Address,
-                Document = manager.User.Document,
+                RFC = manager.User.RFC,
                 FirstName = manager.User.FirstName,
                 Id = manager.Id,
                 LastName = manager.User.LastName,
@@ -153,7 +153,7 @@ namespace MyVet.Web.Controllers
                     .Include(o => o.User)
                     .FirstOrDefaultAsync(o => o.Id == model.Id);
 
-                owner.User.Document = model.Document;
+                owner.User.RFC = model.RFC;
                 owner.User.FirstName = model.FirstName;
                 owner.User.LastName = model.LastName;
                 owner.User.Address = model.Address;

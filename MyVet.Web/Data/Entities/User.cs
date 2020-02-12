@@ -9,7 +9,7 @@
         [MaxLength(13, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
         [MinLength(12, ErrorMessage = "El campo {0}")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Document { get; set; }
+        public string RFC { get; set; }
 
         [Display(Name = "Nombre")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
@@ -36,7 +36,7 @@
         [Display(Name = "Nombre completo")]
         public string FullName => $"{FirstName} {LastName}";
 
-        [Display(Name = "Nombre completo")]
-        public string FullNameWithDocument => $"{FirstName} {LastName} - {Document}";
+        [Display(Name = "Nombre completo con RFC")]
+        public string FullNameWithDocument => $"{FirstName} {LastName} - {RFC}";
     }
 }

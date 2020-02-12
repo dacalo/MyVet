@@ -53,7 +53,7 @@ namespace MyVet.Web.Data
                     UserName = email,
                     PhoneNumber = phone,
                     Address = address,
-                    Document = document
+                    RFC = document
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

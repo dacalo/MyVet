@@ -22,7 +22,7 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Document)
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.RFC)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
@@ -47,7 +47,7 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.Document)
+                                    @Html.DisplayFor(modelItem => item.User.RFC)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.User.FirstName)

@@ -47,7 +47,7 @@ namespace MyVet.Web.Controllers.API
                 FirstName = owner.User.FirstName,
                 LastName = owner.User.LastName,
                 Address = owner.User.Address,
-                Document = owner.User.Document,
+                Document = owner.User.RFC,
                 Email = owner.User.Email,
                 PhoneNumber = owner.User.PhoneNumber,
                 Pets = owner.Pets.Select(p => new PetResponse
@@ -90,7 +90,7 @@ namespace MyVet.Web.Controllers.API
                 FirstName = o.User.FirstName,
                 LastName = o.User.LastName,
                 Address = o.User.Address,
-                Document = o.User.Document,
+                Document = o.User.RFC,
                 Email = o.User.Email,
                 PhoneNumber = o.User.PhoneNumber,
                 Pets = o.Pets.Select(p => new PetResponse
