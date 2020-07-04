@@ -387,4 +387,58 @@
   <data name="SelectAnAdrress" xml:space="preserve">
     <value>Seleccione una dirección!</value>
   </data>
+  <data name="Diary" xml:space="preserve">
+    <value>agenda</value>
+  </data>
+  <data name="Histories" xml:space="preserve">
+    <value>Historias</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Historial</value>
+  </data>
+  <data name="ErrorUser" xml:space="preserve">
+    <value>Este usuario tiene un gran problema, ¡llame al soporte!</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalles</value>
+  </data>
+  <data name="Pets" xml:space="preserve">
+    <value>Mascotas</value>
+  </data>
+  <data name="PetsOf" xml:space="preserve">
+    <value>Mascotas de :</value>
+  </data>
+  <data name="Pet" xml:space="preserve">
+    <value>Mascota</value>
+  </data>
+  <data name="ErrorRFC" xml:space="preserve">
+    <value>Debe ingresar el RFC.</value>
+  </data>
+  <data name="ErrorFirstName" xml:space="preserve">
+    <value>Debe ingresar un nombre.</value>
+  </data>
+  <data name="ErrorLastName" xml:space="preserve">
+    <value>Debe ingresar un apellido.</value>
+  </data>
+  <data name="ErrorAddress" xml:space="preserve">
+    <value>Debes especificar una dirección.</value>
+  </data>
+  <data name="ErrorEmail" xml:space="preserve">
+    <value>Debes introducir una dirección de correo válida.</value>
+  </data>
+  <data name="ErrorPhone" xml:space="preserve">
+    <value>Debe introducir un número de teléfono.</value>
+  </data>
+  <data name="ErrorPassword" xml:space="preserve">
+    <value>Debe ingresar una contraseña de al menos 6 caracteres.</value>
+  </data>
+  <data name="ErrorPasswordConfirm" xml:space="preserve">
+    <value>Debes ingresar una contraseña</value>
+  </data>
+  <data name="ErrorPasswordConfirm2" xml:space="preserve">
+    <value>La nueva contraseña y la confirmación de contraseña no son iguales.</value>
+  </data>
+  <data name="RFCPlaceHolder" xml:space="preserve">
+    <value>Ingresa tu</value>
+  </data>
 </root>

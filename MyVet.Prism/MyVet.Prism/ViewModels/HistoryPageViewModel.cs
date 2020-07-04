@@ -1,4 +1,5 @@
 ﻿using MyVet.Common.Models;
+using MyVet.Prism.Helpers;
 using Prism.Navigation;
 
 namespace MyVet.Prism.ViewModels
@@ -9,7 +10,7 @@ namespace MyVet.Prism.ViewModels
 
         public HistoryPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "History";
+            Title = Languages.History;
         }
 
         public HistoryResponse History

@@ -1,9 +1,5 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using MyVet.Prism.Helpers;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -11,7 +7,7 @@ namespace MyVet.Prism.ViewModels
     {
         public MapPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Map";
+            Title = Languages.Map;
         }
     }
 }

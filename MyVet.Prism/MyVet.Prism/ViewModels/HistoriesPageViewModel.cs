@@ -1,5 +1,6 @@
 ﻿using MyVet.Common.Helpers;
 using MyVet.Common.Models;
+using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@ namespace MyVet.Prism.ViewModels
         public HistoriesPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             _navigationService = navigationService;
-            Title = "Histories";
+            Title = Languages.Histories;
             Pet = JsonConvert.DeserializeObject<PetResponse>(Settings.Pet);
             LoadHistories();
         }

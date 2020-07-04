@@ -2,9 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
+using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -29,7 +31,7 @@ namespace MyVet.Prism.ViewModels
             _instance = this;
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Pets";
+            Title = Languages.Pets;
             LoadOwner();
         }
 
@@ -56,7 +58,7 @@ namespace MyVet.Prism.ViewModels
         private void LoadOwner()
         {
             _owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
-            Title = $"Pets of : {_owner.FullName}";
+            Title = $"{Languages.PetsOf} {_owner.FullName}";
             Pets = new ObservableCollection<PetItemViewModel>(_owner.Pets.Select(p => new PetItemViewModel(_navigationService)
             {
                 Born = p.Born,
@@ -77,14 +79,13 @@ namespace MyVet.Prism.ViewModels
 
         public async Task UpdateOwnerAsync()
         {
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
             var response = await _apiService.GetOwnerByEmailAsync(
-                url,
-                "/api",
+                Constants.URL_API,
+                Constants.PREFIX,
                 "/Owners/GetOwnerByEmail",
-                "bearer",
+                Constants.TokenType,
                 token.Token,
                 _owner.Email);
 

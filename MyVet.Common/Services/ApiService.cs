@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MyVet.Common.Models;
 using Newtonsoft.Json;
-using Plugin.Connectivity;
+using Xamarin.Essentials;
 
 namespace MyVet.Common.Services
 {
@@ -106,14 +106,12 @@ namespace MyVet.Common.Services
             }
         }
 
-        public async Task<bool> CheckConnection(string url)
+        public bool CheckConnection()
         {
-            if (!CrossConnectivity.Current.IsConnected)
-            {
+            if (!(Connectivity.NetworkAccess == NetworkAccess.Internet))
                 return false;
-            }
 
-            return await CrossConnectivity.Current.IsRemoteReachable(url);
+            return true;
         }
 
         public async Task<Response<object>> RegisterUserAsync(

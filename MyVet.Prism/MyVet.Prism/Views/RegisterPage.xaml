@@ -24,12 +24,12 @@
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
-                        Text="{i18n:Translate Document}"
+                        Text="RFC"
                         VerticalOptions="Center"/>
                     <Entry
                         Grid.Row="0"
                         Grid.Column="1"
-                        Placeholder="{i18n:Translate DocumentPlaceHolder}"
+                        Placeholder="{i18n:Translate RFCPlaceHolder}"
                         Text="{Binding Document}"/>
 
                     <Label

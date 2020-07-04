@@ -1,4 +1,5 @@
-﻿using MyVet.Common.Helpers;
+﻿using MyVet.Common.Business;
+using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
 using MyVet.Prism.Helpers;
@@ -30,7 +31,7 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = true;
             IsRemember = true;
             //TODO: Delete this lines
-            Email = "jzuluaga55@hotmail.com";
+            Email = "divadchl@hotmail.com";
             Password = "123456";
         }
 
@@ -82,10 +83,7 @@ namespace MyVet.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var connection = await _apiService.CheckConnection("https://www.google.com");
-            //var connection = await _apiService.CheckConnection(url);
-            if (!connection)
+            if (!_apiService.CheckConnection())
             {
                 IsEnabled = true;
                 IsRunning = false;
@@ -99,7 +97,7 @@ namespace MyVet.Prism.ViewModels
                 Password = Password
             };
 
-            var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
+            var response = await _apiService.GetTokenAsync(Constants.URL_API, "/Account", "/CreateToken", request);
 
             if (!response.IsSuccess)
             {
@@ -113,10 +111,10 @@ namespace MyVet.Prism.ViewModels
             var token = response.Result;
 
             var response2 = await _apiService.GetOwnerByEmailAsync(
-                url,
-                "/api",
+                Constants.URL_API,
+                Constants.PREFIX,
                 "/Owners/GetOwnerByEmail",
-                "bearer",
+                Constants.TokenType,
                 token.Token,
                 Email);
 
@@ -124,7 +122,7 @@ namespace MyVet.Prism.ViewModels
             {
                 IsEnabled = true;
                 IsRunning = false;
-                await App.Current.MainPage.DisplayAlert(Languages.Error, "This user have a big problem, call support", Languages.Accept);
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorUser, Languages.Accept);
                 return;
             }
 

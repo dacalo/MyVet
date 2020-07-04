@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -58,10 +59,9 @@ namespace MyVet.Prism.ViewModels
                 Email = Email
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var response = await _apiService.RecoverPasswordAsync(
-                url,
-                "/api",
+                Constants.URL_API,
+                Constants.PREFIX,
                 "/Account/RecoverPassword",
                 request);
 

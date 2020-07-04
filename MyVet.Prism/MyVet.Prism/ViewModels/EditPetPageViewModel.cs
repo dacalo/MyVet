@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -116,8 +117,8 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = false;
 
             var url = App.Current.Resources["UrlAPI"].ToString();
-            var connection = await _apiService.CheckConnection(url);
-            if (!connection)
+            
+            if (!_apiService.CheckConnection())
             {
                 IsEnabled = true;
                 IsRunning = false;
@@ -201,7 +202,6 @@ namespace MyVet.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
@@ -226,11 +226,11 @@ namespace MyVet.Prism.ViewModels
             Response<object> response;
             if (IsEdit)
             {
-                response = await _apiService.PutAsync(url, "/api", "/Pets", petRequest.Id, petRequest, "bearer", token.Token);
+                response = await _apiService.PutAsync(Constants.URL_API, Constants.PREFIX, "/Pets", petRequest.Id, petRequest, Constants.TokenType, token.Token);
             }
             else
             {
-                response = await _apiService.PostAsync(url, "/api", "/Pets", petRequest, "bearer", token.Token);
+                response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Pets", petRequest, Constants.TokenType, token.Token);
             }
 
             IsRunning = false;
@@ -275,9 +275,8 @@ namespace MyVet.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.DeleteAsync(url, "/api", "/Pets", Pet.Id, "bearer", token.Token);
+            var response = await _apiService.DeleteAsync(Constants.URL_API, Constants.PREFIX, "/Pets", Pet.Id, Constants.TokenType, token.Token);
 
             if (!response.IsSuccess)
             {

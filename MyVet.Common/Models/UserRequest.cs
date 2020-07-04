@@ -5,7 +5,7 @@ namespace MyVet.Common.Models
     public class UserRequest
     {
         [Required]
-        public string Document { get; set; }
+        public string RFC { get; set; }
 
         [Required]
         public string FirstName { get; set; }

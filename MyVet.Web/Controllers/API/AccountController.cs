@@ -54,7 +54,7 @@ namespace MyVet.Web.Controllers.API
             user = new User
             {
                 Address = request.Address,
-                RFC = request.Document,
+                RFC = request.RFC,
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,

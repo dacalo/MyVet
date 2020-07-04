@@ -19,7 +19,7 @@ namespace MyVet.Common.Services
             string controller,
             TokenRequest request);
 
-        Task<bool> CheckConnection(string url);
+        bool CheckConnection();
 
         Task<Response<object>> RegisterUserAsync(
             string urlBase,

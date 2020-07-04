@@ -387,4 +387,58 @@
   <data name="SelectAnAdrress" xml:space="preserve">
     <value>Selecione um endereço!</value>
   </data>
+  <data name="Diary" xml:space="preserve">
+    <value>diário</value>
+  </data>
+  <data name="Histories" xml:space="preserve">
+    <value>histórias</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Histórico</value>
+  </data>
+  <data name="ErrorUser" xml:space="preserve">
+    <value>Este usuário tem um grande problema, ligue para o suporte!</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="Pets" xml:space="preserve">
+    <value>Animais</value>
+  </data>
+  <data name="PetsOf" xml:space="preserve">
+    <value>Pets Of :!</value>
+  </data>
+  <data name="Pet" xml:space="preserve">
+    <value>animais de estimação</value>
+  </data>
+  <data name="ErrorRFC" xml:space="preserve">
+    <value>Você deve inserir um documento.</value>
+  </data>
+  <data name="ErrorFirstName" xml:space="preserve">
+    <value>Você deve digitar o seu nome</value>
+  </data>
+  <data name="ErrorLastName" xml:space="preserve">
+    <value>Você deve inserir um sobrenome.</value>
+  </data>
+  <data name="ErrorAddress" xml:space="preserve">
+    <value>Você deve inserir um endereço.</value>
+  </data>
+  <data name="ErrorEmail" xml:space="preserve">
+    <value>Você deve inserir um endereço de email válido.</value>
+  </data>
+  <data name="ErrorPhone" xml:space="preserve">
+    <value>Você deve digitar um número de telefone.</value>
+  </data>
+  <data name="ErrorPassword" xml:space="preserve">
+    <value>Você deve digitar uma senha com pelo menos 6 caracteres.</value>
+  </data>
+  <data name="ErrorPasswordConfirm" xml:space="preserve">
+    <value>Tem de introduzir uma palavra-passe</value>
+  </data>
+  <data name="ErrorPasswordConfirm2" xml:space="preserve">
+    <value>A nova senha e senha de confirmação não coincidem.</value>
+  </data>
+  <data name="RFCPlaceHolder" xml:space="preserve">
+    <value>Introduza o seu</value>
+  </data>
 </root>

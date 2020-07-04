@@ -25,7 +25,7 @@ namespace MyVet.Prism.Helpers
 
         public static string DocumentError => Resource.DocumentError;
 
-        public static string DocumentPlaceHolder => Resource.DocumentPlaceHolder;
+        public static string RFCPlaceHolder => Resource.RFCPlaceHolder;
 
         public static string Email => Resource.Email;
 
@@ -190,6 +190,40 @@ namespace MyVet.Prism.Helpers
         public static string NotLocationAvailable => Resource.NotLocationAvailable;
 
         public static string SelectAnAdrress => Resource.SelectAnAdrress;
+        
+        public static string Diary => Resource.Diary;
+        
+        public static string Histories => Resource.Histories;
+        
+        public static string History => Resource.History;
+        
+        public static string ErrorUser => Resource.ErrorUser;
+        
+        public static string Details => Resource.Details;
+        
+        public static string Pets => Resource.Pets;
+        
+        public static string PetsOf => Resource.PetsOf;
+        
+        public static string Pet => Resource.Pet;
+
+        public static string ErrorRFC => Resource.ErrorRFC;
+
+        public static string ErrorFirstName => Resource.ErrorFirstName;
+        
+        public static string ErrorLastName => Resource.ErrorLastName;
+        
+        public static string ErrorAddress => Resource.ErrorAddress;
+        
+        public static string ErrorEmail => Resource.ErrorEmail;
+        
+        public static string ErrorPhone => Resource.ErrorPhone;
+        
+        public static string ErrorPassword => Resource.ErrorPassword;
+        
+        public static string ErrorPasswordConfirm => Resource.ErrorPasswordConfirm;
+        
+        public static string ErrorPasswordConfirm2 => Resource.ErrorPasswordConfirm2;
 
     }
 }

@@ -135,7 +135,7 @@ namespace MyVet.Web.Controllers
                 var user = await AddUser(model);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
+                    ModelState.AddModelError(string.Empty, "Este correo ya esta registrado.");
                     return View(model);
                 }
 
@@ -155,10 +155,10 @@ namespace MyVet.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                _mailHelper.SendMail(model.Username, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                    $"To allow the user, " +
-                    $"plase click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
-                ViewBag.Message = "The instructions to allow your user has been sent to email.";
+                _mailHelper.SendMail(model.Username, "Correo de Confirmación", $"<h1>Correo de Confirmación</h1>" +
+                    $"Para tener acceso, " +
+                    $"por favor dar clic en el siguiente enlace:</br></br><a href = \"{tokenLink}\">Confirmar Correo</a>");
+                ViewBag.Message = "Las instrucciones han sido enviadas a su correo.";
                 return View(model);
             }
 
@@ -235,13 +235,13 @@ namespace MyVet.Web.Controllers
             return View(model);
         }
 
-        public IActionResult ChangePassword()
+        public IActionResult ChangePasswordMVC()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePasswordMVC(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -289,20 +289,20 @@ namespace MyVet.Web.Controllers
             return View();
         }
 
-        public IActionResult RecoverPassword()
+        public IActionResult RecoverPasswordMVC()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        public async Task<IActionResult> RecoverPasswordMVC(RecoverPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var user = await _userHelper.GetUserByEmailAsync(model.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "The email doesn't correspont to a registered user.");
+                    ModelState.AddModelError(string.Empty, "El correo no corresponde a un usuario registrado.");
                     return View(model);
                 }
 
@@ -311,10 +311,10 @@ namespace MyVet.Web.Controllers
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
-                _mailHelper.SendMail(model.Email, "MyVet Password Reset", $"<h1>Shop Password Reset</h1>" +
-                    $"To reset the password click in this link:</br></br>" +
-                    $"<a href = \"{link}\">Reset Password</a>");
-                ViewBag.Message = "The instructions to recover your password has been sent to email.";
+                _mailHelper.SendMail(model.Email, "Rampu - Cambiar Contraseña", $"<h1>Reestablecer Contraseña</h1>" +
+                    $"Para cambiar su contraseña de clic en este enlace:</br></br>" +
+                    $"<a href = \"{link}\">Cambiar Contraseña</a>");
+                ViewBag.Message = "Las instrucciones para recuperar su contraseña han sido enviadas a su correo.";
                 return View();
 
             }
@@ -336,15 +336,15 @@ namespace MyVet.Web.Controllers
                 var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
-                    ViewBag.Message = "Password reset successful.";
+                    ViewBag.Message = "Camvio de contraseña satisfactorio.";
                     return View();
                 }
 
-                ViewBag.Message = "Error while resetting the password.";
+                ViewBag.Message = "Error mientras se cambiaba la contraseña.";
                 return View(model);
             }
 
-            ViewBag.Message = "User not found.";
+            ViewBag.Message = "Usuario no encotrado.";
             return View(model);
         }
 

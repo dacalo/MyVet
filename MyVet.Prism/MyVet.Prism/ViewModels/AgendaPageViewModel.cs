@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -23,7 +24,7 @@ namespace MyVet.Prism.ViewModels
             INavigationService navigationService,
             IApiService apiService) : base(navigationService)
         {
-            Title = "Agenda";
+            Title = Languages.Diary;
             _navigationService = navigationService;
             _apiService = apiService;
             LoadAgenda();
@@ -57,11 +58,10 @@ namespace MyVet.Prism.ViewModels
         {
             IsRefreshing = true;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
-            var response = await _apiService.GetAgendaForOwner(url, "/api", "/Agenda/GetAgendaForOwner", owner.Email, "bearer", token.Token);
+            var response = await _apiService.GetAgendaForOwner(Constants.URL_API, Constants.PREFIX, "/Agenda/GetAgendaForOwner", owner.Email, Constants.TokenType, token.Token);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;

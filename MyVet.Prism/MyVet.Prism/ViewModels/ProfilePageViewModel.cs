@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -66,7 +67,7 @@ namespace MyVet.Prism.ViewModels
             var userRequest = new UserRequest
             {
                 Address = Owner.Address,
-                Document = Owner.Document,
+                RFC = Owner.Document,
                 Email = Owner.Email,
                 FirstName = Owner.FirstName,
                 LastName = Owner.LastName,
@@ -76,13 +77,12 @@ namespace MyVet.Prism.ViewModels
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var response = await _apiService.PutAsync(
-                url,
-                "/api",
+                Constants.URL_API,
+                Constants.PREFIX,
                 "/Account",
                 userRequest,
-                "bearer",
+                Constants.TokenType,
                 token.Token);
 
             IsRunning = false;

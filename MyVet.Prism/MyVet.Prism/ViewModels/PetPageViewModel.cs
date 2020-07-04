@@ -1,12 +1,9 @@
 ﻿using MyVet.Common.Helpers;
 using MyVet.Common.Models;
+using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -18,7 +15,7 @@ namespace MyVet.Prism.ViewModels
 
         public PetPageViewModel(INavigationService navigationService) : base(navigationService)
         {
-            Title = "Details";
+            Title = Languages.Details;
             _navigationService = navigationService;
         }
 

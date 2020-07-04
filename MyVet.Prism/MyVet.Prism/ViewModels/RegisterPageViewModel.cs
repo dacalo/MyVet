@@ -1,4 +1,6 @@
-﻿using MyVet.Common.Helpers;
+﻿using DryIoc;
+using MyVet.Common.Business;
+using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
 using MyVet.Prism.Helpers;
@@ -37,7 +39,7 @@ namespace MyVet.Prism.ViewModels
 
         public DelegateCommand RegisterCommand => _registerCommand ?? (_registerCommand = new DelegateCommand(Register));
 
-        public string Document { get; set; }
+        public string RFC { get; set; }
 
         public string FirstName { get; set; }
 
@@ -82,7 +84,7 @@ namespace MyVet.Prism.ViewModels
             var request = new UserRequest
             {
                 Address = Address,
-                Document = Document,
+                RFC = RFC,
                 Email = Email,
                 FirstName = FirstName,
                 LastName = LastName,
@@ -92,10 +94,9 @@ namespace MyVet.Prism.ViewModels
                 Longitude = _position.Longitude
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var response = await _apiService.RegisterUserAsync(
-                url,
-                "api",
+                Constants.URL_API,
+                Constants.PREFIX,
                 "/Account",
                 request);
 
@@ -121,27 +122,27 @@ namespace MyVet.Prism.ViewModels
 
         private async Task<bool> ValidateData()
         {
-            if (string.IsNullOrEmpty(Document))
+            if (string.IsNullOrEmpty(RFC))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a document.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorRFC, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(FirstName))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a firsname.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorFirstName, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(LastName))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a lastname.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorLastName, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(Address))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter an address.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorLastName, Languages.Accept);
                 return false;
             }
 
@@ -154,37 +155,38 @@ namespace MyVet.Prism.ViewModels
 
             if (string.IsNullOrEmpty(Email) || !RegexHelper.IsValidEmail(Email))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a valid email.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorEmail, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(Phone))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a phone.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorPhone, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(Password) || Password.Length < 6)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a password at least 6 character.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorPassword, Languages.Accept);
                 return false;
             }
 
             if (string.IsNullOrEmpty(PasswordConfirm))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "You must enter a password confirm.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorPasswordConfirm, Languages.Accept);
                 return false;
             }
 
             if (!Password.Equals(PasswordConfirm))
             {
-                await App.Current.MainPage.DisplayAlert("Error", "The password and confirm does not match.", "Accept");
+                await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorPasswordConfirm2, Languages.Accept);
                 return false;
             }
 
             return true;
         }
 
+        //TODO Borrar
         //private async Task<bool> ValidateAddressAsync()
         //{
         //    var geoCoder = new Geocoder();

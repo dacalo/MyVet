@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -97,7 +98,6 @@ namespace MyVet.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
@@ -109,7 +109,7 @@ namespace MyVet.Prism.ViewModels
                 Remarks = Agenda.Remarks
             };
 
-            var response = await _apiService.PostAsync(url, "/api", "/Agenda/AssignAgenda", request, "bearer", token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
 
             IsRunning = false;
             IsEnabled = true;
@@ -155,9 +155,8 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = false;
 
             var request = new UnAssignRequest { AgendaId = Agenda.Id };
-            var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.PostAsync(url, "/api", "/Agenda/UnAssignAgenda", request, "bearer", token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
 
             IsRunning = false;
             IsEnabled = true;
