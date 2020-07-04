@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -23,7 +24,6 @@ namespace MyVet.Prism.ViewModels
         private readonly IApiService _apiService;
         private PetResponse _pet;
         private ImageSource _imageSource;
-        private bool _isRunning;
         private bool _isEnabled;
         private bool _isEdit;
         private ObservableCollection<PetTypeResponse> _petTypes;
@@ -40,12 +40,6 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = true;
             _navigationService = navigationService;
             _apiService = apiService;
-        }
-
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
         }
 
         public bool IsEdit
@@ -115,22 +109,22 @@ namespace MyVet.Prism.ViewModels
         private async void LoadPetTypesAsync()
         {
             IsEnabled = false;
-
-            var url = App.Current.Resources["UrlAPI"].ToString();
+            UserDialogs.Instance.ShowLoading(Languages.Loading);
             
             if (!_apiService.CheckConnection())
             {
                 IsEnabled = true;
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.Connection, Languages.Accept);
                 await _navigationService.GoBackAsync();
                 return;
             }
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var response = await _apiService.GetListAsync<PetTypeResponse>(url, "/api", "/PetTypes", "bearer", token.Token);
+            var response = await _apiService.GetListAsync<PetTypeResponse>(Constants.URL_API, Constants.PREFIX, "PetTypes", Constants.TokenType, token.Token);
 
             IsEnabled = true;
+            UserDialogs.Instance.HideLoading();
 
             if (!response.IsSuccess)
             {
@@ -199,7 +193,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Saving);
             IsEnabled = false;
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
@@ -226,19 +220,19 @@ namespace MyVet.Prism.ViewModels
             Response<object> response;
             if (IsEdit)
             {
-                response = await _apiService.PutAsync(Constants.URL_API, Constants.PREFIX, "/Pets", petRequest.Id, petRequest, Constants.TokenType, token.Token);
+                response = await _apiService.PutAsync(Constants.URL_API, Constants.PREFIX, "Pets", petRequest.Id, petRequest, Constants.TokenType, token.Token);
             }
             else
             {
-                response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Pets", petRequest, Constants.TokenType, token.Token);
+                response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Pets", petRequest, Constants.TokenType, token.Token);
             }
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             if (!response.IsSuccess)
             {
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 IsEnabled = true;
 
                 await App.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
@@ -247,7 +241,7 @@ namespace MyVet.Prism.ViewModels
 
             await PetsPageViewModel.GetInstance().UpdateOwnerAsync();
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             await App.Current.MainPage.DisplayAlert(
@@ -272,15 +266,15 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Deleting);
             IsEnabled = false;
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.DeleteAsync(Constants.URL_API, Constants.PREFIX, "/Pets", Pet.Id, Constants.TokenType, token.Token);
+            var response = await _apiService.DeleteAsync(Constants.URL_API, Constants.PREFIX, "Pets", Pet.Id, Constants.TokenType, token.Token);
 
             if (!response.IsSuccess)
             {
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
                 return;
@@ -288,7 +282,7 @@ namespace MyVet.Prism.ViewModels
 
             await PetsPageViewModel.GetInstance().UpdateOwnerAsync();
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
             await _navigationService.GoBackToRootAsync();
         }

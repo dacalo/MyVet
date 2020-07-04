@@ -84,7 +84,7 @@ namespace MyVet.Prism.ViewModels
             var response = await _apiService.GetOwnerByEmailAsync(
                 Constants.URL_API,
                 Constants.PREFIX,
-                "/Owners/GetOwnerByEmail",
+                "Owners/GetOwnerByEmail",
                 Constants.TokenType,
                 token.Token,
                 _owner.Email);

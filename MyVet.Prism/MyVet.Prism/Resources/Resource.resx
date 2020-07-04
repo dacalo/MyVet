@@ -441,4 +441,7 @@
   <data name="RFCPlaceHolder" xml:space="preserve">
     <value>Enter your RFC</value>
   </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>Deleting</value>
+  </data>
 </root>

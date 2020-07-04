@@ -31,10 +31,6 @@
             HeightRequest="70"
             Text="{Binding Agenda.Remarks}"/>
 
-        <ActivityIndicator
-            IsRunning="{Binding IsRunning}"
-            VerticalOptions="CenterAndExpand"/>
-
         <StackLayout
             Orientation="Horizontal">
 

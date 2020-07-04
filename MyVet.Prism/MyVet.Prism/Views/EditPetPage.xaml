@@ -4,7 +4,6 @@
              xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.EditPetPage"
              Title="{Binding Title}">
@@ -106,18 +105,6 @@
                     </Grid>
                     
                 </StackLayout>
-                <busyindicator:SfBusyIndicator  
-                    AnimationType="Gear"
-                    AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
-                    AbsoluteLayout.LayoutFlags="All"
-                    BackgroundColor="{StaticResource colorDanger}"
-                    HorizontalOptions="Center"
-                    TextColor="{StaticResource colorFontInverse}"
-                    IsVisible="{Binding IsRunning}"
-                    Title="{i18n:Translate Saving}"
-                    VerticalOptions="Center"
-                    ViewBoxWidth="80"
-                    ViewBoxHeight="80" />
             </AbsoluteLayout>
         </ScrollView>
         <StackLayout

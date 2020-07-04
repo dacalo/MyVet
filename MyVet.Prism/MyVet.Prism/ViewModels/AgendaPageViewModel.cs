@@ -61,7 +61,7 @@ namespace MyVet.Prism.ViewModels
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
-            var response = await _apiService.GetAgendaForOwner(Constants.URL_API, Constants.PREFIX, "/Agenda/GetAgendaForOwner", owner.Email, Constants.TokenType, token.Token);
+            var response = await _apiService.GetAgendaForOwner(Constants.URL_API, Constants.PREFIX, "Agenda/GetAgendaForOwner", owner.Email, Constants.TokenType, token.Token);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;

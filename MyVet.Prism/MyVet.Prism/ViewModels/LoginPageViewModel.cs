@@ -1,4 +1,5 @@
-﻿using MyVet.Common.Business;
+﻿using Acr.UserDialogs;
+using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -14,7 +15,6 @@ namespace MyVet.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private string _password;
-        private bool _isRunning;
         private bool _isEnabled;
         private bool _isRemember;
         private DelegateCommand _loginCommand;
@@ -41,12 +41,6 @@ namespace MyVet.Prism.ViewModels
         {
             get => _password;
             set => SetProperty(ref _password, value);
-        }
-
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
         }
 
         public bool IsEnabled
@@ -80,13 +74,13 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
             if (!_apiService.CheckConnection())
             {
                 IsEnabled = true;
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.Connection, Languages.Accept);
                 return;
             }
@@ -102,7 +96,7 @@ namespace MyVet.Prism.ViewModels
             if (!response.IsSuccess)
             {
                 IsEnabled = true;
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.LoginError, Languages.Accept);
                 Password = string.Empty;
                 return;
@@ -113,7 +107,7 @@ namespace MyVet.Prism.ViewModels
             var response2 = await _apiService.GetOwnerByEmailAsync(
                 Constants.URL_API,
                 Constants.PREFIX,
-                "/Owners/GetOwnerByEmail",
+                "Owners/GetOwnerByEmail",
                 Constants.TokenType,
                 token.Token,
                 Email);
@@ -121,7 +115,7 @@ namespace MyVet.Prism.ViewModels
             if (!response2.IsSuccess)
             {
                 IsEnabled = true;
-                IsRunning = false;
+                UserDialogs.Instance.HideLoading();
                 await App.Current.MainPage.DisplayAlert(Languages.Error, Languages.ErrorUser, Languages.Accept);
                 return;
             }
@@ -132,7 +126,7 @@ namespace MyVet.Prism.ViewModels
             Settings.IsRemembered = IsRemember;
 
             IsEnabled = true;
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
 
             Password = string.Empty;
             await _navigationService.NavigateAsync("/VeterinaryMasterDetailPage/NavigationPage/PetsPage");

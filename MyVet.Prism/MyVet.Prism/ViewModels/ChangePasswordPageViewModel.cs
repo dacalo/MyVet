@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -14,7 +15,6 @@ namespace MyVet.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
-        private bool _isRunning;
         private bool _isEnabled;
         private DelegateCommand _changePasswordCommand;
 
@@ -36,12 +36,6 @@ namespace MyVet.Prism.ViewModels
 
         public string PasswordConfirm { get; set; }
 
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
-        }
-
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -56,7 +50,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Changing);
             IsEnabled = false;
 
             var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
@@ -72,12 +66,12 @@ namespace MyVet.Prism.ViewModels
             var response = await _apiService.ChangePasswordAsync(
                 Constants.URL_API,
                 Constants.PREFIX,
-                "/Account/ChangePassword",
+                "Account/ChangePassword",
                 request,
                 Constants.TokenType,
                 token.Token);
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             if (!response.IsSuccess)

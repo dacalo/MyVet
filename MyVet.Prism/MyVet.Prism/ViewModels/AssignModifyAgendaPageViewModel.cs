@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -17,7 +18,6 @@ namespace MyVet.Prism.ViewModels
         private AgendaResponse _agenda;
         private PetResponse _pet;
         private ObservableCollection<PetResponse> _pets;
-        private bool _isRunning;
         private bool _isEnabled;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
@@ -51,12 +51,6 @@ namespace MyVet.Prism.ViewModels
         {
             get => _pets;
             set => SetProperty(ref _pets, value);
-        }
-
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
         }
 
         public bool IsEnabled
@@ -95,7 +89,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
@@ -109,9 +103,9 @@ namespace MyVet.Prism.ViewModels
                 Remarks = Agenda.Remarks
             };
 
-            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             if (!response.IsSuccess)
@@ -151,14 +145,15 @@ namespace MyVet.Prism.ViewModels
             {
                 return;
             }
-            IsRunning = true;
+
+            UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
             var request = new UnAssignRequest { AgendaId = Agenda.Id };
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "/Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             if (!response.IsSuccess)

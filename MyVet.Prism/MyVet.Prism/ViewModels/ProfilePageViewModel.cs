@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -14,7 +15,6 @@ namespace MyVet.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
-        private bool _isRunning;
         private bool _isEnabled;
         private OwnerResponse _owner;
         private DelegateCommand _saveCommand;
@@ -41,12 +41,6 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _owner, value);
         }
 
-        public bool IsRunning
-        {
-            get => _isRunning;
-            set => SetProperty(ref _isRunning, value);
-        }
-
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -61,7 +55,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            IsRunning = true;
+            UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
             var userRequest = new UserRequest
@@ -80,12 +74,12 @@ namespace MyVet.Prism.ViewModels
             var response = await _apiService.PutAsync(
                 Constants.URL_API,
                 Constants.PREFIX,
-                "/Account",
+                "Account",
                 userRequest,
                 Constants.TokenType,
                 token.Token);
 
-            IsRunning = false;
+            UserDialogs.Instance.HideLoading();
             IsEnabled = true;
 
             if (!response.IsSuccess)

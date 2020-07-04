@@ -441,4 +441,7 @@
   <data name="RFCPlaceHolder" xml:space="preserve">
     <value>Introduza o seu</value>
   </data>
+  <data name="Deleting" xml:space="preserve">
+    <value>Excluindo...</value>
+  </data>
 </root>

@@ -224,6 +224,10 @@ namespace MyVet.Prism.Helpers
         public static string ErrorPasswordConfirm => Resource.ErrorPasswordConfirm;
         
         public static string ErrorPasswordConfirm2 => Resource.ErrorPasswordConfirm2;
+        
+        public static string Changing => Resource.Changing;
+        
+        public static string Deleting => Resource.Deleting;
 
     }
 }
