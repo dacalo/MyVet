@@ -16,7 +16,7 @@ namespace MyVet.Web.Models
         public IEnumerable<SelectListItem> Owners { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [Display(Name = "Pet")]
+        [Display(Name = "Mascota")]
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar una mascota.")]
         public int PetId { get; set; }
 

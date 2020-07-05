@@ -388,7 +388,7 @@
     <value>Selecione um endereço!</value>
   </data>
   <data name="Diary" xml:space="preserve">
-    <value>diário</value>
+    <value>Diário</value>
   </data>
   <data name="Histories" xml:space="preserve">
     <value>histórias</value>
@@ -443,5 +443,14 @@
   </data>
   <data name="Deleting" xml:space="preserve">
     <value>Excluindo...</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Tipo de Serviço</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descrição</value>
   </data>
 </root>

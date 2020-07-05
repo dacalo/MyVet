@@ -6,6 +6,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.RegisterPage"
              BackgroundColor="{StaticResource colorBackgroud}"
+             Visual="Material"
              Title="{Binding Title}">
 
     <ScrollView>
@@ -14,100 +15,80 @@
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 Padding="10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
 
                     <Label
                         Grid.Row="0"
-                        Grid.Column="0"
                         Text="RFC"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="0"
-                        Grid.Column="1"
+                        Grid.Row="1"
                         Placeholder="{i18n:Translate RFCPlaceHolder}"
                         Text="{Binding Document}"/>
 
                     <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
+                        Grid.Row="2"
                         Text="{i18n:Translate FirstName}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="1"
-                        Grid.Column="1"
+                        Grid.Row="3"
                         Placeholder="{i18n:Translate FirstNamePlaceHolder}"
                         Text="{Binding FirstName}"/>
 
                     <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
+                        Grid.Row="4"
                         Text="{i18n:Translate LastName}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="2"
-                        Grid.Column="1"
+                        Grid.Row="5"
                         Placeholder="{i18n:Translate LastNamePlaceHolder}"
                         Text="{Binding LastName}"/>
 
                     <Label
-                        Grid.Row="3"
-                        Grid.Column="0"
+                        Grid.Row="6"
                         Text="{i18n:Translate Address}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="3"
-                        Grid.Column="1"
+                        Grid.Row="7"
                         Placeholder="{i18n:Translate AddressPlaceHolder}"
                         Text="{Binding Address}"/>
 
                     <Label
-                        Grid.Row="4"
-                        Grid.Column="0"
+                        Grid.Row="8"
                         Text="{i18n:Translate Email}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="4"
-                        Grid.Column="1"
+                        Grid.Row="9"
                         Keyboard="Email"
                         Placeholder="{i18n:Translate EmailPlaceHolder}"
                         Text="{Binding Email}"/>
 
                     <Label
-                        Grid.Row="5"
-                        Grid.Column="0"
+                        Grid.Row="10"
                         Text="{i18n:Translate Phone}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="5"
-                        Grid.Column="1"
+                        Grid.Row="11"
                         Keyboard="Telephone"
                         Placeholder="{i18n:Translate PhonePlaceHolder}"
                         Text="{Binding Phone}"/>
 
                     <Label
-                        Grid.Row="6"
-                        Grid.Column="0"
+                        Grid.Row="12"
                         Text="{i18n:Translate Password}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="6"
-                        Grid.Column="1"
+                        Grid.Row="13"
                         IsPassword="True"
                         Placeholder="{i18n:Translate PasswordPlaceHolder}"
                         Text="{Binding Password}"/>
 
                     <Label
-                        Grid.Row="7"
-                        Grid.Column="0"
+                        Grid.Row="14"
                         Text="{i18n:Translate PasswordConfirm}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="7"
-                        Grid.Column="1"
+                        Grid.Row="15"
                         IsPassword="True"
                         Placeholder="{i18n:Translate PasswordConfirmPlaceHolder}"
                         Text="{Binding PasswordConfirm}"/>

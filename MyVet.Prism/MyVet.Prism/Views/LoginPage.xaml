@@ -6,6 +6,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.LoginPage"
              BackgroundColor="{StaticResource colorBackgroud}"
+             Visual="Material"
              Title="{Binding Title}">
     <ScrollView>
         <AbsoluteLayout>

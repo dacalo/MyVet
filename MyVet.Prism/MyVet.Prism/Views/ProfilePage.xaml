@@ -6,6 +6,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.ProfilePage"
              BackgroundColor="{StaticResource colorBackgroud}"
+             Visual="Material"
              Title="{Binding Title}">
     <ScrollView>
         <AbsoluteLayout>
@@ -13,64 +14,49 @@
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 Padding="10">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
+                <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto">
                     <Label
                         Grid.Row="0"
-                        Grid.Column="0"
                         Text="{i18n:Translate Document}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="0"
-                        Grid.Column="1"
+                        Grid.Row="1"
                         Placeholder="{i18n:Translate DocumentPlaceHolder}"
                         Text="{Binding Owner.Document}"/>
 
                     <Label
-                        Grid.Row="1"
-                        Grid.Column="0"
+                        Grid.Row="2"
                         Text="{i18n:Translate FirstName}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="1"
-                        Grid.Column="1"
+                        Grid.Row="3"
                         Placeholder="{i18n:Translate FirstNamePlaceHolder}"
                         Text="{Binding Owner.FirstName}"/>
 
                     <Label
-                        Grid.Row="2"
-                        Grid.Column="0"
+                        Grid.Row="4"
                         Text="{i18n:Translate LastName}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="2"
-                        Grid.Column="1"
+                        Grid.Row="5"
                         Placeholder="{i18n:Translate LastNamePlaceHolder}"
                         Text="{Binding Owner.LastName}"/>
 
                     <Label
-                        Grid.Row="3"
-                        Grid.Column="0"
+                        Grid.Row="6"
                         Text="{i18n:Translate Address}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="3"
-                        Grid.Column="1"
+                        Grid.Row="7"
                         Placeholder="{i18n:Translate AddressPlaceHolder}"
                         Text="{Binding Owner.Address}"/>
 
                     <Label
-                        Grid.Row="4"
-                        Grid.Column="0"
+                        Grid.Row="8"
                         Text="{i18n:Translate Phone}"
                         VerticalOptions="Center"/>
                     <Entry
-                        Grid.Row="4"
-                        Grid.Column="1"
+                        Grid.Row="9"
                         Keyboard="Telephone"
                         Placeholder="{i18n:Translate PhonePlaceHolder}"
                         Text="{Binding Owner.PhoneNumber}"/>

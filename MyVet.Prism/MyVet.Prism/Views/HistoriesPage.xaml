@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="MyVet.Prism.Views.HistoriesPage"
              IconImageSource="ic_format_list_bulleted"
@@ -10,32 +11,23 @@
 
     <StackLayout
         Padding="10">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="48"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
+        <Grid 
+            ColumnDefinitions="*, *, *, 48"
+            RowDefinitions="Auto">
             <Label
                 Grid.Column="0"
                 FontAttributes="Bold"
-                Text="Date"
+                Text="{i18n:Translate Date}"
                 VerticalOptions="Center"/>
             <Label
                 Grid.Column="1"
                 FontAttributes="Bold"
-                Text="Service Type"
+                Text="{i18n:Translate ServiceType}"
                 VerticalOptions="Center"/>
             <Label
                 Grid.Column="2"
                 FontAttributes="Bold"
-                Text="Description"
+                Text="{i18n:Translate Description}"
                 VerticalOptions="Center"/>
         </Grid>
         <ListView

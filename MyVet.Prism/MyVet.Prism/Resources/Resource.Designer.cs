@@ -259,6 +259,15 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -273,6 +282,15 @@ namespace MyVet.Prism.Resources {
         public static string Deleting {
             get {
                 return ResourceManager.GetString("Deleting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
             }
         }
         
@@ -358,7 +376,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your email..
+        ///   Looks up a localized string similar to Enter your email....
         /// </summary>
         public static string EmailPlaceHolder {
             get {
@@ -988,7 +1006,7 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter your RFC.
+        ///   Looks up a localized string similar to Enter your RFC....
         /// </summary>
         public static string RFCPlaceHolder {
             get {
@@ -1020,6 +1038,15 @@ namespace MyVet.Prism.Resources {
         public static string SelectAnAdrress {
             get {
                 return ResourceManager.GetString("SelectAnAdrress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Type.
+        /// </summary>
+        public static string ServiceType {
+            get {
+                return ResourceManager.GetString("ServiceType", resourceCulture);
             }
         }
         

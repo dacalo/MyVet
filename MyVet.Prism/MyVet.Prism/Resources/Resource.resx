@@ -127,7 +127,7 @@
     <value>Error</value>
   </data>
   <data name="EmailPlaceHolder" xml:space="preserve">
-    <value>Enter your email.</value>
+    <value>Enter your email...</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -439,9 +439,18 @@
     <value>The password and confirm does not match.</value>
   </data>
   <data name="RFCPlaceHolder" xml:space="preserve">
-    <value>Enter your RFC</value>
+    <value>Enter your RFC...</value>
   </data>
   <data name="Deleting" xml:space="preserve">
     <value>Deleting</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Service Type</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
   </data>
 </root>

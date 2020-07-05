@@ -14,6 +14,7 @@
 
         public DateTime Date { get; set; }
 
+        [Display(Name = "Observaciones")]
         public string Remarks { get; set; }
 
         [Display(Name = "Está disponible?")]

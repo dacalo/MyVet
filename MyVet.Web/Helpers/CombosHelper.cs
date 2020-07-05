@@ -26,7 +26,7 @@ namespace MyVet.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "[Select a pet type...]",
+                Text = "[Seleccione el tipo de mascota...]",
                 Value = "0"
             });
 
@@ -45,7 +45,7 @@ namespace MyVet.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "[Select a service type...]",
+                Text = "[Seleccione el tipo de servicio...]",
                 Value = "0"
             });
 
@@ -62,7 +62,7 @@ namespace MyVet.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select an owner...)",
+                Text = "(Seleccione el dueño...)",
                 Value = "0"
             });
 
@@ -79,7 +79,7 @@ namespace MyVet.Web.Helpers
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a pet...)",
+                Text = "(Seleccione la mascota...)",
                 Value = "0"
             });
 

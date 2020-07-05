@@ -228,6 +228,12 @@ namespace MyVet.Prism.Helpers
         public static string Changing => Resource.Changing;
         
         public static string Deleting => Resource.Deleting;
+        
+        public static string Date => Resource.Date;
+     
+        public static string ServiceType => Resource.ServiceType;
+        
+        public static string Description => Resource.Description;
 
     }
 }

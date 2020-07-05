@@ -127,7 +127,7 @@
     <value>Debes ingresar un correo electrónico.</value>
   </data>
   <data name="EmailPlaceHolder" xml:space="preserve">
-    <value>Escribe tu correo</value>
+    <value>Ingrese su correo...</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Correo electrónico</value>
@@ -148,7 +148,7 @@
     <value>Debes ingresar una contraseña</value>
   </data>
   <data name="PasswordPlaceHolder" xml:space="preserve">
-    <value>Escribe tu contraseña</value>
+    <value>Ingrese su contraseña...</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Registrar</value>
@@ -181,19 +181,19 @@
   <value>Ingrese su documento.</value>
 </data>
   <data name="FirstNamePlaceHolder" xml:space="preserve">
-  <value>Escribir nombre</value>
+  <value>Ingrese su nombre...</value>
 </data>
   <data name="LastNamePlaceHolder" xml:space="preserve">
-  <value>Escribir apellidos</value>
+  <value>Ingrese sus apellidos...</value>
 </data>
   <data name="AddressPlaceHolder" xml:space="preserve">
-  <value>Introduzca su dirección</value>
+  <value>Ingrese su dirección...</value>
 </data>
   <data name="PhonePlaceHolder" xml:space="preserve">
-  <value>Escribir el número de teléfono</value>
+  <value>Ingrese su teléfono...</value>
 </data>
   <data name="PasswordConfirmPlaceHolder" xml:space="preserve">
-  <value>Ingrese la confirmación de contraseña</value>
+  <value>Ingrese la confirmación de contraseña...</value>
 </data>
   <data name="DocumentError" xml:space="preserve">
   <value>Debe ingresar un documento.</value>
@@ -388,7 +388,7 @@
     <value>Seleccione una dirección!</value>
   </data>
   <data name="Diary" xml:space="preserve">
-    <value>agenda</value>
+    <value>Agenda</value>
   </data>
   <data name="Histories" xml:space="preserve">
     <value>Historias</value>
@@ -439,9 +439,18 @@
     <value>La nueva contraseña y la confirmación de contraseña no son iguales.</value>
   </data>
   <data name="RFCPlaceHolder" xml:space="preserve">
-    <value>Ingresa tu</value>
+    <value>Ingrese su RFC...</value>
   </data>
   <data name="Deleting" xml:space="preserve">
     <value>Eliminando...</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Fecha</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Tipo de servicio</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
   </data>
 </root>
