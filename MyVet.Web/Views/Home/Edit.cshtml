@@ -4,7 +4,7 @@
     ViewData["Title"] = "Editar";
 }
 
-<h2>ViewData["Title"]</h2>
+<h2>Editar</h2>
 
 <h4>Mascota</h4>
 <hr />
@@ -59,9 +59,9 @@
         </form>
     </div>
     <div class="col-md-4">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        @if (!string.IsNullOrEmpty(Model.ImageFullPath))
         {
-            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:300px;max-width: 100%; height: auto;" />
+            <img src="@Url.Content(Model.ImageFullPath)" alt="Image" style="width:300px;height:300px;max-width: 100%; height: auto;" />
         }
     </div>
 </div>

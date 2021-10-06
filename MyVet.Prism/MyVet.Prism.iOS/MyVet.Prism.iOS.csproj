@@ -179,10 +179,10 @@
       <Version>7.1.0.514</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator">
-      <Version>19.2.0.59</Version>
+      <Version>19.3.0.44</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfBusyIndicator.IOS">
-      <Version>19.2.0.59</Version>
+      <Version>19.3.0.44</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Connectivity">
       <Version>3.2.0</Version>
@@ -202,13 +202,13 @@
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2083" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2125" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
     <PackageReference Include="Xamarin.Forms.Maps">
-      <Version>5.0.0.2083</Version>
+      <Version>5.0.0.2125</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms.Visual.Material">
-      <Version>5.0.0.2083</Version>
+      <Version>5.0.0.2125</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

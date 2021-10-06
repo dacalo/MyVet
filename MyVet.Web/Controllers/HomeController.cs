@@ -256,7 +256,7 @@ namespace MyVet.Web.Controllers
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
-                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()).ToListAsync();
+                .Where(a => a.Date >= DateTime.UtcNow).ToListAsync();
 
             var list = new List<AgendaViewModel>(agendas.Select(a => new AgendaViewModel
             {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
@@ -9,6 +6,9 @@ using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using MyVet.Web.Models;
 using Rotativa.AspNetCore;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
@@ -42,13 +42,13 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Owner)
                 .ThenInclude(o => o.User)
                 .Include(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
-            
+
             if (pet == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Owner)
                 .Include(p => p.PetType)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
@@ -73,7 +73,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var model = new PetViewModel
+            PetViewModel model = new PetViewModel
             {
                 Born = pet.Born,
                 Id = pet.Id,
@@ -95,19 +95,19 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = model.ImageUrl;
+                string path = model.ImageUrl;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
+                    string guid = Guid.NewGuid().ToString();
+                    string file = $"{guid}.jpg";
 
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Pets",
                         file);
 
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    using (FileStream stream = new FileStream(path, FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(stream);
                     }
@@ -115,7 +115,7 @@ namespace MyVet.Web.Controllers
                     path = $"~/images/Pets/{file}";
                 }
 
-                var pet = new Pet
+                Pet pet = new Pet
                 {
                     Born = model.Born,
                     Id = model.Id,
@@ -142,7 +142,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
@@ -161,7 +161,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var history = await _dataContext.Histories
+            History history = await _dataContext.Histories
                 .Include(h => h.Pet)
                 .FirstOrDefaultAsync(h => h.Id == id.Value);
             if (history == null)
@@ -181,7 +181,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var history = await _dataContext.Histories
+            History history = await _dataContext.Histories
                 .Include(h => h.Pet)
                 .Include(h => h.ServiceType)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
@@ -190,7 +190,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var model = new HistoryViewModel
+            HistoryViewModel model = new HistoryViewModel
             {
                 Date = history.Date,
                 Description = history.Description,
@@ -209,7 +209,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = new History
+                History history = new History
                 {
                     Date = model.Date,
                     Description = model.Description,
@@ -234,13 +234,13 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets.FindAsync(id.Value);
+            Pet pet = await _dataContext.Pets.FindAsync(id.Value);
             if (pet == null)
             {
                 return NotFound();
             }
 
-            var model = new HistoryViewModel
+            HistoryViewModel model = new HistoryViewModel
             {
                 Date = DateTime.Now,
                 PetId = pet.Id,
@@ -255,7 +255,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = new History
+                History history = new History
                 {
                     Date = model.Date,
                     Description = model.Description,
@@ -278,8 +278,7 @@ namespace MyVet.Web.Controllers
                 .Include(p => p.Owner)
                 .ThenInclude(o => o.User)
                 .Include(p => p.PetType)
-                .Include(p => p.Histories))
-            { FileName = "Pets.pdf" };
+                .Include(p => p.Histories));
         }
 
     }

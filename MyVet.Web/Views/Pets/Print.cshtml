@@ -8,8 +8,9 @@
 <br />
 
 <p>
-    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Crear Nueva</a>
+    <a asp-action="Print" class="btn btn-primary"><i class="glyphicon glyphicon-print"></i> Imprimir</a>
 </p>
+
 
 <div class="row">
     <div class="col-md-12">
@@ -21,6 +22,9 @@
                 <table class="table table-hover table-responsive table-striped" id="MyTable">
                     <thead>
                         <tr>
+                            <th>
+                                Owner
+                            </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Name)
                             </th>
@@ -37,7 +41,7 @@
                                 @Html.DisplayNameFor(model => model.Born)
                             </th>
                             <th>
-                                Historial clínico
+                                Historias
                             </th>
                             <th></th>
                         </tr>
@@ -47,15 +51,18 @@
                         {
                             <tr>
                                 <td>
+                                    @Html.DisplayFor(modelItem => item.Owner.User.FullName)
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PetType.Name)
                                 </td>
                                 <td>
-                                    @if (!string.IsNullOrEmpty(item.ImageFullPath))
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
                                     {
-                                        <img src="@Url.Content(item.ImageFullPath)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
                                     }
                                 </td>
                                 <td>
@@ -82,7 +89,7 @@
 </div>
 
 <!--Delete Item-->
-<partial name="_DeleteDialog"/>
+<partial name="_DeleteDialog" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -104,7 +111,7 @@
             });
 
             $("#btnYesDelete").click(function () {
-                window.location.href = '/Home/Delete/' + item_to_delete;
+                window.location.href = '/Pets/Delete/' + item_to_delete;
             });
         });
     </script>
