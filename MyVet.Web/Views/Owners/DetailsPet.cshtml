@@ -4,16 +4,16 @@
     ViewData["Title"] = "Detalles";
 }
 
-<h2>Pet</h2>
+<h2>Mascota</h2>
 
 <div>
-    <h2>ViewData["Title"]</h2>
+    <h2>Detalles</h2>
     <hr />
     <div class="row">
         <div class="col-md-4">
             <dl class="dl-horizontal">
                 <dt>
-                    Owner
+                    Propietario
                 </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Owner.User.FullName)
@@ -54,14 +54,14 @@
 </div>
 <div>
     <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary">Add History</a>
-    <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success">Back to Owner</a>
+    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary">Agregar Historia</a>
+    <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success">Regresar al Propietario</a>
 </div>
-<h4>History</h4>
+<h4>Historia Clínica</h4>
 <hr />
 @if (Model.Histories.Count == 0)
 {
-    <h5>Not histories added yet.</h5>
+    <h5>No hay historias clínicas todavía.</h5>
 }
 else
 {
@@ -100,8 +100,8 @@ else
                         @Html.DisplayFor(modelItem => item.Remarks)
                     </td>
                     <td>
-                        <a asp-action="EditHistory" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
-                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog">Eliminar</button>
+                        <a asp-action="EditHistory" asp-route-id="@item.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
                     </td>
                 </tr>
             }

@@ -1,5 +1,6 @@
 ﻿namespace MyVet.Web.Data.Entities
 {
+    using MyVet.Common.Business;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -25,13 +26,14 @@
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Born { get; set; }
 
+        [Display(Name = "Observaciones")]
         public string Remarks { get; set; }
         
         //TODO: replace the correct URL for the image
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
-            ? null
-            : $"http://dacalo-001-site5.atempurl.com{ImageUrl.Substring(1)}";
-
+            ? $"{Constants.URL_BASE}images/noimage.png"
+            : $"{Constants.URL_BASE}{ImageUrl.Substring(1)}";
+        
         [Display(Name = "Fecha de Nacimiento")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime BornLocal => Born.ToLocalTime();

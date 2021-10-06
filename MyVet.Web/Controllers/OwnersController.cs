@@ -40,7 +40,6 @@ namespace MyVet.Web.Controllers
             _mailHelper = mailHelper;
         }
 
-        // GET: Owners
         public IActionResult Index()
         {
             return View(_dataContext.Owners

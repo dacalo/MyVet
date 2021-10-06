@@ -64,7 +64,7 @@ namespace MyVet.Prism.ViewModels
             };
 
             var response = await _apiService.ChangePasswordAsync(
-                Constants.URL_API,
+                Constants.URL_BASE,
                 Constants.PREFIX,
                 "Account/ChangePassword",
                 request,

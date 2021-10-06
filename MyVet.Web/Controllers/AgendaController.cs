@@ -28,13 +28,13 @@ namespace MyVet.Web.Controllers
             _combosHelper = combosHelper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_dataContext.Agendas
+            return View(await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
-                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()));
+                .Where(a => a.Date >= DateTime.UtcNow).ToListAsync());
         }
 
         public async Task<IActionResult> AddDays()

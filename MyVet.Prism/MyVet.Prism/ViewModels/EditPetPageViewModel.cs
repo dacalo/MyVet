@@ -121,7 +121,7 @@ namespace MyVet.Prism.ViewModels
             }
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var response = await _apiService.GetListAsync<PetTypeResponse>(Constants.URL_API, Constants.PREFIX, "PetTypes", Constants.TokenType, token.Token);
+            var response = await _apiService.GetListAsync<PetTypeResponse>(Constants.URL_BASE, Constants.PREFIX, "PetTypes", Constants.TokenType, token.Token);
 
             IsEnabled = true;
             UserDialogs.Instance.HideLoading();
@@ -220,11 +220,11 @@ namespace MyVet.Prism.ViewModels
             Response<object> response;
             if (IsEdit)
             {
-                response = await _apiService.PutAsync(Constants.URL_API, Constants.PREFIX, "Pets", petRequest.Id, petRequest, Constants.TokenType, token.Token);
+                response = await _apiService.PutAsync(Constants.URL_BASE, Constants.PREFIX, "Pets", petRequest.Id, petRequest, Constants.TokenType, token.Token);
             }
             else
             {
-                response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Pets", petRequest, Constants.TokenType, token.Token);
+                response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Pets", petRequest, Constants.TokenType, token.Token);
             }
 
             UserDialogs.Instance.HideLoading();
@@ -270,7 +270,7 @@ namespace MyVet.Prism.ViewModels
             IsEnabled = false;
 
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.DeleteAsync(Constants.URL_API, Constants.PREFIX, "Pets", Pet.Id, Constants.TokenType, token.Token);
+            var response = await _apiService.DeleteAsync(Constants.URL_BASE, Constants.PREFIX, "Pets", Pet.Id, Constants.TokenType, token.Token);
 
             if (!response.IsSuccess)
             {

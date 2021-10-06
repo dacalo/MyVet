@@ -91,7 +91,7 @@ namespace MyVet.Prism.ViewModels
                 Password = Password
             };
 
-            var response = await _apiService.GetTokenAsync(Constants.URL_API, "/Account", "/CreateToken", request);
+            var response = await _apiService.GetTokenAsync(Constants.URL_BASE, "/Account", "/CreateToken", request);
 
             if (!response.IsSuccess)
             {
@@ -105,7 +105,7 @@ namespace MyVet.Prism.ViewModels
             var token = response.Result;
 
             var response2 = await _apiService.GetOwnerByEmailAsync(
-                Constants.URL_API,
+                Constants.URL_BASE,
                 Constants.PREFIX,
                 "Owners/GetOwnerByEmail",
                 Constants.TokenType,

@@ -72,7 +72,7 @@ namespace MyVet.Prism.ViewModels
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
             var response = await _apiService.PutAsync(
-                Constants.URL_API,
+                Constants.URL_BASE,
                 Constants.PREFIX,
                 "Account",
                 userRequest,

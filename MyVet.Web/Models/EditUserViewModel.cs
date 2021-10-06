@@ -23,6 +23,7 @@ namespace MyVet.Web.Models
         public string LastName { get; set; }
 
         [MaxLength(100, ErrorMessage = "El campo {0} no puede ser mayor a {1} caracteres.")]
+        [Display(Name = "Domicilio")]
         public string Address { get; set; }
 
         [Display(Name = "Teléfono")]

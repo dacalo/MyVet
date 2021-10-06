@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using Rotativa.AspNetCore;
+using System;
 using System.Text;
 
 namespace MyVet.Web
@@ -55,10 +57,12 @@ namespace MyVet.Web
                 .AddEntityFrameworkStores<DataContext>();
 
 
-            services.AddDbContext<DataContext>(cfg =>
-            {
-                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            });
+            services.AddDbContext<DataContext>(
+               dbContextOptions => dbContextOptions
+                   .UseMySql(Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 26)))
+                   .EnableSensitiveDataLogging() // <-- These two calls are optional but help
+                   .EnableDetailedErrors()       // <-- with debugging (remove for production).
+                   );
 
             services.AddAuthentication()
             .AddCookie()
@@ -84,7 +88,7 @@ namespace MyVet.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -101,15 +105,16 @@ namespace MyVet.Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseRouting();
+            app.UseAuthorization();
             app.UseCookiePolicy();
 
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-            RotativaConfiguration.Setup(env);
 
         }
     }

@@ -38,5 +38,8 @@
 
         [Display(Name = "Nombre completo con RFC")]
         public string FullNameWithDocument => $"{FirstName} {LastName} - {RFC}";
+
+        [Display(Name = "Teléfono")]
+        public override string PhoneNumber { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace MyVet.Prism.ViewModels
                 Remarks = Agenda.Remarks
             };
 
-            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
 
             UserDialogs.Instance.HideLoading();
             IsEnabled = true;
@@ -151,7 +151,7 @@ namespace MyVet.Prism.ViewModels
 
             var request = new UnAssignRequest { AgendaId = Agenda.Id };
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.PostAsync(Constants.URL_API, Constants.PREFIX, "Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
+            var response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
 
             UserDialogs.Instance.HideLoading();
             IsEnabled = true;

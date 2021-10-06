@@ -9,7 +9,7 @@
 <h2>Mascota</h2>
 
 <div>
-    <h2>ViewData["Title"]</h2>
+    <h2>Detalles</h2>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -108,7 +108,7 @@ else
                                         @Html.DisplayFor(modelItem => item.Remarks)
                                     </td>
                                     <td>
-                                        <a asp-action="EditHistory" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                        <a asp-action="EditHistory" class="btn btn-warning" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                         <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
                                     </td>
                                 </tr>
@@ -130,7 +130,11 @@ else
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#MyTable').DataTable();
+            $('#MyTable').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+                }
+            });
 
             // Delete item
             var item_to_delete;

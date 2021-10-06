@@ -16,6 +16,7 @@
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
+        [Display(Name = "Observaciones")]
         public string Remarks { get; set; }
 
         [Display(Name = "Fecha*")]

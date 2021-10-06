@@ -82,7 +82,7 @@ namespace MyVet.Prism.ViewModels
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
             var response = await _apiService.GetOwnerByEmailAsync(
-                Constants.URL_API,
+                Constants.URL_BASE,
                 Constants.PREFIX,
                 "Owners/GetOwnerByEmail",
                 Constants.TokenType,
