@@ -1,8 +1,8 @@
-﻿using System;
+﻿using MyVet.Web.Data;
+using MyVet.Web.Data.Entities;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MyVet.Web.Data;
-using MyVet.Web.Data.Entities;
 
 namespace MyVet.Web.Helpers
 {
@@ -25,16 +25,16 @@ namespace MyVet.Web.Helpers
             }
             else
             {
-                var agenda = _dataContext.Agendas.LastOrDefault();
+                Agenda agenda = _dataContext.Agendas.LastOrDefault();
                 initialDate = new DateTime(agenda.Date.Year, agenda.Date.Month, agenda.Date.AddDays(1).Day, 8, 0, 0);
             }
 
-            var finalDate = initialDate.AddDays(days);
+            DateTime finalDate = initialDate.AddDays(days);
             while (initialDate < finalDate)
             {
                 if (initialDate.DayOfWeek != DayOfWeek.Sunday)
                 {
-                    var finalDate2 = initialDate.AddHours(10);
+                    DateTime finalDate2 = initialDate.AddHours(10);
                     while (initialDate < finalDate2)
                     {
                         _dataContext.Agendas.Add(new Agenda

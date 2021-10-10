@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +6,8 @@ using MyVet.Common.Models;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers.API
 {
@@ -41,7 +40,7 @@ namespace MyVet.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+            User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user != null)
             {
                 return BadRequest(new Response<object>
@@ -62,20 +61,20 @@ namespace MyVet.Web.Controllers.API
                 UserName = request.Email
             };
 
-            var result = await _userHelper.AddUserAsync(user, request.Password);
+            IdentityResult result = await _userHelper.AddUserAsync(user, request.Password);
             if (result != IdentityResult.Success)
             {
                 return BadRequest(result.Errors.FirstOrDefault().Description);
             }
 
 
-            var userNew = await _userHelper.GetUserByEmailAsync(request.Email);
+            User userNew = await _userHelper.GetUserByEmailAsync(request.Email);
             await _userHelper.AddUserToRoleAsync(userNew, "Customer");
             _dataContext.Owners.Add(new Owner { User = userNew });
             await _dataContext.SaveChangesAsync();
 
-            var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-            var tokenLink = Url.Action("ConfirmEmail", "Account", new
+            string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+            string tokenLink = Url.Action("ConfirmEmail", "Account", new
             {
                 userid = user.Id,
                 token = myToken
@@ -105,7 +104,7 @@ namespace MyVet.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+            User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
                 return BadRequest(new Response<object>
@@ -115,8 +114,8 @@ namespace MyVet.Web.Controllers.API
                 });
             }
 
-            var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-            var link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
+            string myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+            string link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
             _mailHelper.SendMail(request.Email, "Password Reset", $"<h1>Recover Password</h1>" +
                 $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
@@ -137,7 +136,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var userEntity = await _userHelper.GetUserByEmailAsync(request.Email);
+            User userEntity = await _userHelper.GetUserByEmailAsync(request.Email);
             if (userEntity == null)
             {
                 return BadRequest("User not found.");
@@ -149,13 +148,13 @@ namespace MyVet.Web.Controllers.API
             userEntity.PhoneNumber = request.Phone;
             userEntity.RFC = request.Phone;
 
-            var respose = await _userHelper.UpdateUserAsync(userEntity);
+            IdentityResult respose = await _userHelper.UpdateUserAsync(userEntity);
             if (!respose.Succeeded)
             {
                 return BadRequest(respose.Errors.FirstOrDefault().Description);
             }
 
-            var updatedUser = await _userHelper.GetUserByEmailAsync(request.Email);
+            User updatedUser = await _userHelper.GetUserByEmailAsync(request.Email);
             return Ok(updatedUser);
         }
 
@@ -173,7 +172,7 @@ namespace MyVet.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+            User user = await _userHelper.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
                 return BadRequest(new Response<object>
@@ -183,7 +182,7 @@ namespace MyVet.Web.Controllers.API
                 });
             }
 
-            var result = await _userHelper.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+            IdentityResult result = await _userHelper.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
             if (!result.Succeeded)
             {
                 return BadRequest(new Response<object>

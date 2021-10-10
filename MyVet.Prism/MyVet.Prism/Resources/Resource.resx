@@ -453,4 +453,10 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="AgendaFor" xml:space="preserve">
+    <value>Agenda for</value>
+  </data>
+  <data name="PetPlaceHolder" xml:space="preserve">
+    <value>Select a pet...</value>
+  </data>
 </root>

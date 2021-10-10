@@ -37,19 +37,19 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var agendas = await _dataContext.Agendas
+            List<Data.Entities.Agenda> agendas = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
                 .ThenInclude(p => p.PetType)
-                .Where(a => a.Date >= DateTime.Today.ToUniversalTime())
+                .Where(a => a.Date >= DateTime.UtcNow)
                 .OrderBy(a => a.Date)
                 .ToListAsync();
 
-            var response = new List<AgendaResponse>();
-            foreach (var agenda in agendas)
+            List<AgendaResponse> response = new List<AgendaResponse>();
+            foreach (Data.Entities.Agenda agenda in agendas)
             {
-                var agendaRespose = new AgendaResponse
+                AgendaResponse agendaRespose = new AgendaResponse
                 {
                     Date = agenda.Date,
                     Id = agenda.Id,
@@ -85,7 +85,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var agenda = await _dataContext.Agendas.FindAsync(request.AgendaId);
+            Data.Entities.Agenda agenda = await _dataContext.Agendas.FindAsync(request.AgendaId);
             if (agenda == null)
             {
                 return BadRequest("Agenda doesn't exists.");
@@ -96,13 +96,13 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest("Agenda is not available.");
             }
 
-            var owner = await _dataContext.Owners.FindAsync(request.OwnerId);
+            Data.Entities.Owner owner = await _dataContext.Owners.FindAsync(request.OwnerId);
             if (owner == null)
             {
                 return BadRequest("Owner doesn't exists.");
             }
 
-            var pet = await _dataContext.Pets.FindAsync(request.PetId);
+            Data.Entities.Pet pet = await _dataContext.Pets.FindAsync(request.PetId);
             if (pet == null)
             {
                 return BadRequest("Pet doesn't exists.");
@@ -127,7 +127,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var agenda = await _dataContext.Agendas
+            Data.Entities.Agenda agenda = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
                 .FirstOrDefaultAsync(a => a.Id == request.AgendaId);

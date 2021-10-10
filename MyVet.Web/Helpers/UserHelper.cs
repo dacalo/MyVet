@@ -1,9 +1,9 @@
 ﻿namespace MyVet.Web.Helpers
 {
-    using Microsoft.AspNetCore.Identity;
     using Data.Entities;
-    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
     using MyVet.Web.Models;
+    using System.Threading.Tasks;
 
     public class UserHelper : IUserHelper
     {
@@ -33,7 +33,7 @@
 
         public async Task CheckRoleAsync(string roleName)
         {
-            var roleExists = await _roleManager.RoleExistsAsync(roleName);
+            bool roleExists = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExists)
             {
                 await _roleManager.CreateAsync(new IdentityRole
@@ -70,13 +70,13 @@
 
         public async Task<bool> DeleteUserAsync(string email)
         {
-            var user = await GetUserByEmailAsync(email);
+            User user = await GetUserByEmailAsync(email);
             if (user == null)
             {
                 return true;
             }
 
-            var response = await _userManager.DeleteAsync(user);
+            IdentityResult response = await _userManager.DeleteAsync(user);
             return response.Succeeded;
         }
 

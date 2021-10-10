@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace MyVet.Web.Helpers
 {
@@ -9,14 +9,14 @@ namespace MyVet.Web.Helpers
     {
         public async Task<string> UploadImageAsync(IFormFile imageFile)
         {
-            var guid = Guid.NewGuid().ToString();
-            var file = $"{guid}.jpg";
-            var path = Path.Combine(
+            string guid = Guid.NewGuid().ToString();
+            string file = $"{guid}.jpg";
+            string path = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 "wwwroot\\images\\Pets",
                 file);
 
-            using (var stream = new FileStream(path, FileMode.Create))
+            using (FileStream stream = new FileStream(path, FileMode.Create))
             {
                 await imageFile.CopyToAsync(stream);
             }

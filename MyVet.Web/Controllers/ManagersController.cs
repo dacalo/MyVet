@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +6,7 @@ using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using MyVet.Web.Models;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
@@ -40,7 +39,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _dataContext.Managers
+            Manager manager = await _dataContext.Managers
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (manager == null)
@@ -62,20 +61,20 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUser(model);
+                User user = await AddUser(model);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "This email is already used.");
                     return View(model);
                 }
 
-                var manager = new Manager { User = user };
+                Manager manager = new Manager { User = user };
 
                 _dataContext.Managers.Add(manager);
                 await _dataContext.SaveChangesAsync();
 
-                var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                string tokenLink = Url.Action("ConfirmEmail", "Account", new
                 {
                     userid = user.Id,
                     token = myToken
@@ -93,7 +92,7 @@ namespace MyVet.Web.Controllers
 
         private async Task<User> AddUser(AddUserViewModel model)
         {
-            var user = new User
+            User user = new User
             {
                 Address = model.Address,
                 RFC = model.RFC,
@@ -104,13 +103,13 @@ namespace MyVet.Web.Controllers
                 UserName = model.Username
             };
 
-            var result = await _userHelper.AddUserAsync(user, model.Password);
+            IdentityResult result = await _userHelper.AddUserAsync(user, model.Password);
             if (result != IdentityResult.Success)
             {
                 return null;
             }
 
-            var newUser = await _userHelper.GetUserByEmailAsync(model.Username);
+            User newUser = await _userHelper.GetUserByEmailAsync(model.Username);
             await _userHelper.AddUserToRoleAsync(newUser, "Admin");
             return newUser;
         }
@@ -122,7 +121,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _dataContext.Managers
+            Manager manager = await _dataContext.Managers
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (manager == null)
@@ -130,7 +129,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var model = new EditUserViewModel
+            EditUserViewModel model = new EditUserViewModel
             {
                 Address = manager.User.Address,
                 RFC = manager.User.RFC,
@@ -149,7 +148,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var owner = await _dataContext.Owners
+                Owner owner = await _dataContext.Owners
                     .Include(o => o.User)
                     .FirstOrDefaultAsync(o => o.Id == model.Id);
 
@@ -173,7 +172,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _dataContext.Managers
+            Manager manager = await _dataContext.Managers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (manager == null)
             {
@@ -185,6 +184,6 @@ namespace MyVet.Web.Controllers
             await _userHelper.DeleteUserAsync(manager.User.Email);
             return RedirectToAction(nameof(Index));
         }
-               
+
     }
 }

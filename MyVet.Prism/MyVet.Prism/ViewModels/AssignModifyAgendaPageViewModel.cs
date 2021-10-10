@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -10,6 +7,9 @@ using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -76,14 +76,14 @@ namespace MyVet.Prism.ViewModels
 
         private void LoadPets()
         {
-            var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
             Pets = new ObservableCollection<PetResponse>(owner.Pets);
             Pet = Pets.FirstOrDefault(p => p.Id == _agenda.Pet.Id);
         }
 
         private async void Assign()
         {
-            var isValid = await ValidateData();
+            bool isValid = await ValidateData();
             if (!isValid)
             {
                 return;
@@ -92,10 +92,10 @@ namespace MyVet.Prism.ViewModels
             UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
-            var request = new AssignRequest
+            AssignRequest request = new AssignRequest
             {
                 AgendaId = Agenda.Id,
                 OwnerId = owner.Id,
@@ -103,7 +103,7 @@ namespace MyVet.Prism.ViewModels
                 Remarks = Agenda.Remarks
             };
 
-            var response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
+            Response<object> response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/AssignAgenda", request, Constants.TokenType, token.Token);
 
             UserDialogs.Instance.HideLoading();
             IsEnabled = true;
@@ -114,7 +114,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            var parameters = new NavigationParameters
+            NavigationParameters parameters = new NavigationParameters
             {
                 { "Refresh", true }
             };
@@ -135,7 +135,7 @@ namespace MyVet.Prism.ViewModels
 
         private async void Cancel()
         {
-            var answer = await App.Current.MainPage.DisplayAlert(
+            bool answer = await App.Current.MainPage.DisplayAlert(
                 Languages.Confirm,
                 Languages.CancelAgendaMessage,
                 Languages.Yes,
@@ -149,9 +149,9 @@ namespace MyVet.Prism.ViewModels
             UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
-            var request = new UnAssignRequest { AgendaId = Agenda.Id };
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
+            UnAssignRequest request = new UnAssignRequest { AgendaId = Agenda.Id };
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            Response<object> response = await _apiService.PostAsync(Constants.URL_BASE, Constants.PREFIX, "Agenda/UnAssignAgenda", request, Constants.TokenType, token.Token);
 
             UserDialogs.Instance.HideLoading();
             IsEnabled = true;
@@ -162,7 +162,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            var parameters = new NavigationParameters
+            NavigationParameters parameters = new NavigationParameters
             {
                 { "Refresh", true }
             };

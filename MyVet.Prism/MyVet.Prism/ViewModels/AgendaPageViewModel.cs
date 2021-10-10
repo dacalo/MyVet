@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using MyVet.Common.Business;
+﻿using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -9,6 +6,9 @@ using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -58,10 +58,10 @@ namespace MyVet.Prism.ViewModels
         {
             IsRefreshing = true;
 
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
-            var response = await _apiService.GetAgendaForOwner(Constants.URL_BASE, Constants.PREFIX, "Agenda/GetAgendaForOwner", owner.Email, Constants.TokenType, token.Token);
+            Response<object> response = await _apiService.GetAgendaForOwner(Constants.URL_BASE, Constants.PREFIX, "Agenda/GetAgendaForOwner", owner.Email, Constants.TokenType, token.Token);
             if (!response.IsSuccess)
             {
                 IsRefreshing = false;
@@ -69,7 +69,8 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            var myAgenda = (List<AgendaResponse>)response.Result;
+            IsRefreshing = false;
+            List<AgendaResponse> myAgenda = (List<AgendaResponse>)response.Result;
             Agenda = new ObservableCollection<AgendaItemViewModel>(myAgenda.Select(a => new AgendaItemViewModel(_navigationService)
             {
                 Date = a.Date,
@@ -80,7 +81,6 @@ namespace MyVet.Prism.ViewModels
                 Remarks = a.Remarks
             }).ToList());
 
-            IsRefreshing = false;
         }
 
     }

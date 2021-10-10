@@ -97,6 +97,15 @@ namespace MyVet.Prism.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Agenda for.
+        /// </summary>
+        public static string AgendaFor {
+            get {
+                return ResourceManager.GetString("AgendaFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assign.
         /// </summary>
         public static string Assign {
@@ -849,6 +858,15 @@ namespace MyVet.Prism.Resources {
         public static string PetError {
             get {
                 return ResourceManager.GetString("PetError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a pet....
+        /// </summary>
+        public static string PetPlaceHolder {
+            get {
+                return ResourceManager.GetString("PetPlaceHolder", resourceCulture);
             }
         }
         

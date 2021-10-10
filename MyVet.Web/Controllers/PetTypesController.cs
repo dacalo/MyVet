@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
@@ -30,7 +30,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes.FirstOrDefaultAsync(m => m.Id == id);
+            PetType petType = await _context.PetTypes.FirstOrDefaultAsync(m => m.Id == id);
             if (petType == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes.FindAsync(id);
+            PetType petType = await _context.PetTypes.FindAsync(id);
             if (petType == null)
             {
                 return NotFound();
@@ -106,7 +106,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var petType = await _context.PetTypes
+            PetType petType = await _context.PetTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (petType == null)
             {
@@ -122,7 +122,7 @@ namespace MyVet.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var petType = await _context.PetTypes.FindAsync(id);
+            PetType petType = await _context.PetTypes.FindAsync(id);
             _context.PetTypes.Remove(petType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

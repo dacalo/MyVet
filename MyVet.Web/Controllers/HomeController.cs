@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using MyVet.Web.Models;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
@@ -65,7 +65,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Owner)
                 .Include(p => p.PetType)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
@@ -74,7 +74,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var model = new PetViewModel
+            PetViewModel model = new PetViewModel
             {
                 Born = pet.Born,
                 Id = pet.Id,
@@ -96,19 +96,19 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = model.ImageUrl;
+                string path = model.ImageUrl;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
+                    string guid = Guid.NewGuid().ToString();
+                    string file = $"{guid}.jpg";
 
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Pets",
                         file);
 
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    using (FileStream stream = new FileStream(path, FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(stream);
                     }
@@ -116,7 +116,7 @@ namespace MyVet.Web.Controllers
                     path = $"~/images/Pets/{file}";
                 }
 
-                var pet = new Pet
+                Pet pet = new Pet
                 {
                     Born = model.Born,
                     Id = model.Id,
@@ -145,7 +145,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Owner)
                 .ThenInclude(o => o.User)
                 .Include(p => p.Histories)
@@ -167,7 +167,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Histories)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pet == null)
@@ -188,14 +188,14 @@ namespace MyVet.Web.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create()
         {
-            var owner = await _dataContext.Owners
+            Owner owner = await _dataContext.Owners
                 .FirstOrDefaultAsync(o => o.User.Email.ToLower().Equals(User.Identity.Name.ToLower()));
             if (owner == null)
             {
                 return NotFound();
             }
 
-            var model = new PetViewModel
+            PetViewModel model = new PetViewModel
             {
                 Born = DateTime.Now,
                 PetTypes = _combosHelper.GetComboPetTypes(),
@@ -210,19 +210,19 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
+                string path = string.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
+                    string guid = Guid.NewGuid().ToString();
+                    string file = $"{guid}.jpg";
 
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Pets",
                         file);
 
-                    using (var stream = new FileStream(path, FileMode.Create))
+                    using (FileStream stream = new FileStream(path, FileMode.Create))
                     {
                         await model.ImageFile.CopyToAsync(stream);
                     }
@@ -230,7 +230,7 @@ namespace MyVet.Web.Controllers
                     path = $"~/images/Pets/{file}";
                 }
 
-                var pet = new Pet
+                Pet pet = new Pet
                 {
                     Born = model.Born,
                     ImageUrl = path,
@@ -252,13 +252,13 @@ namespace MyVet.Web.Controllers
         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> MyAgenda()
         {
-            var agendas = await _dataContext.Agendas
+            List<Agenda> agendas = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
                 .Where(a => a.Date >= DateTime.UtcNow).ToListAsync();
 
-            var list = new List<AgendaViewModel>(agendas.Select(a => new AgendaViewModel
+            List<AgendaViewModel> list = new List<AgendaViewModel>(agendas.Select(a => new AgendaViewModel
             {
                 Date = a.Date,
                 Id = a.Id,
@@ -282,20 +282,20 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var agenda = await _dataContext.Agendas
+            Agenda agenda = await _dataContext.Agendas
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (agenda == null)
             {
                 return NotFound();
             }
 
-            var owner = await _dataContext.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+            Owner owner = await _dataContext.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
             if (owner == null)
             {
                 return NotFound();
             }
 
-            var model = new AgendaViewModel
+            AgendaViewModel model = new AgendaViewModel
             {
                 Id = agenda.Id,
                 OwnerId = owner.Id,
@@ -311,7 +311,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var agenda = await _dataContext.Agendas.FindAsync(model.Id);
+                Agenda agenda = await _dataContext.Agendas.FindAsync(model.Id);
                 if (agenda != null)
                 {
                     agenda.IsAvailable = false;
@@ -336,7 +336,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var agenda = await _dataContext.Agendas
+            Agenda agenda = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);

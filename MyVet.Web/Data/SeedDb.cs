@@ -24,8 +24,8 @@ namespace MyVet.Web.Data
         {
             await _dataContext.Database.EnsureCreatedAsync();
             await CheckRoles();
-            var manager = await CheckUserAsync("CALD780824XXX", "David", "Chávez López", "divadchl@yopmail.com", "5533445566", "Dr. Lucio Número 351, Colonia Doctores, Alcaldía Cuauhtémoc, C.P. 06720, Ciudad de México", "Admin");
-            var customer = await CheckUserAsync("CALD780824XXX", "David", "Chávez López", "davidchl@yopmail.com", "5533445566", "Dr. Erazo Número 351, Colonia Doctores, Alcaldía Cuauhtémoc, C.P. 06720, Ciudad de México", "Customer");
+            var manager = await CheckUserAsync("CALD780824XXX", "David", "Chávez López", "divadchl@yopmail.com", "5533445566", "Dr. Lucio Número 351, Colonia Doctores, Alcaldía Cuauhtémoc, C.P. 06720, Ciudad de México", "Admin", 19.423862, - 99.1503167);
+            var customer = await CheckUserAsync("CALD780824XXX", "David", "Chávez López", "davidchl@yopmail.com", "5533445566", "Dr. Erazo Número 351, Colonia Doctores, Alcaldía Cuauhtémoc, C.P. 06720, Ciudad de México", "Customer", 19.4226972, -99.1507432);
             await CheckPetTypesAsync();
             await CheckServiceTypesAsync();
             await CheckOwnerAsync(customer);
@@ -40,7 +40,7 @@ namespace MyVet.Web.Data
             await _userHelper.CheckRoleAsync("Customer");
         }
 
-        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, string role)
+        private async Task<User> CheckUserAsync(string document, string firstName, string lastName, string email, string phone, string address, string role, double latitude, double longitude)
         {
             var user = await _userHelper.GetUserByEmailAsync(email);
             if (user == null)
@@ -53,7 +53,9 @@ namespace MyVet.Web.Data
                     UserName = email,
                     PhoneNumber = phone,
                     Address = address,
-                    RFC = document
+                    RFC = document,
+                    Latitude = latitude,
+                    Longitude = longitude
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

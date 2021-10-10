@@ -15,22 +15,22 @@ namespace MyVet.Web.Helpers
 
         public void SendMail(string to, string subject, string body)
         {
-            var from = _configuration["Mail:From"];
-            var smtp = _configuration["Mail:Smtp"];
-            var port = _configuration["Mail:Port"];
-            var password = _configuration["Mail:Password"];
+            string from = _configuration["Mail:From"];
+            string smtp = _configuration["Mail:Smtp"];
+            string port = _configuration["Mail:Port"];
+            string password = _configuration["Mail:Password"];
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress(from));
-            message.To.Add(new MailboxAddress(to));
+            MimeMessage message = new MimeMessage();
+            message.From.Add(MailboxAddress.Parse(from));
+            message.To.Add(MailboxAddress.Parse(to));
             message.Subject = subject;
-            var bodyBuilder = new BodyBuilder
+            BodyBuilder bodyBuilder = new BodyBuilder
             {
                 HtmlBody = body
             };
             message.Body = bodyBuilder.ToMessageBody();
 
-            using (var client = new SmtpClient())
+            using (SmtpClient client = new SmtpClient())
             {
                 client.Connect(smtp, int.Parse(port), false);
                 client.Authenticate(from, password);

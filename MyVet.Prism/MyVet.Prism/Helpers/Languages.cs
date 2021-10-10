@@ -234,6 +234,8 @@ namespace MyVet.Prism.Helpers
         public static string ServiceType => Resource.ServiceType;
         
         public static string Description => Resource.Description;
+        public static string AgendaFor => Resource.AgendaFor;
+        public static string PetPlaceHolder => Resource.PetPlaceHolder;
 
     }
 }

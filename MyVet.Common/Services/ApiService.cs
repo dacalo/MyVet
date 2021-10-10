@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MyVet.Common.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MyVet.Common.Models;
-using Newtonsoft.Json;
 using Xamarin.Essentials;
 
 namespace MyVet.Common.Services
@@ -20,16 +20,16 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var requestString = JsonConvert.SerializeObject(request);
-                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string requestString = JsonConvert.SerializeObject(request);
+                StringContent content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var result = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string result = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -40,7 +40,7 @@ namespace MyVet.Common.Services
                     };
                 }
 
-                var token = JsonConvert.DeserializeObject<TokenResponse>(result);
+                TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(result);
                 return new Response<TokenResponse>
                 {
                     IsSuccess = true,
@@ -67,18 +67,18 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = new EmailRequest { Email = email };
-                var requestString = JsonConvert.SerializeObject(request);
-                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                EmailRequest request = new EmailRequest { Email = email };
+                string requestString = JsonConvert.SerializeObject(request);
+                StringContent content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var result = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string result = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -89,7 +89,7 @@ namespace MyVet.Common.Services
                     };
                 }
 
-                var owner = JsonConvert.DeserializeObject<OwnerResponse>(result);
+                OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(result);
                 return new Response<OwnerResponse>
                 {
                     IsSuccess = true,
@@ -109,7 +109,9 @@ namespace MyVet.Common.Services
         public bool CheckConnection()
         {
             if (!(Connectivity.NetworkAccess == NetworkAccess.Internet))
+            {
                 return false;
+            }
 
             return true;
         }
@@ -122,17 +124,17 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(userRequest);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(userRequest);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
-                var obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
+                Response<object> obj = JsonConvert.DeserializeObject<Response<object>>(answer);
                 return obj;
             }
             catch (Exception ex)
@@ -153,17 +155,17 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(emailRequest);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(emailRequest);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
-                var obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
+                Response<object> obj = JsonConvert.DeserializeObject<Response<object>>(answer);
                 return obj;
             }
             catch (Exception ex)
@@ -186,17 +188,17 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PutAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PutAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response<object>
@@ -206,7 +208,7 @@ namespace MyVet.Common.Services
                     };
                 }
 
-                var obj = JsonConvert.DeserializeObject<T>(answer);
+                T obj = JsonConvert.DeserializeObject<T>(answer);
                 return new Response<object>
                 {
                     IsSuccess = true,
@@ -233,18 +235,18 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(changePasswordRequest);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(changePasswordRequest);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
-                var obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
+                Response<object> obj = JsonConvert.DeserializeObject<Response<object>>(answer);
                 return obj;
             }
             catch (Exception ex)
@@ -266,16 +268,16 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var client = new HttpClient
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase),
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
 
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.GetAsync(url);
-                var result = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.GetAsync(url);
+                string result = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
@@ -286,7 +288,7 @@ namespace MyVet.Common.Services
                     };
                 }
 
-                var list = JsonConvert.DeserializeObject<List<T>>(result);
+                List<T> list = JsonConvert.DeserializeObject<List<T>>(result);
                 return new Response<object>
                 {
                     IsSuccess = true,
@@ -313,17 +315,17 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response<object>
@@ -359,17 +361,17 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                string request = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}/{id}";
-                var response = await client.PutAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}/{id}";
+                HttpResponseMessage response = await client.PutAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response<object>
@@ -404,15 +406,15 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var client = new HttpClient
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}/{id}";
-                var response = await client.DeleteAsync(url);
-                var answer = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}/{id}";
+                HttpResponseMessage response = await client.DeleteAsync(url);
+                string answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response<object>
@@ -447,18 +449,18 @@ namespace MyVet.Common.Services
         {
             try
             {
-                var model = new EmailRequest { Email = email };
-                var request = JsonConvert.SerializeObject(model);
-                var content = new StringContent(request, Encoding.UTF8, "application/json");
-                var client = new HttpClient
+                EmailRequest model = new EmailRequest { Email = email };
+                string request = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(request, Encoding.UTF8, "application/json");
+                HttpClient client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)
                 };
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
-                var url = $"{servicePrefix}{controller}";
-                var response = await client.PostAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
+                string url = $"{servicePrefix}{controller}";
+                HttpResponseMessage response = await client.PostAsync(url, content);
+                string answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response<object>
@@ -468,7 +470,7 @@ namespace MyVet.Common.Services
                     };
                 }
 
-                var agenda = JsonConvert.DeserializeObject<List<AgendaResponse>>(answer);
+                List<AgendaResponse> agenda = JsonConvert.DeserializeObject<List<AgendaResponse>>(answer);
                 return new Response<object>
                 {
                     IsSuccess = true,

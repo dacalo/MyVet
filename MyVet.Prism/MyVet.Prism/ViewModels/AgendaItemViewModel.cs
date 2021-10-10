@@ -1,5 +1,6 @@
 ﻿using MyVet.Common.Helpers;
 using MyVet.Common.Models;
+using MyVet.Prism.Views;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
@@ -20,19 +21,19 @@ namespace MyVet.Prism.ViewModels
 
         private async void SelectAgenda()
         {
-            var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
             if (!IsAvailable && Owner.Id != owner.Id)
             {
                 return;
             }
 
-            var parameters = new NavigationParameters
+            NavigationParameters parameters = new NavigationParameters
             {
                 { "Agenda", this }
             };
 
-            await _navigationService.NavigateAsync("AssignModifyAgenda", parameters);
+            await _navigationService.NavigateAsync(nameof(AssignModifyAgendaPage), parameters);
         }
     }
 }

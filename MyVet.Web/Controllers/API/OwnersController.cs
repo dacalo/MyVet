@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Common.Models;
 using MyVet.Web.Data;
+using MyVet.Web.Data.Entities;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers.API
 {
@@ -32,7 +31,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest();
             }
 
-            var owner = await _dataContext.Owners
+            Owner owner = await _dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Pets)
                 .ThenInclude(p => p.PetType)
@@ -41,7 +40,7 @@ namespace MyVet.Web.Controllers.API
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.User.UserName.ToLower() == emailRequest.Email.ToLower());
 
-            var response = new OwnerResponse
+            OwnerResponse response = new OwnerResponse
             {
                 Id = owner.Id,
                 FirstName = owner.User.FirstName,
@@ -76,13 +75,13 @@ namespace MyVet.Web.Controllers.API
         [HttpGet]
         public async Task<IActionResult> GetOwners()
         {
-            var owners = await _dataContext.Owners
+            List<Owner> owners = await _dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Pets)
                 .ThenInclude(p => p.PetType)
                 .ToListAsync();
 
-            var response = new List<OwnerResponse>(owners.Select(o => new OwnerResponse
+            List<OwnerResponse> response = new List<OwnerResponse>(owners.Select(o => new OwnerResponse
             {
                 Id = o.Id,
                 Latitude = o.User.Latitude,

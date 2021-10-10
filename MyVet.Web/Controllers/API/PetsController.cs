@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +7,9 @@ using MyVet.Common.Models;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers.API
 {
@@ -37,27 +37,27 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var owner = await _dataContext.Owners.FindAsync(request.OwnerId);
+            Owner owner = await _dataContext.Owners.FindAsync(request.OwnerId);
             if (owner == null)
             {
                 return BadRequest("Not valid owner.");
             }
 
-            var petType = await _dataContext.PetTypes.FindAsync(request.PetTypeId);
+            PetType petType = await _dataContext.PetTypes.FindAsync(request.PetTypeId);
             if (petType == null)
             {
                 return BadRequest("Not valid pet type.");
             }
 
-            var imageUrl = string.Empty;
+            string imageUrl = string.Empty;
             if (request.ImageArray != null && request.ImageArray.Length > 0)
             {
-                var stream = new MemoryStream(request.ImageArray);
-                var guid = Guid.NewGuid().ToString();
-                var file = $"{guid}.jpg";
-                var folder = "wwwroot\\images\\Pets";
-                var fullPath = $"~/images/Pets/{file}";
-                var response = FilesHelper.UploadPhoto(stream, folder, file);
+                MemoryStream stream = new MemoryStream(request.ImageArray);
+                string guid = Guid.NewGuid().ToString();
+                string file = $"{guid}.jpg";
+                string folder = "wwwroot\\images\\Pets";
+                string fullPath = $"~/images/Pets/{file}";
+                bool response = FilesHelper.UploadPhoto(stream, folder, file);
 
                 if (response)
                 {
@@ -65,7 +65,7 @@ namespace MyVet.Web.Controllers.API
                 }
             }
 
-            var pet = new Pet
+            Pet pet = new Pet
             {
                 Born = request.Born.ToUniversalTime(),
                 ImageUrl = imageUrl,
@@ -94,27 +94,27 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest();
             }
 
-            var oldPet = await _dataContext.Pets.FindAsync(request.Id);
+            Pet oldPet = await _dataContext.Pets.FindAsync(request.Id);
             if (oldPet == null)
             {
                 return BadRequest("Pet doesn't exists.");
             }
 
-            var petType = await _dataContext.PetTypes.FindAsync(request.PetTypeId);
+            PetType petType = await _dataContext.PetTypes.FindAsync(request.PetTypeId);
             if (petType == null)
             {
                 return BadRequest("Not valid pet type.");
             }
 
-            var imageUrl = oldPet.ImageUrl;
+            string imageUrl = oldPet.ImageUrl;
             if (request.ImageArray != null && request.ImageArray.Length > 0)
             {
-                var stream = new MemoryStream(request.ImageArray);
-                var guid = Guid.NewGuid().ToString();
-                var file = $"{guid}.jpg";
-                var folder = "wwwroot\\images\\Pets";
-                var fullPath = $"~/images/Pets/{file}";
-                var response = FilesHelper.UploadPhoto(stream, folder, file);
+                MemoryStream stream = new MemoryStream(request.ImageArray);
+                string guid = Guid.NewGuid().ToString();
+                string file = $"{guid}.jpg";
+                string folder = "wwwroot\\images\\Pets";
+                string fullPath = $"~/images/Pets/{file}";
+                bool response = FilesHelper.UploadPhoto(stream, folder, file);
 
                 if (response)
                 {
@@ -142,7 +142,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            var pet = await _dataContext.Pets
+            Pet pet = await _dataContext.Pets
                 .Include(p => p.Histories)
                 .FirstOrDefaultAsync(p => p.Id == id);
             if (pet == null)

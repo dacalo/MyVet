@@ -1,51 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MyVet.Prism.Views.AssignModifyAgendaPage"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MyVet.Prism.Views.AssignModifyAgendaPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True">
 
-    <StackLayout
-        Padding="10">
+    <StackLayout Padding="10">
 
-        <Label
-            Text="{i18n:Translate AgendaFor}"/>
+        <Label Text="{i18n:Translate AgendaFor}" />
         <Label
             FontAttributes="Bold"
             FontSize="Medium"
-            Text="{Binding Agenda.Date, StringFormat='{0:yyyy/MM/dd HH:mm}'}"/>
+            Text="{Binding Agenda.Date, StringFormat='{0:yyyy/MM/dd HH:mm}'}" />
 
-        <Label
-            Text="{i18n:Translate Pet}"/>
+        <Label Text="{i18n:Translate Pet}" />
         <Picker
+            Title="{i18n:Translate PetPlaceHolder}"
             ItemDisplayBinding="{Binding Name}"
             ItemsSource="{Binding Pets}"
-            SelectedItem="{Binding Pet}"
-            Title="{i18n:Translate PetPlaceHolder}"/>
+            SelectedItem="{Binding Pet}" />
 
-        <Label
-            Text="{i18n:Translate Remarks}"/>
-        <Editor
-            HeightRequest="70"
-            Text="{Binding Agenda.Remarks}"/>
+        <Label Text="{i18n:Translate Remarks}" />
+        <Editor HeightRequest="70" Text="{Binding Agenda.Remarks}" />
 
-        <StackLayout
-            Orientation="Horizontal">
+        <StackLayout Orientation="Horizontal">
 
             <Button
                 Command="{Binding AssignCommand}"
                 HorizontalOptions="FillAndExpand"
                 IsEnabled="{Binding IsEnabled}"
-                Text="{i18n:Translate Assign}"/>
+                Text="{i18n:Translate Assign}" />
 
             <Button
                 Command="{Binding CancelCommand}"
                 HorizontalOptions="FillAndExpand"
                 IsEnabled="{Binding IsEnabled}"
                 Style="{StaticResource SecondaryButton}"
-                Text="{i18n:Translate Cancel}"/>
+                Text="{i18n:Translate Cancel}" />
         </StackLayout>
     </StackLayout>
 </ContentPage>

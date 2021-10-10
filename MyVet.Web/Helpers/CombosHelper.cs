@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using MyVet.Web.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyVet.Web.Helpers
 {
@@ -16,7 +16,7 @@ namespace MyVet.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboPetTypes()
         {
-            var list = _dataContext.PetTypes.Select(pt => new SelectListItem
+            List<SelectListItem> list = _dataContext.PetTypes.Select(pt => new SelectListItem
             {
                 Text = pt.Name,
                 Value = $"{pt.Id}"
@@ -35,7 +35,7 @@ namespace MyVet.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboServiceTypes()
         {
-            var list = _dataContext.ServiceTypes.Select(pt => new SelectListItem
+            List<SelectListItem> list = _dataContext.ServiceTypes.Select(pt => new SelectListItem
             {
                 Text = pt.Name,
                 Value = $"{pt.Id}"
@@ -54,7 +54,7 @@ namespace MyVet.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboOwners()
         {
-            var list = _dataContext.Owners.Select(p => new SelectListItem
+            List<SelectListItem> list = _dataContext.Owners.Select(p => new SelectListItem
             {
                 Text = p.User.FullNameWithDocument,
                 Value = p.Id.ToString()
@@ -71,7 +71,7 @@ namespace MyVet.Web.Helpers
 
         public IEnumerable<SelectListItem> GetComboPets(int ownerId)
         {
-            var list = _dataContext.Pets.Where(p => p.Owner.Id == ownerId).Select(p => new SelectListItem
+            List<SelectListItem> list = _dataContext.Pets.Where(p => p.Owner.Id == ownerId).Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()

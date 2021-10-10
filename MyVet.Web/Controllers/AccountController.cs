@@ -51,7 +51,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _userHelper.LoginAsync(model);
+                Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.LoginAsync(model);
                 if (result.Succeeded)
                 {
                     if (Request.Query.Keys.Contains("ReturnUrl"))
@@ -79,24 +79,24 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Username);
+                User user = await _userHelper.GetUserByEmailAsync(model.Username);
                 if (user != null)
                 {
-                    var result = await _userHelper.ValidatePasswordAsync(
+                    Microsoft.AspNetCore.Identity.SignInResult result = await _userHelper.ValidatePasswordAsync(
                         user,
                         model.Password);
 
                     if (result.Succeeded)
                     {
-                        var claims = new[]
+                        Claim[] claims = new[]
                         {
                             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };
 
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
-                        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                        var token = new JwtSecurityToken(
+                        SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+                        SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                        JwtSecurityToken token = new JwtSecurityToken(
                             _configuration["Tokens:Issuer"],
                             _configuration["Tokens:Audience"],
                             claims,
@@ -132,14 +132,14 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUser(model);
+                User user = await AddUser(model);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Este correo ya esta registrado.");
                     return View(model);
                 }
 
-                var owner = new Owner
+                Owner owner = new Owner
                 {
                     Pets = new List<Pet>(),
                     User = user,
@@ -148,8 +148,8 @@ namespace MyVet.Web.Controllers
                 _dataContext.Owners.Add(owner);
                 await _dataContext.SaveChangesAsync();
 
-                var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
-                var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                string myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                string tokenLink = Url.Action("ConfirmEmail", "Account", new
                 {
                     userid = user.Id,
                     token = myToken
@@ -167,7 +167,7 @@ namespace MyVet.Web.Controllers
 
         private async Task<User> AddUser(AddUserViewModel model)
         {
-            var user = new User
+            User user = new User
             {
                 Address = model.Address,
                 RFC = model.RFC,
@@ -178,20 +178,20 @@ namespace MyVet.Web.Controllers
                 UserName = model.Username
             };
 
-            var result = await _userHelper.AddUserAsync(user, model.Password);
+            IdentityResult result = await _userHelper.AddUserAsync(user, model.Password);
             if (result != IdentityResult.Success)
             {
                 return null;
             }
 
-            var newUser = await _userHelper.GetUserByEmailAsync(model.Username);
+            User newUser = await _userHelper.GetUserByEmailAsync(model.Username);
             await _userHelper.AddUserToRoleAsync(newUser, "Customer");
             return newUser;
         }
 
         public async Task<IActionResult> ChangeUser()
         {
-            var owner = await _dataContext.Owners
+            Owner owner = await _dataContext.Owners
                 .Include(o => o.User)
                 .FirstOrDefaultAsync(o => o.User.UserName.ToLower() == User.Identity.Name.ToLower());
             if (owner == null)
@@ -199,7 +199,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var model = new EditUserViewModel
+            EditUserViewModel model = new EditUserViewModel
             {
                 Address = owner.User.Address,
                 RFC = owner.User.RFC,
@@ -218,7 +218,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var owner = await _dataContext.Owners
+                Owner owner = await _dataContext.Owners
                     .Include(o => o.User)
                     .FirstOrDefaultAsync(o => o.Id == model.Id);
 
@@ -245,10 +245,10 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                User user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                 if (user != null)
                 {
-                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    IdentityResult result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("ChangeUser");
@@ -274,13 +274,13 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var user = await _userHelper.GetUserByIdAsync(userId);
+            User user = await _userHelper.GetUserByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
             }
 
-            var result = await _userHelper.ConfirmEmailAsync(user, token);
+            IdentityResult result = await _userHelper.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)
             {
                 return NotFound();
@@ -299,15 +299,15 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userHelper.GetUserByEmailAsync(model.Email);
+                User user = await _userHelper.GetUserByEmailAsync(model.Email);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "El correo no corresponde a un usuario registrado.");
                     return View(model);
                 }
 
-                var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-                var link = Url.Action(
+                string myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+                string link = Url.Action(
                     "ResetPassword",
                     "Account",
                     new { token = myToken }, protocol: HttpContext.Request.Scheme);
@@ -330,10 +330,10 @@ namespace MyVet.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var user = await _userHelper.GetUserByEmailAsync(model.UserName);
+            User user = await _userHelper.GetUserByEmailAsync(model.UserName);
             if (user != null)
             {
-                var result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
+                IdentityResult result = await _userHelper.ResetPasswordAsync(user, model.Token, model.Password);
                 if (result.Succeeded)
                 {
                     ViewBag.Message = "Camvio de contraseña satisfactorio.";

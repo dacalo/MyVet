@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Web.Data;
+using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using MyVet.Web.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Controllers
 {
@@ -50,14 +51,14 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var agenda = await _dataContext.Agendas
+            Agenda agenda = await _dataContext.Agendas
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (agenda == null)
             {
                 return NotFound();
             }
 
-            var model = new AgendaViewModel
+            AgendaViewModel model = new AgendaViewModel
             {
                 Id = agenda.Id,
                 Owners = _combosHelper.GetComboOwners(),
@@ -73,7 +74,7 @@ namespace MyVet.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var agenda = await _dataContext.Agendas.FindAsync(model.Id);
+                Agenda agenda = await _dataContext.Agendas.FindAsync(model.Id);
                 if (agenda != null)
                 {
                     agenda.IsAvailable = false;
@@ -95,7 +96,7 @@ namespace MyVet.Web.Controllers
 
         public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
-            var pets = await _dataContext.Pets
+            List<Pet> pets = await _dataContext.Pets
                 .Where(p => p.Owner.Id == ownerId)
                 .OrderBy(p => p.Name)
                 .ToListAsync();
@@ -109,7 +110,7 @@ namespace MyVet.Web.Controllers
                 return NotFound();
             }
 
-            var agenda = await _dataContext.Agendas
+            Agenda agenda = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);

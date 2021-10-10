@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using MyVet.Common.Models;
+﻿using MyVet.Common.Models;
 using MyVet.Web.Data;
 using MyVet.Web.Data.Entities;
 using MyVet.Web.Models;
+using System.Threading.Tasks;
 
 namespace MyVet.Web.Helpers
 {
@@ -21,7 +21,7 @@ namespace MyVet.Web.Helpers
 
         public async Task<Pet> ToPetAsync(PetViewModel model, string path, bool isNew)
         {
-            var pet = new Pet
+            Pet pet = new Pet
             {
                 Agendas = model.Agendas,
                 Born = model.Born,
