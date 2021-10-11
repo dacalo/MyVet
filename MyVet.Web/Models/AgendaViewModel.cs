@@ -12,7 +12,6 @@ namespace MyVet.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "Debe seleccionar un propietario.")]
         public int OwnerId { get; set; }
 
-
         public IEnumerable<SelectListItem> Owners { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

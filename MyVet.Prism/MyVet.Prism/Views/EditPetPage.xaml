@@ -1,127 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MyVet.Prism.Views.EditPetPage"
-             Title="{Binding Title}">
-    <StackLayout
-        Padding="10">
+<ContentPage
+    x:Class="MyVet.Prism.Views.EditPetPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True">
+    <StackLayout Padding="10">
         <ScrollView>
             <AbsoluteLayout>
-                <StackLayout
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All">
+                <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All">
 
                     <ffimageloading:CachedImage
                         Aspect="AspectFit"
-                        Source="{Binding ImageSource}"
-                        LoadingPlaceholder= "LoaderImage"
-                        ErrorPlaceholder= "ErrorImage"
-                        CacheDuration= "50"
-                        RetryCount= "3"
-                        RetryDelay= "600"
-                        DownsampleToViewSize = "true">
+                        CacheDuration="50"
+                        DownsampleToViewSize="true"
+                        ErrorPlaceholder="ErrorImage"
+                        LoadingPlaceholder="LoaderImage"
+                        RetryCount="3"
+                        RetryDelay="600"
+                        Source="{Binding ImageSource}">
                         <ffimageloading:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
+                            <TapGestureRecognizer Command="{Binding ChangeImageCommand}" />
                         </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
 
                     <Label
                         FontSize="Micro"
                         HorizontalOptions="Center"
-                        Text="{i18n:Translate ChangeImage}"/>
+                        Text="{i18n:Translate ChangeImage}" />
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto, Auto, Auto">
                         <Label
-                            Grid.Column="0"
                             Grid.Row="0"
+                            Grid.Column="0"
                             Text="{i18n:Translate Name}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center" />
                         <Entry
-                            Grid.Column="1"
                             Grid.Row="0"
+                            Grid.Column="1"
                             Placeholder="{i18n:Translate NamePlaceHolder}"
-                            Text="{Binding Pet.Name}"/>
+                            Text="{Binding Pet.Name}" />
 
                         <Label
-                            Grid.Column="0"
                             Grid.Row="1"
+                            Grid.Column="0"
                             Text="{i18n:Translate Race}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center" />
                         <Entry
-                            Grid.Column="1"
                             Grid.Row="1"
+                            Grid.Column="1"
                             Placeholder="{i18n:Translate RacePlaceHolder}"
-                            Text="{Binding Pet.Race}"/>
+                            Text="{Binding Pet.Race}" />
 
                         <Label
+                            Grid.Row="2"
                             Grid.Column="0"
-                            Grid.Row="2"
                             Text="{i18n:Translate PetType}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center" />
                         <Picker
-                            Grid.Column="1"
+                            Title="{i18n:Translate PetTypePlaceHolder}"
                             Grid.Row="2"
+                            Grid.Column="1"
                             ItemDisplayBinding="{Binding Name}"
                             ItemsSource="{Binding PetTypes}"
-                            SelectedItem="{Binding PetType}"
-                            Title="{i18n:Translate PetTypePlaceHolder}"/>
+                            SelectedItem="{Binding PetType}" />
 
                         <Label
-                            Grid.Column="0"
                             Grid.Row="3"
+                            Grid.Column="0"
                             Text="{i18n:Translate Born}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center" />
                         <DatePicker
-                            Grid.Column="1"
                             Grid.Row="3"
-                            Date="{Binding Pet.Born}"/>
+                            Grid.Column="1"
+                            Date="{Binding Pet.Born}" />
 
                         <Label
+                            Grid.Row="4"
                             Grid.Column="0"
-                            Grid.Row="4"
                             Text="{i18n:Translate Remarks}"
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center" />
                         <Editor
-                            Grid.Column="1"
                             Grid.Row="4"
+                            Grid.Column="1"
                             HeightRequest="80"
-                            Text="{Binding Pet.Remarks}"/>
+                            Text="{Binding Pet.Remarks}" />
                     </Grid>
-                    
+
                 </StackLayout>
             </AbsoluteLayout>
         </ScrollView>
-        <StackLayout
-            Orientation="Horizontal"
-            VerticalOptions="EndAndExpand">
+        <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand">
 
             <Button
                 Command="{Binding SaveCommand}"
                 IsEnabled="{Binding IsEnabled}"
-                Text="{i18n:Translate Save}"/>
+                Text="{i18n:Translate Save}" />
 
             <Button
                 Command="{Binding DeleteCommand}"
                 IsEnabled="{Binding IsEnabled}"
                 IsVisible="{Binding IsEdit}"
                 Style="{StaticResource dangerButton}"
-                Text="{i18n:Translate Delete}"/>
+                Text="{i18n:Translate Delete}" />
         </StackLayout>
     </StackLayout>
 </ContentPage>

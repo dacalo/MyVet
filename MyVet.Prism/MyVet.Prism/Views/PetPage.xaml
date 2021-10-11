@@ -1,94 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="MyVet.Prism.Views.PetPage"
-             IconImageSource="ic_pets"
-             BackgroundColor="{StaticResource colorBackgroud}"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MyVet.Prism.Views.PetPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:i18n="clr-namespace:MyVet.Prism.Helpers"
+    xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+    Title="{Binding Title}"
+    prism:ViewModelLocator.AutowireViewModel="True"
+    BackgroundColor="{StaticResource colorBackgroud}"
+    IconImageSource="ic_pets">
 
-    <StackLayout
-        Padding="10">
+    <StackLayout Padding="10">
         <ScrollView>
             <StackLayout>
                 <ffimageloading:CachedImage
                     Aspect="AspectFit"
-                    Source="{Binding Pet.ImageUrl}"
-                    LoadingPlaceholder= "LoaderImage"
-                    ErrorPlaceholder= "ErrorImage"
-                    CacheDuration= "50"
-                    RetryCount= "3"
-                    RetryDelay= "600"
-                    DownsampleToViewSize = "true"
+                    CacheDuration="50"
+                    DownsampleToViewSize="true"
+                    ErrorPlaceholder="ErrorImage"
                     HeightRequest="300"
-                    WidthRequest="300"/>
+                    LoadingPlaceholder="LoaderImage"
+                    RetryCount="3"
+                    RetryDelay="600"
+                    Source="{Binding Pet.ImageUrl}"
+                    WidthRequest="300" />
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Label
-                        Grid.Column="0"
                         Grid.Row="0"
+                        Grid.Column="0"
                         FontAttributes="Bold"
-                        Text="{i18n:Translate Name}"/>
+                        Text="{i18n:Translate Name}" />
                     <Label
-                        Grid.Column="1"
                         Grid.Row="0"
-                        Text="{Binding Pet.Name}"/>
+                        Grid.Column="1"
+                        Text="{Binding Pet.Name}" />
                     <Label
-                        Grid.Column="0"
                         Grid.Row="1"
+                        Grid.Column="0"
                         FontAttributes="Bold"
-                        Text="{i18n:Translate Race}"/>
+                        Text="{i18n:Translate Race}" />
                     <Label
-                        Grid.Column="1"
                         Grid.Row="1"
-                        Text="{Binding Pet.Race}"/>
+                        Grid.Column="1"
+                        Text="{Binding Pet.Race}" />
                     <Label
-                        Grid.Column="0"
                         Grid.Row="2"
+                        Grid.Column="0"
                         FontAttributes="Bold"
-                        Text="{i18n:Translate Born}"/>
+                        Text="{i18n:Translate Born}" />
                     <Label
-                        Grid.Column="1"
                         Grid.Row="2"
-                        Text="{Binding Pet.Born, StringFormat='{0:yyyy/MM/dd}'}"/>
-                    <Label
-                        Grid.Column="0"
-                        Grid.Row="3"
-                        FontAttributes="Bold"
-                        Text="{i18n:Translate PetType}"/>
-                    <Label
                         Grid.Column="1"
+                        Text="{Binding Pet.Born, StringFormat='{0:yyyy/MM/dd}'}" />
+                    <Label
                         Grid.Row="3"
-                        Text="{Binding Pet.PetType}"/>
-                    <Label
                         Grid.Column="0"
-                        Grid.Row="4"
                         FontAttributes="Bold"
-                        Text="{i18n:Translate Remarks}"/>
+                        Text="{i18n:Translate PetType}" />
                     <Label
+                        Grid.Row="3"
                         Grid.Column="1"
+                        Text="{Binding Pet.PetType}" />
+                    <Label
                         Grid.Row="4"
-                        Text="{Binding Pet.Remarks}"/>
+                        Grid.Column="0"
+                        FontAttributes="Bold"
+                        Text="{i18n:Translate Remarks}" />
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding Pet.Remarks}" />
                 </Grid>
             </StackLayout>
         </ScrollView>
         <Button
             Command="{Binding EditPetCommand}"
             Text="{i18n:Translate EditPet}"
-            VerticalOptions="EndAndExpand"/>
+            VerticalOptions="EndAndExpand" />
     </StackLayout>
 </ContentPage>

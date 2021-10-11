@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyVet.Common.Models;
 using MyVet.Web.Data;
+using MyVet.Web.Data.Entities;
 using MyVet.Web.Helpers;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            Data.Entities.Agenda agenda = await _dataContext.Agendas.FindAsync(request.AgendaId);
+            Agenda agenda = await _dataContext.Agendas.FindAsync(request.AgendaId);
             if (agenda == null)
             {
                 return BadRequest("Agenda doesn't exists.");
@@ -96,13 +97,13 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest("Agenda is not available.");
             }
 
-            Data.Entities.Owner owner = await _dataContext.Owners.FindAsync(request.OwnerId);
+            Owner owner = await _dataContext.Owners.FindAsync(request.OwnerId);
             if (owner == null)
             {
                 return BadRequest("Owner doesn't exists.");
             }
 
-            Data.Entities.Pet pet = await _dataContext.Pets.FindAsync(request.PetId);
+            Pet pet = await _dataContext.Pets.FindAsync(request.PetId);
             if (pet == null)
             {
                 return BadRequest("Pet doesn't exists.");
@@ -115,7 +116,7 @@ namespace MyVet.Web.Controllers.API
 
             _dataContext.Agendas.Update(agenda);
             await _dataContext.SaveChangesAsync();
-            return Ok(agenda);
+            return Ok(true);
         }
 
         [HttpPost]
@@ -127,10 +128,11 @@ namespace MyVet.Web.Controllers.API
                 return BadRequest(ModelState);
             }
 
-            Data.Entities.Agenda agenda = await _dataContext.Agendas
+            Agenda agenda = await _dataContext.Agendas
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
                 .FirstOrDefaultAsync(a => a.Id == request.AgendaId);
+            
             if (agenda == null)
             {
                 return BadRequest("Agenda doesn't exists.");
@@ -148,8 +150,7 @@ namespace MyVet.Web.Controllers.API
 
             _dataContext.Agendas.Update(agenda);
             await _dataContext.SaveChangesAsync();
-            return Ok(agenda);
+            return Ok(true);
         }
-
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Acr.UserDialogs;
+﻿using Acr.UserDialogs;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -14,6 +9,11 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using Prism.Commands;
 using Prism.Navigation;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MyVet.Prism.ViewModels
@@ -83,7 +83,7 @@ namespace MyVet.Prism.ViewModels
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(SaveAsync));
 
         public DelegateCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new DelegateCommand(DeleteAsync));
-        
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
@@ -110,7 +110,7 @@ namespace MyVet.Prism.ViewModels
         {
             IsEnabled = false;
             UserDialogs.Instance.ShowLoading(Languages.Loading);
-            
+
             if (!_apiService.CheckConnection())
             {
                 IsEnabled = true;
@@ -119,9 +119,9 @@ namespace MyVet.Prism.ViewModels
                 await _navigationService.GoBackAsync();
                 return;
             }
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var response = await _apiService.GetListAsync<PetTypeResponse>(Constants.URL_BASE, Constants.PREFIX, "PetTypes", Constants.TokenType, token.Token);
+            Response<object> response = await _apiService.GetListAsync<PetTypeResponse>(Constants.URL_BASE, Constants.PREFIX, "PetTypes", Constants.TokenType, token.Token);
 
             IsEnabled = true;
             UserDialogs.Instance.HideLoading();
@@ -133,7 +133,7 @@ namespace MyVet.Prism.ViewModels
                 return;
             }
 
-            var petTypes = (List<PetTypeResponse>)response.Result;
+            List<PetTypeResponse> petTypes = (List<PetTypeResponse>)response.Result;
             PetTypes = new ObservableCollection<PetTypeResponse>(petTypes);
 
             if (!string.IsNullOrEmpty(Pet.PetType))
@@ -146,7 +146,7 @@ namespace MyVet.Prism.ViewModels
         {
             await CrossMedia.Current.Initialize();
 
-            var source = await Application.Current.MainPage.DisplayActionSheet(
+            string source = await Application.Current.MainPage.DisplayActionSheet(
                 Languages.PictureSource,
                 Languages.Cancel,
                 null,
@@ -179,7 +179,7 @@ namespace MyVet.Prism.ViewModels
             {
                 ImageSource = ImageSource.FromStream(() =>
                 {
-                    var stream = _file.GetStream();
+                    System.IO.Stream stream = _file.GetStream();
                     return stream;
                 });
             }
@@ -187,8 +187,7 @@ namespace MyVet.Prism.ViewModels
 
         private async void SaveAsync()
         {
-            var isValid = await ValidateData();
-            if (!isValid)
+            if (!await ValidateData())
             {
                 return;
             }
@@ -196,8 +195,8 @@ namespace MyVet.Prism.ViewModels
             UserDialogs.Instance.ShowLoading(Languages.Saving);
             IsEnabled = false;
 
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            OwnerResponse owner = JsonConvert.DeserializeObject<OwnerResponse>(Settings.Owner);
 
             byte[] imageArray = null;
             if (_file != null)
@@ -205,7 +204,7 @@ namespace MyVet.Prism.ViewModels
                 imageArray = FilesHelper.ReadFully(_file.GetStream());
             }
 
-            var petRequest = new PetRequest
+            PetRequest petRequest = new PetRequest
             {
                 Born = Pet.Born,
                 Id = Pet.Id,
@@ -255,7 +254,7 @@ namespace MyVet.Prism.ViewModels
 
         private async void DeleteAsync()
         {
-            var answer = await App.Current.MainPage.DisplayAlert(
+            bool answer = await App.Current.MainPage.DisplayAlert(
                 Languages.Confirm,
                 Languages.QuestionToDeletePet,
                 Languages.Yes,
@@ -269,8 +268,8 @@ namespace MyVet.Prism.ViewModels
             UserDialogs.Instance.ShowLoading(Languages.Deleting);
             IsEnabled = false;
 
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var response = await _apiService.DeleteAsync(Constants.URL_BASE, Constants.PREFIX, "Pets", Pet.Id, Constants.TokenType, token.Token);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            Response<object> response = await _apiService.DeleteAsync(Constants.URL_BASE, Constants.PREFIX, "Pets", Pet.Id, Constants.TokenType, token.Token);
 
             if (!response.IsSuccess)
             {

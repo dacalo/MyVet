@@ -38,7 +38,7 @@
                 Command="{Binding CancelCommand}"
                 HorizontalOptions="FillAndExpand"
                 IsEnabled="{Binding IsEnabled}"
-                Style="{StaticResource SecondaryButton}"
+                Style="{StaticResource secondaryButton}"
                 Text="{i18n:Translate Cancel}" />
         </StackLayout>
     </StackLayout>

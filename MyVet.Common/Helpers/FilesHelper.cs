@@ -9,7 +9,7 @@ namespace MyVet.Common.Helpers
             try
             {
                 stream.Position = 0;
-                var path = Path.Combine(Directory.GetCurrentDirectory(), folder, name);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), folder, name);
                 File.WriteAllBytes(path, stream.ToArray());
             }
             catch

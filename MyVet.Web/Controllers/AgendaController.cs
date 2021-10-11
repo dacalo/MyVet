@@ -93,7 +93,6 @@ namespace MyVet.Web.Controllers
             return View(model);
         }
 
-
         public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
             List<Pet> pets = await _dataContext.Pets

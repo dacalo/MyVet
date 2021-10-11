@@ -1,5 +1,4 @@
 ﻿using Acr.UserDialogs;
-using DryIoc;
 using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
@@ -23,7 +22,6 @@ namespace MyVet.Prism.ViewModels
         private readonly IGeolocatorService _geolocatorService;
         private Position _position;
         private string _address;
-
 
         public RegisterPageViewModel(
             INavigationService navigationService,
@@ -67,7 +65,7 @@ namespace MyVet.Prism.ViewModels
 
         private async void Register()
         {
-            var isValid = await ValidateData();
+            bool isValid = await ValidateData();
             if (!isValid)
             {
                 return;
@@ -75,7 +73,7 @@ namespace MyVet.Prism.ViewModels
             UserDialogs.Instance.ShowLoading(Languages.Loading);
             IsEnabled = false;
 
-            var request = new UserRequest
+            UserRequest request = new UserRequest
             {
                 Address = Address,
                 RFC = RFC,
@@ -88,7 +86,7 @@ namespace MyVet.Prism.ViewModels
                 Longitude = _position.Longitude
             };
 
-            var response = await _apiService.RegisterUserAsync(
+            Response<object> response = await _apiService.RegisterUserAsync(
                 Constants.URL_BASE,
                 Constants.PREFIX,
                 "Account",
@@ -140,11 +138,11 @@ namespace MyVet.Prism.ViewModels
                 return false;
             }
 
-            //var isValidAddress = await ValidateAddressAsync();
-            //if (!isValidAddress)
-            //{
-            //    return false;
-            //}
+            var isValidAddress = await ValidateAddressAsync();
+            if (!isValidAddress)
+            {
+                return false;
+            }
 
 
             if (string.IsNullOrEmpty(Email) || !RegexHelper.IsValidEmail(Email))
@@ -181,89 +179,89 @@ namespace MyVet.Prism.ViewModels
         }
 
         //TODO Borrar
-        //private async Task<bool> ValidateAddressAsync()
-        //{
-        //    var geoCoder = new Geocoder();
-        //    var locations = await geoCoder.GetPositionsForAddressAsync(Address);
-        //    var locationList = locations.ToList();
-        //    if (locationList.Count == 0)
-        //    {
-        //        var response = await App.Current.MainPage.DisplayAlert(
-        //            Languages.Error,
-        //            Languages.NotAddressFound,
-        //            Languages.Yes,
-        //            Languages.No);
-        //        if (response)
-        //        {
-        //            await _geolocatorService.GetLocationAsync();
-        //            if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
-        //            {
-        //                _position = new Position(
-        //                    _geolocatorService.Latitude,
-        //                    _geolocatorService.Longitude);
+        private async Task<bool> ValidateAddressAsync()
+        {
+            var geoCoder = new Geocoder();
+            var locations = await geoCoder.GetPositionsForAddressAsync(Address);
+            var locationList = locations.ToList();
+            if (locationList.Count == 0)
+            {
+                var response = await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.NotAddressFound,
+                    Languages.Yes,
+                    Languages.No);
+                if (response)
+                {
+                    await _geolocatorService.GetLocationAsync();
+                    if (_geolocatorService.Latitude != 0 && _geolocatorService.Longitude != 0)
+                    {
+                        _position = new Position(
+                            _geolocatorService.Latitude,
+                            _geolocatorService.Longitude);
 
-        //                var list = await geoCoder.GetAddressesForPositionAsync(_position);
-        //                Address = list.FirstOrDefault();
-        //                return true;
-        //            }
-        //            else
-        //            {
-        //                await App.Current.MainPage.DisplayAlert(
-        //                    Languages.Error,
-        //                    Languages.NotLocationAvailable,
-        //                    Languages.Accept);
-        //                return false;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
+                        var list = await geoCoder.GetAddressesForPositionAsync(_position);
+                        Address = list.FirstOrDefault();
+                        return true;
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert(
+                            Languages.Error,
+                            Languages.NotLocationAvailable,
+                            Languages.Accept);
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
 
-        //    }
+            }
 
-        //    if (locationList.Count == 1)
-        //    {
-        //        _position = locationList.FirstOrDefault();
-        //        return true;
-        //    }
+            if (locationList.Count == 1)
+            {
+                _position = locationList.FirstOrDefault();
+                return true;
+            }
 
-        //    if (locationList.Count > 1)
-        //    {
-        //        var addresses = new List<Address>();
-        //        var names = new List<string>();
-        //        foreach (var location in locationList)
-        //        {
-        //            var list = await geoCoder.GetAddressesForPositionAsync(location);
-        //            names.AddRange(list);
-        //            foreach (var item in list)
-        //            {
-        //                addresses.Add(new Address
-        //                {
-        //                    Name = item,
-        //                    Latitude = location.Latitude,
-        //                    Longitude = location.Longitude
-        //                });
-        //            }
-        //        }
+            if (locationList.Count > 1)
+            {
+                var addresses = new List<Address>();
+                var names = new List<string>();
+                foreach (var location in locationList)
+                {
+                    var list = await geoCoder.GetAddressesForPositionAsync(location);
+                    names.AddRange(list);
+                    foreach (var item in list)
+                    {
+                        addresses.Add(new Address
+                        {
+                            Name = item,
+                            Latitude = location.Latitude,
+                            Longitude = location.Longitude
+                        });
+                    }
+                }
 
-        //        var source = await App.Current.MainPage.DisplayActionSheet(
-        //            Languages.SelectAnAdrress,
-        //            Languages.Cancel,
-        //            null,
-        //            names.ToArray());
-        //        if (source == Languages.Cancel)
-        //        {
-        //            return false;
-        //        }
+                var source = await App.Current.MainPage.DisplayActionSheet(
+                    Languages.SelectAnAdrress,
+                    Languages.Cancel,
+                    null,
+                    names.ToArray());
+                if (source == Languages.Cancel)
+                {
+                    return false;
+                }
 
-        //        Address = source;
-        //        var address = addresses.FirstOrDefault(a => a.Name == source);
-        //        _position = new Position(address.Latitude, address.Longitude);
-        //    }
+                Address = source;
+                var address = addresses.FirstOrDefault(a => a.Name == source);
+                _position = new Position(address.Latitude, address.Longitude);
+            }
 
-        //    return true;
-        //}
+            return true;
+        }
 
     }
 }

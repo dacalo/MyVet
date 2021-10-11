@@ -25,7 +25,7 @@
                                 @Html.DisplayNameFor(model => model.Date)
                             </th>
                             <th>
-                                Propietario
+                                Dueño
                             </th>
                             <th>
                                 Mascota
@@ -77,26 +77,7 @@
     </div>
 </div>
 
-<!--U-assign agenda-->
-<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cancelar Cita</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>¿Está seguro de cancelar la asignación de esta cita?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-danger" id="btnYesDelete">Cancelar cita</button>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="_DeteDialog"/>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

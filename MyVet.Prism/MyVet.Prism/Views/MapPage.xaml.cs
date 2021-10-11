@@ -1,9 +1,11 @@
-﻿using MyVet.Common.Helpers;
+﻿using MyVet.Common.Business;
+using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
 using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -21,15 +23,15 @@ namespace MyVet.Prism.Views
             InitializeComponent();
             _geolocatorService = geolocatorService;
             _apiService = apiService;
-            ShowOwnersAsync();
-            MoveMapToCurrentPositionAsync();
+            _ = ShowOwnersAsync();
+            _ = MoveMapToCurrentPositionAsync();
         }
 
-        private async void MoveMapToCurrentPositionAsync()
+        private async Task MoveMapToCurrentPositionAsync()
         {
             await _geolocatorService.GetLocationAsync();
-            
-            var position = new Position(
+
+            Position position = new Position(
                 _geolocatorService.Latitude,
                 _geolocatorService.Longitude);
             MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
@@ -37,12 +39,16 @@ namespace MyVet.Prism.Views
                 Distance.FromKilometers(.5)));
         }
 
-        private async void ShowOwnersAsync()
+        private async Task ShowOwnersAsync()
         {
-            var url = App.Current.Resources["UrlAPI"].ToString();
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var response = await _apiService.GetListAsync<OwnerResponse>(url, "api", "/Owners", "bearer", token.Token);
+            Response<object> response = await _apiService.GetListAsync<OwnerResponse>(
+                Constants.URL_BASE, 
+                Constants.PREFIX, 
+                "Owners", 
+                Constants.TokenType, 
+                token.Token);
 
             if (!response.IsSuccess)
             {
@@ -50,9 +56,9 @@ namespace MyVet.Prism.Views
                 return;
             }
 
-            var owners = (List<OwnerResponse>)response.Result;
+            List<OwnerResponse> owners = (List<OwnerResponse>)response.Result;
 
-            foreach (var owner in owners)
+            foreach (OwnerResponse owner in owners)
             {
                 MyMap.Pins.Add(new Pin
                 {

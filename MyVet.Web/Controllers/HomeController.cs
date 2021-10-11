@@ -354,6 +354,5 @@ namespace MyVet.Web.Controllers
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(MyAgenda));
         }
-
     }
 }

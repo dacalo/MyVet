@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using MyVet.Common.Business;
+﻿using MyVet.Common.Business;
 using MyVet.Common.Helpers;
 using MyVet.Common.Models;
 using MyVet.Common.Services;
@@ -10,6 +6,9 @@ using MyVet.Prism.Helpers;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Navigation;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -47,8 +46,8 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        public DelegateCommand AddPetCommand => _addPetCommand ?? (_addPetCommand = new DelegateCommand(AddPetAsync));
-        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(RefreshPetsAsync));
+        public DelegateCommand AddPetCommand => _addPetCommand ?? (_addPetCommand = new DelegateCommand(async ()=> await AddPetAsync()));
+        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(async () => await RefreshPetsAsync()));
 
         public static PetsPageViewModel GetInstance()
         {
@@ -72,16 +71,17 @@ namespace MyVet.Prism.ViewModels
             }).ToList());
         }
 
-        private async void AddPetAsync()
+        private async Task AddPetAsync()
         {
             await _navigationService.NavigateAsync("EditPetPage");
         }
 
         public async Task UpdateOwnerAsync()
         {
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            IsRefreshing = true;
+            TokenResponse token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
-            var response = await _apiService.GetOwnerByEmailAsync(
+            Response<OwnerResponse> response = await _apiService.GetOwnerByEmailAsync(
                 Constants.URL_BASE,
                 Constants.PREFIX,
                 "Owners/GetOwnerByEmail",
@@ -89,20 +89,19 @@ namespace MyVet.Prism.ViewModels
                 token.Token,
                 _owner.Email);
 
+            IsRefreshing = false;
             if (response.IsSuccess)
             {
-                var owner = (OwnerResponse)response.Result;
+                OwnerResponse owner = response.Result;
                 Settings.Owner = JsonConvert.SerializeObject(owner);
                 _owner = owner;
                 LoadOwner();
             }
         }
 
-        private async void RefreshPetsAsync()
+        private async Task RefreshPetsAsync()
         {
-            IsRefreshing = true;
             await UpdateOwnerAsync();
-            IsRefreshing = false;
         }
 
     }

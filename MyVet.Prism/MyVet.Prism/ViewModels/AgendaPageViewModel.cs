@@ -9,6 +9,7 @@ using Prism.Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyVet.Prism.ViewModels
 {
@@ -27,10 +28,10 @@ namespace MyVet.Prism.ViewModels
             Title = Languages.Diary;
             _navigationService = navigationService;
             _apiService = apiService;
-            LoadAgenda();
+            _ = LoadAgendaAsync();
         }
 
-        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(LoadAgenda));
+        public DelegateCommand RefreshPetsCommand => _refreshPetsCommand ?? (_refreshPetsCommand = new DelegateCommand(async () => await LoadAgendaAsync()));
 
         public ObservableCollection<AgendaItemViewModel> Agenda
         {
@@ -44,17 +45,17 @@ namespace MyVet.Prism.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public async override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
             if (parameters.ContainsKey("Refresh"))
             {
-                LoadAgenda();
+                await LoadAgendaAsync();
             }
         }
 
-        private async void LoadAgenda()
+        private async Task LoadAgendaAsync()
         {
             IsRefreshing = true;
 

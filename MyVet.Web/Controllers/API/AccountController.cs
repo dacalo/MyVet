@@ -80,14 +80,14 @@ namespace MyVet.Web.Controllers.API
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(request.Email, "Email confirmation", $"<h1>Email Confirmation</h1>" +
-                $"To allow the user, " +
-                $"please click on this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+            _mailHelper.SendMail(request.Email, "Correo de COnfirmación", $"<h1>Correo de Confirmación</h1>" +
+                $"Permitir al usuario, " +
+                $"por favor, dar clic en éste link:</br></br><a href = \"{tokenLink}\">Confirmar correo</a>");
 
             return Ok(new Response<object>
             {
                 IsSuccess = true,
-                Message = "A Confirmation email was sent. Please confirm your account and log into the App."
+                Message = "La confrimación ha sidoe enviada a su correo. Por favor confirme su cuenta he ingrese a la Aplicación."
             });
         }
 
